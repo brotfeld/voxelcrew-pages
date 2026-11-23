@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Handbuch 1 bis 4 — VoxelCrew Wissen</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    body { margin: 0; color: #17202a; background: #f7f9fb; line-height: 1.55; }
+    header, main, footer { max-width: 980px; margin: 0 auto; padding: 1.25rem 1.5rem; }
+    header { background: #fff; border-bottom: 3px solid #2c7a7b; }
+    h1 { margin: 0 0 .35rem; font-size: 1.7rem; }
+    h2 { font-size: 1.25rem; margin: 1.75rem 0 .6rem; }
+    h3 { font-size: 1.05rem; margin: 1.1rem 0 .4rem; color: #2c7a7b; }
+    p, li { margin: .35rem 0; }
+    nav { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+    nav a { padding: .25rem .55rem; border: 1px solid #cbd5e0; border-radius: .35rem; color: #2c7a7b; text-decoration: none; font-size: .85rem; }
+    section, article { background: #fff; border: 1px solid #e2e8f0; border-radius: .5rem; padding: .75rem 1.1rem; margin: .9rem 0; }
+    pre { margin: 0; overflow-x: auto; white-space: pre-wrap; word-break: break-word; font-size: .78rem; }
+    code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
+    .meta { color: #4a5568; font-size: .85rem; }
+    .tabelle span { display: inline-block; padding: 0 .45rem 0 0; }
+    .hinweis { border-left: 3px solid #2c7a7b; padding-left: .7rem; color: #2d3748; }
+    footer { color: #4a5568; font-size: .8rem; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Handbuch 1 bis 4</h1>
+    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-23 · e2a3c4d59589daf386172627168af7d3f6ba34a5</p>
+    <p class="meta">Aus geprüften Quellen erzeugt · spiegel · Negativliste: 0 Treffer</p>
+    <nav aria-label="Kapitel">
+      <a href="index.html">Übersicht</a>
+      <a href="ssot-und-regeln.html">Regeln &amp; SSOT</a>
+      <a href="handbuecher-1-4.html">Handbuch 1–4</a>
+      <a href="handbuecher-5-7.html">Handbuch 5–7</a>
+      <a href="bauplaene-000-007.html">Baupläne 000–007</a>
+      <a href="bauplaene-008-016.html">Baupläne 008–016</a>
+      <a href="e2e-ergebnisse.html">Testergebnisse</a>
+    </nav>
+  </header>
+  <main>
+<section>
+    <h2>01 — Systemüberblick und Architektur</h2>
+    <p>---</p>
+<p>typ: handbuch</p>
+<p>stand: 2026-11-23</p>
+<p>quelle: ops/SYSTEM_SSOT.json</p>
+<p>auto_aktualisierung: bauplan_abschluss</p>
+<p>---</p>
+<h2>01 — Systemüberblick und Architektur</h2>
+<h3>1. Einzige Quelle der Wahrheit</h3>
+<p><code>ops/SYSTEM_SSOT.json</code> (Stand 2026-11-23) ist die <strong>einzige</strong> maßgebliche Quelle für Worker, Maschinen, Server, Akteure, Vision, Prozessschutz und Freigaberegeln. Aus ihr abgeleitet, aber nicht eigenständig pflegbar:</p>
+<ul><li><code>ops/runner.json</code>, <code>ops/runner.alt-laptop.json</code>, <code>ops/workers.json</code> — erzeugt mit <code>node ops/scripts/system-config-sync.mjs</code>, <strong>nie manuell editieren</strong>. Der Dateiname <code>runner.alt-laptop.json</code> bleibt aus Kompatibilitätsgründen erhalten; die Maschine heißt fachlich <strong>FELDBOOK</strong>.</li><li><code>AGENTS.md</code> (Spielregeln), <code>ops/WORLD_INVARIANTS.md</code> (QA-Standard), <code>ops/capabilities.json</code> (Fähigkeitsregister), <code>ops/BOARD.md</code> (aktueller Task-Stand).</li></ul>
+<p>Bei Widersprüchen gilt immer die SSOT. Dieses Handbuch ist eine kompakte Lesefassung, keine zweite SSOT. Weitere Quellen: <code>AGENTS.md</code>, <code>ops/WORLD_INVARIANTS.md</code>, <code>ops/capabilities.json</code>, <code>ops/BOARD.md</code>.</p>
+<h3>2. Aufbau</h3>
+<p class="tabelle"><span>Ebene</span> · <span>Aufgabe</span></p>
+<p class="tabelle"><span>Werkbank</span> · <span>Browser-UI auf `127.0.0.1:7070`, SSE-Livefeed, **kein Login**; Standard-Freigabe `manual`.</span></p>
+<p class="tabelle"><span>Leitstelle (Node.js 26.x)</span> · <span>Queue, Worker-Dispatch, Cockpit, Vault-Intake, Hausmeister, QA und Berichte.</span></p>
+<p class="tabelle"><span>Worker</span> · <span>Fünf Kilos auf zwei Maschinen; Gateway/OpenRouter als Werkzeug, kein Chris-Tor.</span></p>
+<p class="tabelle"><span>Minecraft</span> · <span>Drei getrennte Bedrock-Instanzen: Live, Showcase, E2E (siehe Handbuch 02).</span></p>
+<p class="tabelle"><span>Vault</span> · <span>Git-versionierter Wissens- und Ablaufspeicher; Tore ausschließlich bei Chris.</span></p>
+<p>Node.js 26.x ist Pflicht (<code>node --version</code>); bei altem PATH <code>nvm use 26.10.0</code> oder absoluten Node-26-Pfad nutzen. Keine neuen Abhängigkeiten ohne Freigabe im Task.</p>
+<h3>3. Worker und Maschinen</h3>
+<p class="tabelle"><span>Worker</span> · <span>Host</span> · <span>Typ</span> · <span>Modell</span> · <span>Besonderheit</span></p>
+<p class="tabelle"><span>`kilo1`</span> · <span>Hauptrechner</span> · <span>`gateway`</span> · <span>`kilo-auto/free`</span> · <span>Standardpfad, 0 €</span></p>
+<p class="tabelle"><span>`kilo2`</span> · <span>Hauptrechner</span> · <span>`openrouter`</span> · <span>`openrouter/free` + Fallback-Kette</span> · <span>**T-199 (OpenRouter-Modellausfall: Preset prüfen und freigeben)**; `kiloAutoFinalTry: false`</span></p>
+<p class="tabelle"><span>`kilo3`</span> · <span>FELDBOOK</span> · <span>`gateway`</span> · <span>`kilo-auto/free`</span> · <span>0 €</span></p>
+<p class="tabelle"><span>`kilo4`</span> · <span>FELDBOOK</span> · <span>`gateway`</span> · <span>`kilo-auto/free`</span> · <span>0 €</span></p>
+<p class="tabelle"><span>`kilo5`</span> · <span>Hauptrechner</span> · <span>`gateway`</span> · <span>`kilo-auto/free`</span> · <span>0 €</span></p>
+<p><strong>Es gibt genau fünf Worker kilo1–kilo5; Kilo6 entfällt.</strong> <code>maxParallelByHost = 2</code> gilt auf beiden Maschinen (Hauptrechner: kilo1/kilo2/kilo5; FELDBOOK: kilo3/kilo4). Reihenfolge: OpenRouter zuerst, dann Gateway, dann Mastermind; innerhalb eines Typs deterministische Rotation nach Task-Nummer. Ein Kilo-Lauf hat maximal <strong>3 Runden inklusive Erstlauf</strong>; technische Startwiederholungen (429/Credit/Startfehler) zählen nicht als Runden, <code>maxAttempts: 16</code> begrenzt sie. Sind alle Worker für einen Task erfolglos, pausiert nur dieser Task 30 Minuten; die Queue läuft weiter.</p>
+<p>Der Dispatch ist derzeit pausiert (<code>ops/runner.stop</code>): Freigabe erst nach grünem Test und Live-Laden der Werkbank. Ein leeres Board, eine Stundenlimite oder eine task-lokale Blockade beenden den Dauerbetrieb nicht.</p>
+<h3>4. Kosten, Vision und Kontingent</h3>
+<ul><li>Standardpfad <code>kilo-auto/free</code> (0 €); erlaubt sind außerdem <code>openrouter/free</code>-Fallbacks (0 €). <strong>Kostenpflichtige API-Calls ohne Chris-Freigabe sind verboten.</strong></li><li>Ca. 95 % der QA-Prüfungen laufen als kostenlose Skripte / Kilo Auto Free (<code>kilo1</code>, <code>kilo3</code>, <code>kilo4</code>) mit 0 OpenRouter-Calls.</li><li>Vision ist ausschließlich ein <strong>optionales letztes Siegel</strong> nach vollständig grüner Stufe 1 (Observer-Beweis + 3D-ViewPort). Hartes Budget: <strong>max. 1 Call pro fertigem Meilenstein und max. 3 Calls pro Tag</strong>, <strong>getrennt von kilo2</strong> und dessen OpenRouter-Fallbackkette.</li><li>Bei Erreichen des Budgets wird <strong>nicht blockiert</strong>, sondern gemeldet: „Stufe 1 grün, Vision-Call wegen Tagesbudget übersprungen (Screenshots abgelegt)&quot;. Status mit <code>node ops/kilo-handler/vision-budget.mjs status</code>.</li></ul>
+<h3>5. Prozess- und Ressourcenschutz</h3>
+<p class="tabelle"><span>Regel</span> · <span>Wert / Verhalten</span></p>
+<p class="tabelle"><span>Hartes Prozess-Timeout</span> · <span>30 000 ms; bei Ablauf `taskkill /PID &lt;pid&gt; /T /F` für den kompletten Baum</span></p>
+<p class="tabelle"><span>Git-Aufrufe</span> · <span>immer `--no-optional-locks`, `credential.interactive=never`, `GIT_TERMINAL_PROMPT=0`, 30 s Timeout</span></p>
+<p class="tabelle"><span>RAM-Warnstufe</span> · <span>&gt; 80 % belegt oder &lt; 3 GB frei → keine neuen Worker-Tasks / E2E-Läufe</span></p>
+<p class="tabelle"><span>Notbremse</span> · <span>&gt; 90 % belegt oder &lt; 1,5 GB frei → geordneter Stopp; Live-Server `19132` wird nie beendet</span></p>
+<p class="tabelle"><span>Verify / E2E</span> · <span>strikt serialisiert über `ops/runtime/locks/`; vor Start `node ops/runtime/runtime-guard.mjs can-start`</span></p>
+<p class="tabelle"><span>429 / Credit</span> · <span>**kein Task-Level-Cooldown**; Queue läuft weiter</span></p>
+<p class="tabelle"><span>Fehlstarts</span> · <span>Quarantäne nach **2 Fehlstarts** (task-lokal)</span></p>
+<p class="tabelle"><span>PID-Registry</span> · <span>jeder gestartete Prozess in `ops/runtime/pids.json`, bei Ende wieder entfernt</span></p>
+<h3>6. Wissenspflege</h3>
+<p>Dieses Handbuch hat <code>auto_aktualisierung: bauplan_abschluss</code>: Bei abgeschlossenen oder freigegebenen Bauplänen aktualisiert <code>ops/wissenanalyse/handbuch-sync.mjs</code> den Bauplan-Katalog in Handbuch 03 und die Ereigniszeile in Handbuch 04 (idempotent pro Bauplan-ID, Markdown UTF-8 ohne BOM). Die Architektur-Abschnitte bleiben SSOT-basiert und werden nur bei einer SSOT-Änderung überarbeitet.</p>
+  </section>
+  <section>
+    <h2>02 — Server, Welten und Akteure</h2>
+    <p>---</p>
+<p>typ: handbuch</p>
+<p>stand: 2026-11-23</p>
+<p>quelle: ops/SYSTEM_SSOT.json</p>
+<p>auto_aktualisierung: bauplan_abschluss</p>
+<p>---</p>
+<h2>02 — Server, Welten und Akteure</h2>
+<p>Verbindlich nach <code>ops/SYSTEM_SSOT.json</code>, <code>ops/WORLD_INVARIANTS.md</code> §0 und <code>AGENTS.md</code> §2. BDS 1.26.63.1 unterstützt <strong>ausschließlich</strong> NetherNet (<code>transport=nethernet</code>); ein <code>raknet</code>-Eintrag erzeugt den <code>TRANSPORT TYPE ERROR</code> (Meldung: „NetherNet is the only supported transport type&quot;). Alle drei Server fahren NetherNet; nur die Live-Welt hat LAN-Visibility <code>true</code> und den exklusiven UDP-Port 7551.</p>
+<h3>1. Drei Welten, drei Ports</h3>
+<p class="tabelle"><span>Rolle</span> · <span>Adresse</span> · <span>IPv6-Port</span> · <span>Transport</span> · <span>LAN-Visibility</span> · <span>UDP</span> · <span>Besonderheit</span></p>
+<p class="tabelle"><span>Live-Welt</span> · <span>`127.0.0.1:19132`</span> · <span>`19142`</span> · <span>`nethernet`</span> · <span>`true`</span> · <span>**7551 (exklusiv)**</span> · <span>höchster Schutz; Tests, Showcases und Notbremse **strikt tabu**</span></p>
+<p class="tabelle"><span>Showcase-Bühne</span> · <span>`127.0.0.2:19133`</span> · <span>`19143`</span> · <span>`nethernet`</span> · <span>`false`</span> · <span>`19133`</span> · <span>Level `ShowWorld`; Start **nur** per Ingame-Chat-Befehl `!show`, nie blind vorab</span></p>
+<p class="tabelle"><span>E2E-Testserver</span> · <span>`127.0.0.3:19134`</span> · <span>`19144`</span> · <span>`nethernet`</span> · <span>`false`</span> · <span>`19134`</span> · <span>direkter Endpunkt für E2E-Läufe</span></p>
+<p>Es gibt keine Port-, Firewall-, UDP- oder LAN-Visibility-Änderung am Live-Server <code>19132</code>. Auch <code>19133</code>/<code>19134</code> nutzen NetherNet, aber mit <code>enable-lan-visibility=false</code> und eigenen UDP-Ports (<code>server-udp-ports=19133</code> bzw. <code>19134</code>); Bots, <code>observer</code> und Chris&#39; echter Client verbinden direkt und port-exakt. NetherNet-Discovery-Broadcasts über UDP 7551 bleiben exklusiv der Live-Welt vorbehalten; die drei Server teilen sich keinen UDP-Port. Der Start-Check <code>node ops/scripts/check-e2e-server.mjs</code> prüft im frischen BDS-Log ausdrücklich, dass <code>&quot;transport&quot;:&quot;nethernet&quot;</code> und <code>Server started.</code> vorliegen und kein <code>TRANSPORT TYPE ERROR</code> auftritt.</p>
+<h3>2. Akteurs-Isolation</h3>
+<ul><li>Live-Profile: <code>WaechterBot</code>, <code>BauBot</code>, <code>SWARM_BOT</code> — <strong>niemals</strong> auf <code>19133</code>/<code>19134</code>.</li><li>Bühnen-/Test-Profile: <code>SHOW_ACTOR</code> und <code>OBSERVER</code> — <strong>ausschließlich</strong> auf <code>19133</code>/<code>19134</code>, <strong>niemals</strong> auf <code>19132</code>.</li><li>Erzwungen vor jedem Verbindungsaufbau durch <code>ops/lib/actor-profile-guard.cjs</code>; Verstöße sind Abbruch, kein „Grün&quot;.</li></ul>
+<p>Der Observer-Beweis prüft die <strong>tatsächlich verbundene</strong> Server-Identität und den echten Port (<code>level_name = ShowWorld</code>, Port <code>19133</code>), nicht nur das angeforderte Ziel. Abweichungen (z. B. <code>TestWorld</code> oder <code>19132</code>) sind sofortiger Abbruch mit <code>result=RED</code> — ein False-Green gegen die Live-Welt zählt nie.</p>
+<h3>3. E2E-Gate: 4 Observer-Punkte + 3D-ViewPort</h3>
+<p>Jeder E2E-Lauf (<code>19134</code>) und jeder Show-Abnahmelauf (<code>19133</code>) verbindet einen separaten Client <code>observer</code> mit normalem Spielerstatus im Zuschauerbereich (kein Spectator-Modus, keine Admin-Rechte). Ein Meilenstein ist erst grün, wenn <strong>beides</strong> vorliegt: die vier Observer-Punkte und der 3D-ViewPort/Raycast.</p>
+<p class="tabelle"><span>Nr.</span> · <span>Observer-Punkt</span> · <span>Beweis</span></p>
+<p class="tabelle"><span>1</span> · <span>Blöcke (Bühne, Jukebox, Kulisse)</span> · <span>`update_block`-Paket (oder äquivalente Chunk-Daten) an den Zielkoordinaten — Befehlssenden allein genügt nicht</span></p>
+<p class="tabelle"><span>2</span> · <span>Gehaltene Items</span> · <span>`mob_equipment`-Paket des Akteur-Bots mit korrekter Actor-Kennung, Item-ID und Hand-Slot</span></p>
+<p class="tabelle"><span>3</span> · <span>Sichtbarkeit, Oberflächenlage, Identität</span> · <span>`visible=true`, `on_surface=true`, tatsächliche Server-Identität und Port</span></p>
+<p class="tabelle"><span>4</span> · <span>3D-ViewPort / Voxel-Raycast</span> · <span>Augenhöhe `position + (0, 1.62, 0)`, ±45° horizontal, ±35° vertikal, 3–32 Blöcke, kein undurchsichtiger Block auf der Sichtlinie</span></p>
+<p>Der Raycast läuft in 0,25-Block-Schritten (<code>ops/qa/world-invariants.mjs</code> → <code>voxelRaycast</code>); der Zielblock selbst zählt nicht als Hindernis, Glas und Glasfensterarten schon. Bots müssen auf Fußhöhe <code>y</code>, Rumpfhöhe <code>y + 0.9</code> und Kopfhöhe <code>y + 1.6</code> im Sichtfeld liegen. „Röntgenblick&quot; ist ausgeschlossen: Ein Bot hinter einer Wand ist auch bei passenden Koordinaten nicht sichtbar. Der Nachweis liegt in <code>ops/runtime/latest-observer-proof.json</code> (Erzeugung: <code>node ops/qa/observer-proof.mjs</code>).</p>
+<h3>4. Produktions-Invarianten</h3>
+<p>Default bei Umsetzung <strong>und</strong> Prüfung; Ausnahmen nur, wenn der Regieplan sie als <code>intent.exceptions</code> mit kurzem <code>reason</code> benennt:</p>
+<p class="tabelle"><span>Invariante</span> · <span>Default</span> · <span>Ausnahme-Typ</span></p>
+<p class="tabelle"><span>Begehbare Wege</span> · <span>Empfang → Zuschauerbereich → Bühne ohne Blockaden auf Fuß-/Körperhöhe</span> · <span>`blocked_path`</span></p>
+<p class="tabelle"><span>Mindest-Raumhöhe</span> · <span>≥ 2,5 Blöcke über jedem begehbaren Weg</span> · <span>`low_ceiling`</span></p>
+<p class="tabelle"><span>Fortbewegung</span> · <span>Gehen statt Teleportieren</span> · <span>`teleport`</span></p>
+<p class="tabelle"><span>Szenenstabilität</span> · <span>kein Reconnect mitten in einer Szene</span> · <span>`reconnect_in_scene`</span></p>
+<p class="tabelle"><span>Tanzfläche</span> · <span>Tänzer bleiben in der Bühnen-Bounding-Box</span> · <span>`exit_stage` (nur Abgang)</span></p>
+<p class="tabelle"><span>Präsentation / Verbeugung</span> · <span>Blickrichtung zum Publikum</span> · <span>`face_away`</span></p>
+<p class="tabelle"><span>Sichtbarkeit</span> · <span>`visible=true`, Oberflächenlage</span> · <span>`invisible`</span></p>
+<p>Selbstnoten durch Befehlssenden zählen nicht. Wer nicht aus <code>observer</code>-Sicht und mit Paketbeweis prüft, darf keinen Meilenstein als grün melden. Ein rotes Gate führt zur autonomen Nachbesserung in maximal 5 Versuchen je Gate-Loop, nicht zu <code>blocked</code> oder Rückfrage.</p>
+  </section>
+  <section>
+    <h2>03 — Fähigkeiten und Bauplan-Katalog</h2>
+    <p>---</p>
+<p>typ: handbuch</p>
+<p>stand: 2026-11-23</p>
+<p>quelle: ops/SYSTEM_SSOT.json</p>
+<p>auto_aktualisierung: bauplan_abschluss</p>
+<p>---</p>
+<h2>03 — Fähigkeiten und Bauplan-Katalog</h2>
+<h3>1. Fähigkeitsregister</h3>
+<p><code>ops/capabilities.json</code> ist das Registry aller umgesetzten Fähigkeiten: <code>id</code>, <code>modul</code>, <code>funktion</code>, <code>zeile</code>, <code>parameter</code>, <code>block_states</code>, <code>doku</code>, <code>verified</code> und <code>beleg</code>. <code>ops/SPEC_MAPPING.md</code> bildet die Specifications (Vault inklusive Inbox-Originale, <code>ops/WORLD_INVARIANTS.md</code>, Codebase, <code>ops/BOARD.md</code>) lückenlos auf Soll / Ist / Backlog ab. Vor größeren Umsetzungen wird dieses Mapping zuerst vervollständigt, damit kein Agent rät oder mehrfach nach Bausteinen sucht.</p>
+<p>Auswahl registrierter Fähigkeiten:</p>
+<p class="tabelle"><span>ID</span> · <span>Modul / Funktion</span> · <span>Zweck</span></p>
+<p class="tabelle"><span>`bedrock.sendChat`</span> · <span>`BedrockConnector.js` / `sendChat`</span> · <span>Chat-Nachricht senden</span></p>
+<p class="tabelle"><span>`bedrock.sendEmote`</span> · <span>`BedrockConnector.js` / `sendEmote`</span> · <span>Gesten über `data/interaction.yaml`</span></p>
+<p class="tabelle"><span>`bedrock.commandInteraction`</span> · <span>`BedrockConnector.js` / `commandInteraction`</span> · <span>follow / stop / escort / guard / attention</span></p>
+<p class="tabelle"><span>`bedrock.walkTo`</span> · <span>`BedrockConnector.js` / `walkTo`</span> · <span>Pfadgeführung mit Mindestabstand</span></p>
+<p class="tabelle"><span>`bedrock.holdItem`</span> · <span>`BedrockConnector.js` / `holdItem`</span> · <span>Item in der Haupthand halten</span></p>
+<p class="tabelle"><span>`bedrock.useBlock` / `bedrock.setBlock`</span> · <span>`BedrockConnector.js`</span> · <span>Block Interaktion / Setzen inkl. `facing`</span></p>
+<p class="tabelle"><span>`interaction.resolveGesture` / `handleEmote`</span> · <span>`InteractionEngine.js`</span> · <span>Emote-Auflösung und Combo-Fenster</span></p>
+<p class="tabelle"><span>`world.pathfinder.findPath`</span> · <span>`Pathfinder.js`</span> · <span>A*-Wegfindung</span></p>
+<p class="tabelle"><span>`world.worldGrid.isSolid`</span> · <span>`WorldGrid.js`</span> · <span>Block-Raster / Geofence</span></p>
+<p class="tabelle"><span>`memory.WorldMemory`</span> · <span>`WorldMemory.js`</span> · <span>SQLite-Weltgedächtnis</span></p>
+<p class="tabelle"><span>`show.run`</span> · <span>`ShowDirector.js` / `run`</span> · <span>Show-Ablauf mit Observer-Nachweis</span></p>
+<p class="tabelle"><span>`werkbank.freigabe`</span> · <span>`ops/blueprints/pipeline.mjs` / `setApprovalMode`, `approveBlueprint`</span> · <span>Freigabe-Modus der Bauplan-Pipeline</span></p>
+<p class="tabelle"><span>`monitor.machine` / `monitor.feldbook`</span> · <span>`machine-monitor.mjs`, `feldbook-telemetry.mjs`</span> · <span>Laufzeit- und FELDBOOK-Telemetrie</span></p>
+<p>Keine IDs, Härtewerte oder Rezepte raten. Fehlendes wird als offener Punkt markiert; jede Kuratierung braucht <code>source</code> und <code>begruendung</code>. Nie schreiben: <code>Daten/extrahiert/<strong></code>, <code>Index/</strong></code>, <code>Schema.md</code>. Vor Item-, Block- oder Rezeptarbeit <code>wissen/minecraft/README.md</code> und die genannten Datensätze lesen.</p>
+<h3>2. Freigabe-Modus der Bauplan-Pipeline</h3>
+<p>Der Modus von <code>ops/blueprints/pipeline.mjs</code> (<code>werkbank.freigabe</code>) ist nach <code>ops/SYSTEM_SSOT.json</code> standardmäßig <strong><code>manual</code></strong>; alternativ <strong><code>auto_if_clear</code></strong>.</p>
+<ul><li><code>manual</code>: Ein Bauplan wird erst nach ausdrücklicher Freigabe in der Werkbank sichtbar und in die Board-/Result-Welt überführt.</li><li><code>auto_if_clear</code>: Automatische Überführung <strong>nur</strong>, wenn alle Gates grün sind (Observer-Beweis, 3D-ViewPort, keine offenen Chris-Tore). Ein rotes Gate oder ein fehlender Pusht sperrt.</li></ul>
+<p>Beide Modi setzen <strong>niemals</strong> die Vault-Tore <code>status: bereit|beantwortet|erledigt</code> — die gehören ausschließlich Chris. <code>status: begonnen</code> (Handlungen) ist Chris&#39; Startsignal und kein Tor.(<code>ops/BOARD.md</code>, Stand 2026-11-23: neue Arbeiten entstehen ausschließlich über Baupläne und werden erst nach Freigabe sichtbar.)</p>
+<h3>3. Bauplan-Katalog</h3>
+<p>Aktualisierung bei abgeschlossenen/freigegebenen Bauplänen durch <code>ops/wissenanalyse/handbuch-sync.mjs</code> (idempotent pro Bauplan-ID). Zwischen den Markern liegt die Maschinenlesezone — bitte von Hand nicht verändern.</p>
+<p>&lt;!-- bauplan-katalog:begin --&gt;</p>
+<p class="tabelle"><span>ID</span> · <span>Titel</span> · <span>Status</span> · <span>Freigabemodus</span> · <span>Quelle</span></p>
+<p class="tabelle"><span>—</span> · <span>Noch keine freigegebenen Baupläne</span> · <span>—</span> · <span>—</span> · <span>—</span></p>
+<p>&lt;!-- bauplan-katalog:end --&gt;</p>
+<h3>4. Sync-Regeln</h3>
+<p><code>syncHandbookFromBlueprint(blueprint, options)</code> schreibt nur bei <code>abgeschlossen</code>/<code>freigegeben</code> und nur UTF-8 ohne BOM. Ein vorhandener Eintrag derselben ID wird aktualisiert (Katalog) bzw. unverändert gelassen (Ereigniszeile in Handbuch 04); es entstehen keine Doppelzeilen. <code>HANDBUCH_DATEIEN</code> nennt die fünf Dateien dieses Handbuchs (inkl. <code>05_Autonome_Weltanpassung_und_Regie.md</code>).</p>
+  </section>
+  <section>
+    <h2>04 — Bedienung und Abläufe</h2>
+    <p>---</p>
+<p>typ: handbuch</p>
+<p>stand: 2026-11-23</p>
+<p>quelle: ops/SYSTEM_SSOT.json</p>
+<p>auto_aktualisierung: bauplan_abschluss</p>
+<p>---</p>
+<h2>04 — Bedienung und Abläufe</h2>
+<h3>1. Start und Werkbank</h3>
+<ul><li>Node.js <strong>26.x</strong> Pflicht: <code>node --version</code>; bei falschem PATH <code>nvm use 26.10.0</code> oder absoluter Node-26-Pfad.</li><li>Werkbank: <code>http://127.0.0.1:7070</code> — <strong>ohne Login</strong>, SSE-Livefeed, nur lokal/LAN-Tailscale, keine öffentliche Erreichbarkeit. Standard-Freigabe <code>manual</code>.</li><li>Jede Änderung an <code>ops/cockpit/public/**</code> oder den Cockpit-APIs braucht zusätzlich <code>npm run test:browser</code> gegen einen temporären Fixture-Server — nie gegen den Produktiv-Port 7070 oder Produktionspfade. Mindestabnahme: 0 Browser-Konsolenfehler, 0 fehlgeschlagene API-Requests.</li><li>Tests: <code>npm test</code>; Einzeldatei <code>node tests/&lt;datei&gt;.test.js</code>; Verifikation <code>npm run verify</code>, Show-Gate <code>npm run verify:show</code>.</li></ul>
+<h3>2. Chris-Tore (niemals automatisch setzen)</h3>
+<p class="tabelle"><span>Vault-Bereich</span> · <span>Chris-Tor</span> · <span>Bedeutung</span></p>
+<p class="tabelle"><span>`konzept/ideen/`</span> · <span>`status: bereit`</span> · <span>Idee freigegeben</span></p>
+<p class="tabelle"><span>`fragen/`</span> · <span>`status: beantwortet`</span> · <span>Rückfrage beantwortet</span></p>
+<p class="tabelle"><span>`handlungen/`</span> · <span>`status: erledigt`</span> · <span>Handlung abgeschlossen</span></p>
+<p><code>status: begonnen</code> bei Handlungen ist Chris&#39; <strong>Startsignal</strong>, kein Tor. Kein Worker, kein Agent und kein Skript setzt diese Signale. Der Intake verarbeitet eine Datei erst, wenn das Tor gesetzt <strong>und</strong> der Vault committet und gepusht ist (<code>## main...origin/main</code> ohne Änderungen). <code>ready</code> ist ausschließlich der Task-Status in <code>ops/tasks/</code> und nie ein Vault-Status. Dateien in <code>Beispielen/</code> bleiben grundsätzlich unangetastet.</p>
+<h3>3. Vault-Sync und Housekeeping</h3>
+<p>Alle Git-Wege laufen über <code>ops/runtime/vault-git-sync.mjs</code>: gemeinsamer Lock, <code>--no-optional-locks</code>, <code>credential.interactive=never</code>, <code>GIT_TERMINAL_PROMPT=0</code>, 30 s Timeout, kein Force-Push, kein History-Rewrite.</p>
+<pre><code>node ops/runtime/vault-housekeeping.mjs dry   [--root &lt;vault&gt;]  # nur Plan, keine Verschiebung
+node ops/runtime/vault-housekeeping.mjs once  [--root &lt;vault&gt;]  # ein Lauf
+node ops/runtime/vault-housekeeping.mjs watch [--root &lt;vault&gt;]  # sofort + alle 60 s</code></pre>
+<p>Default-Root: <code>../mc-bot-vault</code> relativ zum Repo. Ablauf eines echten Laufs: Vault-Lock → <code>git pull --rebase origin main</code> → Kandidaten verschieben → Commit+Push mit allen alten und neuen Pfaden → Bericht <code>ops/monitor/vault-housekeeping.json</code> → Lock immer freigeben.</p>
+<p>Kandidaten sind ausschließlich Dateien mit dem Chris-Tor der Domäne: Inbox <code>bereit</code>, Fragen <code>beantwortet</code>, Handlungen <code>erledigt</code>; <code>begonnen</code> ist kein Kandidat. Verschoben wird per <code>rename</code> <strong>innerhalb desselben Ordners</strong> nach <code>bearbeitet/</code>; bei Namenskonflikt wird eine Zahl angehängt. Es wird nie gelöscht, überschrieben oder Inhalt geändert. Bei Pull-/Push-Fehler: Bericht schreiben und <code>ok: false</code> — keine Tore setzen, keine Verschiebung rückgängig machen. Der Bericht enthält <code>at</code>, <code>candidates</code>, <code>moved</code>, <code>skipped</code>, <code>pushed</code>, <code>error</code>.</p>
+<h3>4. Bauplan-Freigabe und Ablauf</h3>
+<p>Neue Arbeiten entstehen über Baupläne in <code>ops/blueprints/</code> und werden erst nach Freigabe in der Werkbank sichtbar (<code>ops/BOARD.md</code>). Die Pipeline kennt <code>manual</code> (Standard) und <code>auto_if_clear</code> (nur bei vollständig grünen Gates). Nach Abschluss/Freigabe eines Bauplans aktualisiert <code>ops/wissenanalyse/handbuch-sync.mjs</code> den Katalog in Handbuch 03 und die Ereigniszeile unten; gleiche Bauplan-IDs werden nicht doppelt eingetragen.</p>
+<p>Der übliche Weg: Idee mit <code>status: entwurf</code> → Chris setzt <code>bereit</code> → Intake erzeugt Task/Frage/Handlung → Worker arbeitet mit maximal 3 Runden → QA-Gate (4 Observer-Punkte + 3D-ViewPort, siehe Handbuch 02) → Chris gibt frei → Ergebnis, Board und Log werden gepusht. Bei <code>opencode</code>-Task-Ende zusätzlich <code>npm run verify -- --out ops/results/&lt;ID&gt;.verify.json</code>.</p>
+<h3>5. Vision-Budget im Ablauf</h3>
+<p>Vision ist kein Pflichtschritt: nur als letztes Siegel nach grüner Stufe 1, max. 1 Call pro Meilenstein, max. 3 pro Tag, getrennt von kilo2/OpenRouter. Bei Limit nicht blockieren, sondern melden: „Stufe 1 grün, Vision-Call wegen Tagesbudget übersprungen (Screenshots abgelegt)&quot;. Kontrolle: <code>node ops/kilo-handler/vision-budget.mjs status</code>.</p>
+<h3>6. Stop-Bedingungen (nur Außen-Risiken)</h3>
+<p>Nur bei diesen vier Lagen wird gestoppt und Chris gefragt:</p>
+<p>1. Eingriff in den Live-Port <code>19132</code> oder Löschen/Überschreiben von Weltdaten.</p>
+<p>2. Kostenpflichtige API-Calls ohne bestätigte Freigabe.</p>
+<p>3. Windows-System- oder Firewall-Änderungen.</p>
+<p>4. Finale Einladung zur fertigen Live-Präsentation (erst bei allen grünen Gates).</p>
+<p>Alles andere — Merge-Konflikte in <code>ops/BOARD.md</code>, <code>ops/LOG.md</code>, <code>ops/QUESTIONS.md</code>, rote QA-Gates, beantwortete Rückfragen — läuft autonom weiter. Die Notbremse beendet nie den Live-Server <code>19132</code>.</p>
+<h3>7. Ereignisprotokoll (Baupläne)</h3>
+<p>Maschinenlesezone von <code>ops/wissenanalyse/handbuch-sync.mjs</code>; von Hand nicht verändern.</p>
+<p>&lt;!-- bauplan-ereignisse:begin --&gt;</p>
+<p class="tabelle"><span>Zeit</span> · <span>Bauplan (ID)</span> · <span>Ereignis</span> · <span>Freigabemodus</span></p>
+<p class="tabelle"><span>—</span> · <span>—</span> · <span>Noch keine Ereignisse</span> · <span>—</span></p>
+<p>&lt;!-- bauplan-ereignisse:end --&gt;</p>
+  </section>
+  </main>
+  <footer>Seiten für dein Notizbuch — ohne Anmeldung und ohne JavaScript.</footer>
+</body>
+</html>

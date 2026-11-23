@@ -1,0 +1,1736 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Regeln und SSOT — VoxelCrew Wissen</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    body { margin: 0; color: #17202a; background: #f7f9fb; line-height: 1.55; }
+    header, main, footer { max-width: 980px; margin: 0 auto; padding: 1.25rem 1.5rem; }
+    header { background: #fff; border-bottom: 3px solid #2c7a7b; }
+    h1 { margin: 0 0 .35rem; font-size: 1.7rem; }
+    h2 { font-size: 1.25rem; margin: 1.75rem 0 .6rem; }
+    h3 { font-size: 1.05rem; margin: 1.1rem 0 .4rem; color: #2c7a7b; }
+    p, li { margin: .35rem 0; }
+    nav { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+    nav a { padding: .25rem .55rem; border: 1px solid #cbd5e0; border-radius: .35rem; color: #2c7a7b; text-decoration: none; font-size: .85rem; }
+    section, article { background: #fff; border: 1px solid #e2e8f0; border-radius: .5rem; padding: .75rem 1.1rem; margin: .9rem 0; }
+    pre { margin: 0; overflow-x: auto; white-space: pre-wrap; word-break: break-word; font-size: .78rem; }
+    code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
+    .meta { color: #4a5568; font-size: .85rem; }
+    .tabelle span { display: inline-block; padding: 0 .45rem 0 0; }
+    .hinweis { border-left: 3px solid #2c7a7b; padding-left: .7rem; color: #2d3748; }
+    footer { color: #4a5568; font-size: .8rem; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Regeln und SSOT</h1>
+    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-23 · e2a3c4d59589daf386172627168af7d3f6ba34a5</p>
+    <p class="meta">Aus geprüften Quellen erzeugt · spiegel · Negativliste: 0 Treffer</p>
+    <nav aria-label="Kapitel">
+      <a href="index.html">Übersicht</a>
+      <a href="ssot-und-regeln.html">Regeln &amp; SSOT</a>
+      <a href="handbuecher-1-4.html">Handbuch 1–4</a>
+      <a href="handbuecher-5-7.html">Handbuch 5–7</a>
+      <a href="bauplaene-000-007.html">Baupläne 000–007</a>
+      <a href="bauplaene-008-016.html">Baupläne 008–016</a>
+      <a href="e2e-ergebnisse.html">Testergebnisse</a>
+    </nav>
+  </header>
+  <main>
+<section>
+    <h2>System-SSOT</h2>
+    <pre><code>{
+  &quot;schema&quot;: &quot;voxelcrew-ssot.v1&quot;,
+  &quot;stand&quot;: &quot;2026-11-23&quot;,
+  &quot;konzept_revision&quot;: &quot;v1 von Chris&quot;,
+  &quot;zweck&quot;: &quot;Einzige widerspruchsfreie Quelle für Worker, Maschinen, Server, Akteure und Schutzgrenzen. ops/runner.json, ops/runner.feldbuch.json, ops/workers.json, ops/WORLD_INVARIANTS.md und AGENTS.md leiten sich hieraus ab.&quot;,
+  &quot;repos&quot;: {
+    &quot;leitstelle&quot;: &quot;brotfeld/mc-bot-leitstelle&quot;,
+    &quot;vault&quot;: &quot;brotfeld/mc-bot-vault&quot;,
+    &quot;notebookMirror&quot;: &quot;brotfeld/voxelcrew-notebook-sync&quot;,
+    &quot;notebookPagesUrl&quot;: &quot;https://github.io&quot;,
+    &quot;vaultSlugQuelle&quot;: &quot;git remote get-url origin im Vault-Repo (read-only; SSOT-Wert muss damit übereinstimmen)&quot;,
+    &quot;hinweis&quot;: &quot;Der Vault-Slug wird beim Export aus dem echten Vault-Remote gelesen und gegen diesen Wert geprüft; fehlt der Vault im CI, gilt der SSOT-Wert.&quot;
+  },
+  &quot;dispatch&quot;: {
+    &quot;paused&quot;: true,
+    &quot;grund&quot;: &quot;Neuaufbau läuft; Freigabe erst nach grünem Test und Live-Laden der Werkbank&quot;,
+    &quot;pause_datei&quot;: &quot;ops/runner.stop&quot;
+  },
+  &quot;maschinen&quot;: {
+    &quot;hauptrechner&quot;: {
+      &quot;label&quot;: &quot;Hauptrechner&quot;,
+      &quot;allowedWorkers&quot;: [
+        &quot;kilo1&quot;,
+        &quot;kilo2&quot;,
+        &quot;kilo5&quot;
+      ],
+      &quot;maxParallelByHost&quot;: 2,
+      &quot;ram&quot;: {
+        &quot;warn_used_pct&quot;: 80,
+        &quot;warn_free_gb&quot;: 3,
+        &quot;emergency_used_pct&quot;: 90,
+        &quot;emergency_free_gb&quot;: 1.5
+      }
+    },
+    &quot;feldbuch&quot;: {
+      &quot;label&quot;: &quot;FELDBOOK (Alt-Laptop)&quot;,
+      &quot;allowedWorkers&quot;: [
+        &quot;kilo3&quot;,
+        &quot;kilo4&quot;
+      ],
+      &quot;maxParallelByHost&quot;: 2,
+      &quot;ram&quot;: {
+        &quot;warn_used_pct&quot;: 85,
+        &quot;warn_free_gb&quot;: 3,
+        &quot;emergency_used_pct&quot;: 90,
+        &quot;emergency_free_gb&quot;: 1.5
+      }
+    }
+  },
+  &quot;ramSchutz&quot;: {
+    &quot;quelle&quot;: &quot;maschinen.&lt;name&gt;.ram&quot;,
+    &quot;maschineErkennung&quot;: &quot;MCBOT_MACHINE=hauptrechner|feldbuch (Default hauptrechner); --machine ueberschreibt&quot;,
+    &quot;hinweis&quot;: &quot;FELDBOOK warnt ab 85 % belegt, stoppt ab 90 %. Hauptrechner warnt ab 80 %, stoppt ab 90 %. Der Live-BDS 19132 ist von der Notbremse ausgenommen.&quot;
+  },
+  &quot;workers&quot;: [
+    {
+      &quot;name&quot;: &quot;kilo1&quot;,
+      &quot;worker&quot;: &quot;gateway&quot;,
+      &quot;modell&quot;: &quot;kilo-auto/free&quot;,
+      &quot;host&quot;: &quot;hauptrechner&quot;,
+      &quot;phase&quot;: 1,
+      &quot;label&quot;: &quot;Kilo1 — kilo-auto/free (gateway)&quot;
+    },
+    {
+      &quot;name&quot;: &quot;kilo2&quot;,
+      &quot;worker&quot;: &quot;openrouter&quot;,
+      &quot;modell&quot;: &quot;openrouter/free + Fallback-Kette aus T-199&quot;,
+      &quot;host&quot;: &quot;hauptrechner&quot;,
+      &quot;phase&quot;: 1,
+      &quot;label&quot;: &quot;Kilo2 — OpenRouter mit Fallback-Kette&quot;,
+      &quot;kiloAutoFinalTry&quot;: false
+    },
+    {
+      &quot;name&quot;: &quot;kilo3&quot;,
+      &quot;worker&quot;: &quot;gateway&quot;,
+      &quot;modell&quot;: &quot;kilo-auto/free&quot;,
+      &quot;host&quot;: &quot;feldbuch&quot;,
+      &quot;phase&quot;: 1,
+      &quot;label&quot;: &quot;Kilo3 — kilo-auto/free (gateway, FELDBOOK)&quot;
+    },
+    {
+      &quot;name&quot;: &quot;kilo4&quot;,
+      &quot;worker&quot;: &quot;gateway&quot;,
+      &quot;modell&quot;: &quot;kilo-auto/free&quot;,
+      &quot;host&quot;: &quot;feldbuch&quot;,
+      &quot;phase&quot;: 1,
+      &quot;label&quot;: &quot;Kilo4 — kilo-auto/free (gateway, FELDBOOK)&quot;
+    },
+    {
+      &quot;name&quot;: &quot;kilo5&quot;,
+      &quot;worker&quot;: &quot;gateway&quot;,
+      &quot;modell&quot;: &quot;kilo-auto/free&quot;,
+      &quot;host&quot;: &quot;hauptrechner&quot;,
+      &quot;phase&quot;: 1,
+      &quot;label&quot;: &quot;Kilo5 — kilo-auto/free (gateway)&quot;
+    }
+  ],
+  &quot;kosten&quot;: {
+    &quot;standardpfad&quot;: &quot;kilo-auto/free (0 €)&quot;,
+    &quot;erlaubt&quot;: [
+      &quot;gateway kilo-auto/free&quot;,
+      &quot;openrouter/free-Fallback (0 €)&quot;
+    ],
+    &quot;verboten&quot;: [
+      &quot;kostenpflichtige API-Calls ohne Chris-Freigabe&quot;
+    ]
+  },
+  &quot;vision&quot;: {
+    &quot;modus&quot;: &quot;nur_als_letztes_siegel&quot;,
+    &quot;voraussetzung&quot;: &quot;Stufe-1-Observer-Proof und 3D-ViewPort vollständig grün&quot;,
+    &quot;maxCallsProMeilenstein&quot;: 1,
+    &quot;maxCallsProTag&quot;: 3,
+    &quot;getrenntVon&quot;: &quot;kilo2 (OpenRouter-Fallbackkette)&quot;,
+    &quot;beiLimit&quot;: &quot;Meldung &#39;Stufe 1 grün, Vision-Call wegen Budget übersprungen (Screenshots abgelegt)&#39; — kein Blockieren&quot;
+  },
+  &quot;prozessschutz&quot;: {
+    &quot;hartesTimeoutMs&quot;: 30000,
+    &quot;prozessbaumKill&quot;: &quot;taskkill /F /T /PID &lt;pid&gt;&quot;,
+    &quot;gitAufrufe&quot;: [
+      &quot;--no-optional-locks&quot;,
+      &quot;credential.interactive=never&quot;
+    ],
+    &quot;gitWriteLock&quot;: true,
+    &quot;ram&quot;: {
+      &quot;pauseAbPct&quot;: 80,
+      &quot;pauseUnterFreieGb&quot;: 3,
+      &quot;notbremseAbPct&quot;: 90,
+      &quot;notbremseUnterFreieGb&quot;: 1.5
+    },
+    &quot;verifyUndE2Eserialisiert&quot;: true,
+    &quot;keinTaskLevelCooldownBei429&quot;: true,
+    &quot;quarantaeneNachFehlstarts&quot;: 2,
+    &quot;liveServerGeschuetzt&quot;: 19132
+  },
+  &quot;server&quot;: [
+    {
+      &quot;rolle&quot;: &quot;live&quot;,
+      &quot;label&quot;: &quot;Live-Welt&quot;,
+      &quot;name&quot;: &quot;VoxelCrew:Oberwelt&quot;,
+      &quot;host&quot;: &quot;127.0.0.1&quot;,
+      &quot;port&quot;: 19132,
+      &quot;portV6&quot;: 19142,
+      &quot;transport&quot;: &quot;nethernet&quot;,
+      &quot;enableLanVisibility&quot;: true,
+      &quot;udp&quot;: 7551,
+      &quot;managerRolle&quot;: &quot;bds-live-19132&quot;,
+      &quot;levelName&quot;: &quot;Oberwelt&quot;,
+      &quot;betrieb&quot;: &quot;bestehender Prozess wird nur beobachtet (attach), nie neu gestartet&quot;,
+      &quot;testsUndShowcases&quot;: &quot;strikt tabu&quot;,
+      &quot;notbremse&quot;: &quot;nie beenden&quot;
+    },
+    {
+      &quot;rolle&quot;: &quot;showcase&quot;,
+      &quot;label&quot;: &quot;Showcase-Bühne&quot;,
+      &quot;name&quot;: &quot;VoxelCrew:Nether&quot;,
+      &quot;anzeigeName&quot;: &quot;VoxelCrew:Nether 127.0.0.2:19133&quot;,
+      &quot;host&quot;: &quot;127.0.0.2&quot;,
+      &quot;port&quot;: 19133,
+      &quot;portV6&quot;: 19143,
+      &quot;transport&quot;: &quot;nethernet&quot;,
+      &quot;enableLanVisibility&quot;: false,
+      &quot;endpunkt&quot;: &quot;direkt&quot;,
+      &quot;startNurDurchChatbefehl&quot;: &quot;!show&quot;,
+      &quot;levelName&quot;: &quot;ShowWorld&quot;,
+      &quot;managerRolle&quot;: &quot;bds-show-19133&quot;
+    },
+    {
+      &quot;rolle&quot;: &quot;e2e&quot;,
+      &quot;label&quot;: &quot;E2E-Testserver&quot;,
+      &quot;name&quot;: &quot;VoxelCrew:Ende&quot;,
+      &quot;anzeigeName&quot;: &quot;VoxelCrew:Ende 127.0.0.3:19134&quot;,
+      &quot;host&quot;: &quot;127.0.0.3&quot;,
+      &quot;port&quot;: 19134,
+      &quot;portV6&quot;: 19144,
+      &quot;transport&quot;: &quot;nethernet&quot;,
+      &quot;enableLanVisibility&quot;: false,
+      &quot;endpunkt&quot;: &quot;direkt&quot;,
+      &quot;levelName&quot;: &quot;E2EWorld&quot;,
+      &quot;managerRolle&quot;: &quot;bds-e2e-19134&quot;
+    }
+  ],
+  &quot;bdsManager&quot;: {
+    &quot;modus&quot;: &quot;attach_oder_start&quot;,
+    &quot;registry&quot;: &quot;ops/runtime/pids.json&quot;,
+    &quot;regeln&quot;: [
+      &quot;19132 wird ausschliesslich attachiert: kein Start, kein Stopp, kein Neustart, keine Weltdaten-Beruehrung.&quot;,
+      &quot;19133 und 19134 starten nur ueber den BDS-Manager und werden mit PID in der Registry gefuehrt.&quot;,
+      &quot;Show-Beginn auf 19133 erfolgt ausschliesslich per Ingame-Chatbefehl !show.&quot;,
+      &quot;Alle Manager-Aktionen laufen ueber ops/runtime/process-control.mjs mit hartem Timeout und Prozessbaum-Kill.&quot;
+    ],
+    &quot;serverVerzeichnisse&quot;: {
+      &quot;19132&quot;: &quot;server&quot;,
+      &quot;19133&quot;: &quot;C:/ProgramData/MCBot/presentation-server&quot;,
+      &quot;19134&quot;: &quot;C:/ProgramData/MCBot/e2e-server&quot;
+    }
+  },
+  &quot;welten&quot;: {
+    &quot;vorlagenVerzeichnis&quot;: &quot;data/world-templates&quot;,
+    &quot;standardVorlage&quot;: &quot;FW-Base&quot;,
+    &quot;geländeModus&quot;: &quot;level-seed&quot;,
+    &quot;weltAuf19134&quot;: &quot;E2EWorld&quot;,
+    &quot;masterReset&quot;: {
+      &quot;lockDatei&quot;: &quot;db/LOCK&quot;,
+      &quot;vorbereitungsOrdner&quot;: &quot;.stage-&lt;welt&gt;&quot;,
+      &quot;originDatei&quot;: &quot;.world-origin.json&quot;,
+      &quot;abschlussDatei&quot;: &quot;world.reset.completed&quot;,
+      &quot;schutzfensterMs&quot;: 8000
+    },
+    &quot;vorabErkundung&quot;: {
+      &quot;topografie&quot;: true,
+      &quot;sichtlinien&quot;: true,
+      &quot;augenhoeheOffset&quot;: 1.62,
+      &quot;beweis&quot;: &quot;ops/qa/observer-proof.mjs&quot;
+    }
+  },
+  &quot;akteure&quot;: {
+    &quot;regeln&quot;: [
+      &quot;Live-Bots (WaechterBot, BauBot, SWARM_BOT) dürfen niemals auf 19133/19134 eingeloggt werden.&quot;,
+      &quot;Auf 19133/19134 laufen ausschließlich SHOW_ACTOR- und OBSERVER-Profile.&quot;,
+      &quot;Umgekehrt dürfen SHOW_ACTOR/OBSERVER niemals auf 19132 eingeloggt werden.&quot;,
+      &quot;Die Prüfung erfolgt zentral in ops/lib/actor-profile-guard.mjs vor jedem Verbindungsaufbau.&quot;
+    ],
+    &quot;live&quot;: [
+      &quot;WaechterBot&quot;,
+      &quot;BauBot&quot;,
+      &quot;SWARM_BOT&quot;
+    ],
+    &quot;showcase&quot;: [
+      &quot;SHOW_ACTOR&quot;,
+      &quot;OBSERVER&quot;
+    ],
+    &quot;e2e&quot;: [
+      &quot;SHOW_ACTOR&quot;,
+      &quot;OBSERVER&quot;
+    ]
+  },
+  &quot;e2e_gate&quot;: {
+    &quot;observerProofPunkte&quot;: 4,
+    &quot;viewPortRaycast&quot;: true,
+    &quot;port&quot;: 19134,
+    &quot;showAbnahmePort&quot;: 19133,
+    &quot;keinGruenOhneBeides&quot;: true
+  },
+  &quot;regieLeitplanken&quot;: {
+    &quot;stand&quot;: &quot;2026-11-23&quot;,
+    &quot;quelle&quot;: &quot;Chris, 23.11.2026 (T-227); vault/handbuch/05_Autonome_Weltanpassung_und_Regie.md&quot;,
+    &quot;verbindlich&quot;: true,
+    &quot;A_capabilityGapPlanner&quot;: {
+      &quot;name&quot;: &quot;Capability- &amp; Gap-Planner&quot;,
+      &quot;regel&quot;: &quot;Vor jedem Vorhaben ops/capabilities.json pruefen (&#39;Kann ich schon&#39; vs. &#39;Fehlt mir noch&#39;) und fehlende Grundfaehigkeiten automatisch als wiederverwendbare Bausteine herausschneiden.&quot;,
+      &quot;capabilities&quot;: &quot;ops/capabilities.json&quot;,
+      &quot;mapping&quot;: &quot;ops/SPEC_MAPPING.md&quot;
+    },
+    &quot;B_adaptiveSceneDirector&quot;: {
+      &quot;name&quot;: &quot;Adaptive Scene Director (Gelaende- &amp; Sichtlinien-Regisseur)&quot;,
+      &quot;regel&quot;: &quot;Zufallswelten ueber 32x32-Sektoren erkunden, geeignete Flachen finden, Buehnen sanft an die Topografie anpassen (Podest/Stufen statt Betonklotz) und verdeckende Bloecke oder den Zuschauer-Logenplatz automatisch ueber den 3D-ViewPort-Raycast korrigieren.&quot;,
+      &quot;sektorGroesse&quot;: &quot;32x32&quot;,
+      &quot;raycast&quot;: &quot;ops/qa/world-invariants.mjs (voxelRaycast)&quot;
+    },
+    &quot;C_dreifacheRealitaetsKopplung&quot;: {
+      &quot;name&quot;: &quot;Dreifache Realitaets-Kopplung &amp; Multi-Seed-Gate&quot;,
+      &quot;beweise&quot;: [
+        &quot;Blockdaten (update_block / Chunk-Daten)&quot;,
+        &quot;freier 3D-Raycast (Sichtlinie ohne undurchsichtige Bloecke)&quot;,
+        &quot;bequeme Spieler-Erreichbarkeit (fester Boden, 2 Bloecke Kopffreiheit, begehbarer Pfad)&quot;
+      ],
+      &quot;alleDreiGleichzeitig&quot;: true,
+      &quot;multiSeedGate&quot;: {
+        &quot;port&quot;: 19134,
+        &quot;minSeeds&quot;: 3,
+        &quot;seedBeispiele&quot;: [
+          &quot;Wald/Ebene&quot;,
+          &quot;Huegelland&quot;,
+          &quot;Kueste/Wueste&quot;
+        ],
+        &quot;plattenBereinigung&quot;: &quot;automatisch nach jedem Testlauf (atomarer Master-Reset)&quot;
+      }
+    },
+    &quot;D_userEmpathy&quot;: {
+      &quot;name&quot;: &quot;User-Empathy-Simulator &amp; BehaviourPack↔Client-Symbiose&quot;,
+      &quot;port&quot;: 19134,
+      &quot;perspektive&quot;: &quot;unprivilegierter 10-Jahre-Spieler&quot;,
+      &quot;fovGrad&quot;: 70,
+      &quot;tempo&quot;: &quot;ruhig&quot;,
+      &quot;symbiose&quot;: [
+        &quot;@minecraft/server&quot;,
+        &quot;@minecraft/server-ui&quot;,
+        &quot;SWARM_BOT&quot;
+      ]
+    }
+  },
+  &quot;spectator&quot;: {
+    &quot;port&quot;: 19134,
+    &quot;banner&quot;: &quot;🎬 E2E-Szene läuft auf VoxelCrew:Ende (127.0.0.3:19134)&quot;,
+    &quot;nurBeiEchtenVisuellenLaeufen&quot;: true,
+    &quot;vorlaufSekunden&quot;: 12,
+    &quot;schlussbildSekunden&quot;: 3,
+    &quot;schrittPausenFaktor&quot;: [
+      1.5,
+      2
+    ],
+    &quot;joinBefehle&quot;: [
+      &quot;gamemode spectator&quot;,
+      &quot;effect night_vision 999 255&quot;
+    ],
+    &quot;zuschauerPlatz&quot;: {
+      &quot;modus&quot;: &quot;frei&quot;,
+      &quot;sichtlinieZu&quot;: &quot;Szene-Zentrum aus ops/WORLD_INVARIANTS.md&quot;,
+      &quot;logplatzPruefung&quot;: &quot;3D-ViewPort und Voxel-Raycast&quot;
+    },
+    &quot;akteur&quot;: &quot;SPECTATOR (nur 19134; nie 19132)&quot;
+  },
+  &quot;werkbank&quot;: {
+    &quot;port&quot;: 7070,
+    &quot;host&quot;: &quot;127.0.0.1&quot;,
+    &quot;login&quot;: false,
+    &quot;sse&quot;: true,
+    &quot;freigabeStandard&quot;: &quot;manual&quot;
+  },
+  &quot;uiProzess&quot;: {
+    &quot;verbindlich&quot;: true,
+    &quot;quelle&quot;: &quot;T-228; AGENTS.md §13; vault/handbuch/07_Vier_Stufen_UI_Prozess.md&quot;,
+    &quot;regel&quot;: &quot;Vier Stufen vor dem Coding nachweisen; ohne Nachweis nicht abnahmefaehig.&quot;,
+    &quot;geltungsbereich&quot;: [
+      &quot;werkbank:7070&quot;,
+      &quot;cockpit:2ndScreen&quot;,
+      &quot;ingame:@minecraft/server-ui+pure-client-fallback&quot;
+    ],
+    &quot;stufen&quot;: [
+      {
+        &quot;nr&quot;: 1,
+        &quot;id&quot;: &quot;jobToBeDone&quot;,
+        &quot;titel&quot;: &quot;Job-to-be-Done&quot;,
+        &quot;pflicht&quot;: &quot;Ein Satz &#39;Wenn ..., will ich ..., damit ...&#39; in Sprache ab 10 Jahren; maximal 3 Klicks; keine Dateipfade und keine Tech-Kuerzel.&quot;,
+        &quot;beweis&quot;: &quot;Ein-Satz-Text + Klickpfad im Task/Result&quot;
+      },
+      {
+        &quot;nr&quot;: 2,
+        &quot;id&quot;: &quot;zustandsvertrag&quot;,
+        &quot;titel&quot;: &quot;4-Zustands-Vertrag&quot;,
+        &quot;zustaende&quot;: [
+          &quot;leer&quot;,
+          &quot;laedt&quot;,
+          &quot;gefuellt_mit_echten_daten&quot;,
+          &quot;handlungsbedarf&quot;
+        ],
+        &quot;pflicht&quot;: &quot;Kein rohes Markdown, kein Platzhalter, keine erfundenen Zahlen; &#39;gefuellt&#39; nur mit echtem Datenbeweis.&quot;,
+        &quot;beweis&quot;: &quot;Zustandstabelle je Bereich im Wireframe&quot;
+      },
+      {
+        &quot;nr&quot;: 3,
+        &quot;id&quot;: &quot;wireframeUndVertrag&quot;,
+        &quot;titel&quot;: &quot;ASCII-Wireframe + API-/IPC-Vertrag&quot;,
+        &quot;pflicht&quot;: &quot;Skizze nach anlage-07 mit Klickzielen und Zustandsuebergaengen sowie exaktem Endpunkt, Methode, Request, Response und Fehlerfall vor dem Coding.&quot;,
+        &quot;beweis&quot;: &quot;Wireframe + Vertrag im Task/Handbuch vor Implementierung&quot;
+      },
+      {
+        &quot;nr&quot;: 4,
+        &quot;id&quot;: &quot;abnahme&quot;,
+        &quot;titel&quot;: &quot;Playwright-Abnahme + Bot-Hilfe&quot;,
+        &quot;pflicht&quot;: &quot;Klick-/Formular-Test, Screenshot-Beleg, 0 Browser-Konsolenfehler, 0 fehlgeschlagene API-Requests, 10-Jahre-Verstaendlichkeitscheck; grosser Bot-Hilfe-Knopf mit 60-s-Clip und Eskalationskarte.&quot;,
+        &quot;beweis&quot;: &quot;tests/*.browser.test.js + Screenshot + Bot-Hilfe-Beleg&quot;
+      }
+    ],
+    &quot;botHilfe&quot;: {
+      &quot;baustein&quot;: &quot;ops/runtime/bot-hilfe.mjs&quot;,
+      &quot;clipSekunden&quot;: 60,
+      &quot;eskalationskarte&quot;: &quot;Klartext ohne Dateipfade und Tech-Kuerzel&quot;,
+      &quot;orte&quot;: [
+        &quot;werkbank:7070&quot;,
+        &quot;cockpit:2ndScreen&quot;,
+        &quot;ingame:kompass (Umsetzung in BP-011)&quot;
+      ],
+      &quot;ablage&quot;: &quot;ops/runtime/bot-hilfe/ (gitignored)&quot;
+    }
+  }
+}</code></pre>
+  </section>
+  <section>
+    <h2>Spielregeln für Agenten</h2>
+    <h2>AGENTS.md — Spielregeln für Agenten</h2>
+<p>Dieses Repository ist die Leitstelle für Minecraft-Bedrock-Bots. Du bist der Resident-Agent und arbeitest die Tasks aus <code>ops/BOARD.md</code> ab. Chris gibt frei und testet als Mensch; der Mastermind schreibt Tasks, prüft und mergt. <strong>Chris hat am 2026-11-18 bestätigt: Du (der Resident-Agent) bist der Mastermind.</strong></p>
+<h3>1. Lese-Reihenfolge pro Task</h3>
+<p>1. <code>AGENTS.md</code> (diese Datei)</p>
+<p>2. <code>ops/BOARD.md</code></p>
+<p>3. <code>ops/tasks/&lt;ID&gt;.md</code></p>
+<p>4. Bei Wissensbezug: die unter <code>wissen:</code> genannten Dateien im Vault</p>
+<p>5. Bei Rework: <code>ops/REVIEWS.md</code></p>
+<p>Arbeite immer genau <strong>einen</strong> Task. Kein Task ohne Datei in <code>ops/tasks/</code>.</p>
+<p>Das Task-Frontmatter <code>repo:</code> bestimmt das Ziel-Repository (Standard <code>leitstelle</code>); registrierte Repositories stehen in <code>ops/repos.json</code>.</p>
+<h3>2. Umgebung</h3>
+<ul><li>Node.js <strong>26.x</strong> ist Pflicht (<code>node --version</code>). Der Standard-PATH kann auf eine ältere Version zeigen.</li><li>Falls falsch: <code>nvm use 26.10.0</code> oder den absoluten Node-26-Pfad verwenden.</li><li><strong>Port-Aufteilung (Chris, 23.11.2026, SSOT <code>ops/SYSTEM_SSOT.json</code>):</strong></li><li><strong>127.0.0.1:19132</strong> = Live-Welt (<code>nethernet</code>, <code>server-portv6=19142</code>,</li></ul>
+<p>    <code>enable-lan-visibility=true</code>, exklusiver UDP-7551-Inhaber). Strikt tabu für</p>
+<p>    Showcases, Tests und die Notbremse.</p>
+<ul><li><strong>127.0.0.2:19133</strong> = Showcase-Bühne (<code>nethernet</code>, <code>19143</code>, LAN <code>false</code>,</li></ul>
+<p>    direkter Endpunkt, UDP <code>19133</code>). Showcases starten ausschließlich per</p>
+<p>    Ingame-Chat-Befehl <code>!show</code>, nie blind vorab.</p>
+<ul><li><strong>127.0.0.3:19134</strong> = E2E-Testserver (<code>nethernet</code>, <code>19144</code>, LAN <code>false</code>,</li></ul>
+<p>    direkter Endpunkt, UDP <code>19134</code>).</p>
+<ul><li>BDS 1.26.63.1 unterstützt <strong>ausschließlich</strong> NetherNet (`TRANSPORT TYPE</li></ul>
+<p>    ERROR<code> bei </code>raknet<code>): Alle drei Server nutzen </code>transport=nethernet`. Nur</p>
+<p>    <code>19132</code> hat <code>enable-lan-visibility=true</code> und exklusiv UDP 7551;</p>
+<p>    <code>19133</code>/<code>19134</code> haben LAN <code>false</code>, eigene UDP-Ports und direkten,</p>
+<p>    port-exakten Endpunkt. Die frühere Regel „19133/19134 = RakNet&quot; ist</p>
+<p>    damit ausdrücklich ersetzt.</p>
+<ul><li><strong>Akteurs-Isolation:</strong> Live-Profile (<code>WaechterBot</code>, <code>BauBot</code>, <code>SWARM_BOT</code>)</li></ul>
+<p>    niemals auf 19133/19134; dort nur <code>SHOW_ACTOR</code>/<code>OBSERVER</code> — und umgekehrt.</p>
+<p>    Erzwungen in <code>ops/lib/actor-profile-guard.cjs</code> vor jedem Verbindungsaufbau.</p>
+<ul><li><strong>Single Source of Truth:</strong> <code>ops/SYSTEM_SSOT.json</code> ist maßgeblich für Worker-,</li></ul>
+<p>  Maschinen-, Server-, Vision-, Prozess- und Freigaberegeln. Generierte Dateien</p>
+<p>  (<code>ops/runner.json</code>, <code>ops/runner.feldbuch.json</code>, <code>ops/workers.json</code>) werden</p>
+<p>  mit <code>node ops/scripts/system-config-sync.mjs</code> erzeugt und nie manuell gepflegt.</p>
+<ul><li>Tests: <code>npm test</code>. Einzelne Datei: <code>node tests/&lt;datei&gt;.test.js</code>.</li><li><strong>UI-Änderungen an <code>ops/cockpit</code> brauchen zusätzlich den echten Browser-Test</strong> <code>npm run test:browser</code> (Headless-Chromium gegen temporären Fixture-Server). Die Verankerung steht in §10.4.</li><li>Keine neuen Abhängigkeiten ohne Freigabe im Task. <code>playwright</code> ist mit Chris&#39; Freigabe vom 22.11.2026 für den Browser-Test freigegeben.</li></ul>
+<h3>3. Arbeitsweise</h3>
+<ul><li>Ein Task = ein eigener Worktree + Branch <code>task/&lt;ID&gt;</code>.</li><li>Start über <code>node ops/scripts/task-worktree.mjs start &lt;ID&gt;</code>.</li><li>Reservierung: erster Push auf <code>task/&lt;ID&gt;</code> mit <code>claim: &lt;ID&gt; durch &lt;agent&gt;</code>. Ein abgelehnter Push bedeutet, dass der Task bereits vergeben ist.</li><li>Im Haupt-Checkout wird während eines Tasks nicht editiert.</li><li>Keine parallelen Edits im selben Worktree.</li><li>Commits klein und thematisch. Branch am Ende pushen.</li><li><strong>Jeder Arbeitsschritt endet mit <code>git add -A</code>, <code>git commit</code> und <code>git push</code>.</strong> Kein Schritt bleibt nur lokal liegen.</li><li>Am Task-Ende gehören Result, Board, Log und der Code in denselben Push. Erst committen und pushen, dann den Schritt als erledigt melden.</li><li><strong>Merge nach <code>main</code> ist von Chris mit 2026-11-18 bis auf Widerruf genehmigt</strong> und erfolgt durch den Mastermind (Resident-Agent) nach abgeschlossenem Review. Vorher galt <code>Kein Merge nach main</code> — diese Regel ist damit ausdrücklich aufgehoben. Kein Force-Push. Kein History-Rewrite. Merge-Konflikte in <code>ops/BOARD.md</code>, <code>ops/LOG.md</code> und <code>ops/QUESTIONS.md</code> werden <strong>immer automatisch chronologisch und ohne Datenverlust</strong> aufgelöst (kein Rückfragen-Stopp).</li></ul>
+<h3>4. Grenzen</h3>
+<p>Nicht ohne expliziten Auftrag im Task:</p>
+<ul><li><code>app/backend/safety/**</code> (SafetyGuard) und Sicherheitsregeln,</li><li>Auth, Tokens, Zugangsdaten, <code>.env*</code>,</li><li><code>data/auth-cache/<strong></code>, <code>data/worlds/</strong></code>, <code>server/**</code>,</li><li>öffentliche Erreichbarkeit, Ports, Firewall,</li><li>Tests abschwächen, überspringen oder löschen.</li></ul>
+<p>Zusätzlich:</p>
+<ul><li>Keine Secrets, Tokens, Weltdateien oder Auth-Caches committen.</li><li><code>AGENTS.md</code> nicht ohne Freigabe ändern.</li><li>Keine Architekturentscheidung allein treffen.</li></ul>
+<h3>5. Vault</h3>
+<p>Der Vault liegt als Junction <code>vault/</code> im Worktree, sofern eingerichtet.</p>
+<ul><li><code>vault: read</code> — lesen erlaubt, schreiben nicht.</li><li><code>vault: write</code> — schreiben nur in <code>wissen/minecraft/Daten/kuratiert/**</code> und eigene Notizen mit <code>status: entwurf</code>.</li><li>Niemals schreiben: <code>Daten/extrahiert/<strong></code>, <code>Index/</strong></code>, <code>Schema.md</code>.</li><li>Vor Item-, Block- oder Rezeptarbeit <code>vault/wissen/minecraft/README.md</code> und die genannten Datensätze lesen.</li><li>Keine IDs, Härtewerte oder Rezepte raten. Fehlendes als offenen Punkt markieren.</li><li>Jede Kuratierung braucht <code>source</code> und <code>begruendung</code>.</li></ul>
+<h3>6. Ergebnis</h3>
+<p>Schreibe <code>ops/results/&lt;ID&gt;.md</code> nach <code>ops/templates/result.md</code>, maximal eine Seite:</p>
+<ul><li>Status <code>review</code></li><li>was geändert wurde</li><li>Testbefehle und Ergebnis</li><li>offene Punkte und Risiken</li><li><code>vault_auswirkung</code> und geänderte Vault-Dateien</li><li>Branch und Commit-Hash</li></ul>
+<p>Am Task-Ende zusätzlich (ab T-009):</p>
+<pre><code>npm run verify -- --out ops/results/&lt;ID&gt;.verify.json</code></pre>
+<p>Die Datei mitcommitten. Bis T-009 genügt <code>npm run verify</code>. <code>ops/verify/last.json</code> bleibt lokal und gitignoriert.</p>
+<p>Aktualisiere <code>ops/BOARD.md</code> (Task nach <code>review</code>) und <code>ops/LOG.md</code> (eine Zeile).</p>
+<h3>7. Stop-Bedingungen (Autopilot, Chris-Anweisung 22.11.2026)</h3>
+<p>Stoppen und <strong>nur dann</strong> Chris fragen (Frage in <code>ops/QUESTIONS.md</code>, Task in <code>ops/BOARD.md</code> auf <code>blocked</code>), wenn <strong>eine</strong> dieser echten Außen-Risiken vorliegt:</p>
+<p>1. <strong>Eingriff in den Live-Port <code>19132</code></strong> oder <strong>Löschung/Überschreiben von Weltdaten</strong>.</p>
+<p>2. <strong>Kostenpflichtige API-Calls</strong> (keine Bestätigung vorhanden).</p>
+<p>3. <strong>Windows-System- oder Firewall-Änderungen</strong>.</p>
+<p>4. <strong>Finale Einladung zur fertigen Live-Präsentation</strong> an Chris (erst melden, wenn alle Gate-Punkte grün sind).</p>
+<p><strong>Nicht mehr stoppen (autonom weiter):</strong></p>
+<ul><li>Merge-Konflikte in <code>ops/BOARD.md</code>, <code>ops/LOG.md</code>, <code>ops/QUESTIONS.md</code> → immer <strong>chronologisch und ohne Datenverlust</strong> automatisch mergen.</li><li>Nach einer beantworteten Frage (z. B. <code>Q-T…</code> mit Status <code>beantwortet</code>) → <strong>kein zweites „Go“</strong>, Task läuft sofort automatisch weiter.</li><li>Rote QA-/Observer-Gates → autonome Nachbesserungs-Schleife (siehe §10.2), <strong>kein vorzeitiges <code>blocked</code></strong> nur wegen Gate-Rot.</li><li><code>blocked</code> bleibt task-lokal nur für die oben genannten Außen-Risiken oder wenn nach Ausschöpfung der autonomen Schleifen (max. 5 Versuche je Gate-Loop) kein Fortschritt möglich ist; dann sauber dokumentieren und weiter mit anderen Tasks.</li></ul>
+<p>Weitere Regeln bleiben: Nicht raten. Nicht die Anforderung selbst ändern. Bei SafetyGuard/Auth/Secrets/öffentlicher Erreichbarkeit/echten Konten gilt weiterhin maximale Vorsicht; im Zweifel die Außen-Risiko-Liste heranziehen.</p>
+<h3>7.1 Keine Werkzeug-Schleifen</h3>
+<ul><li>Zwei identische fehlgeschlagene Werkzeugaufrufe hintereinander = Stop nur bei Außen-Risiko (siehe oben); sonst alternativer Plan, maximal 5 Versuche in einer autonomen Nachbesserungs-Schleife.</li><li>Fehler wörtlich zitieren, <code>git status --short</code> zeigen, Fortschritt in Result/Log dokumentieren.</li><li>Ein neuer Anlauf beginnt mit frischem Kontext und anderem Plan.</li><li>Zwischenstände werden committet und gepusht, damit der Verlauf nachvollziehbar ist.</li></ul>
+<h3>8. Sprache</h3>
+<ul><li><strong>Task-Nummern niemals nackt:</strong> Jede Erwähnung einer Task-ID in Chat, Log, Board, Result, Feed, Report und Meldungen hat die Form <code>T-XYZ (klarer Titel aus ops/tasks/T-XYZ.md)</code>. Beispiel: <code>T-018 (Theater-Show: Item halten + Jukebox)</code>. Nackte Nummern wie <code>T-193</code> allein sind verboten — auch in Listen, Meldungen und automatisch erzeugten Berichten.</li><li>Doku, Chat, UI: Deutsch.</li><li>Code, Dateinamen, Konfigurationsschlüssel: Englisch.</li><li>Commits: <code>typ: kurze beschreibung</code> (z. B. <code>test: kompaktes verify-skript</code>).</li><li>Dateien als <strong>UTF-8 ohne BOM</strong> speichern.</li></ul>
+<h3>9. Worker-Regeln und Prozessautonomie (Chris, 19.11.2026)</h3>
+<ul><li><strong>Entscheiden ist Default, Fragen sind Ausnahme.</strong> Der Watcher läuft durchgehend (<code>continueAfterRun: true</code>) und dispatcht automatisch den nächsten geeigneten Ready-Task. Ein leerer Task, eine Stundenlimite oder eine blockierte Task-Karte beenden <strong>nicht</strong> den Betrieb. Der 00:05-UTC-Wecker ist nur die Erinnerung, dass ab da <strong>auch</strong> Kilo2 wieder automatisch läuft — kein Starttor für die anderen Worker.</li><li><strong>Fünf Worker, zwei Maschinen (SSOT 23.11.2026):</strong> Hauptrechner = <code>kilo1</code> (<code>gateway</code>, <code>kilo-auto/free</code>), <code>kilo5</code> (<code>gateway</code>, <code>kilo-auto/free</code>) und <code>kilo2</code> (<code>openrouter</code> mit Fallback-Kette aus T-199), <code>maxParallelByHost = 2</code>. FELDBOOK = <code>kilo3</code> und <code>kilo4</code> (beide <code>gateway</code> / <code>kilo-auto/free</code>), <code>maxParallelByHost = 2</code>. Kilo6 entfällt. Quelle ist ausschließlich <code>ops/SYSTEM_SSOT.json</code>; <code>ops/workers.json</code> und beide <code>runner*.json</code> werden daraus generiert. Worker-Dispatches bleiben pausiert, solange <code>ops/runner.stop</code> aktiv ist.</li><li><strong>Reihenfolge:</strong> OpenRouter zuerst, dann Gateway, dann Mastermind. Innerhalb eines Typs rotiert die Auswahl deterministisch nach Task-Nummer. Scheitert ein Worker, übernimmt automatisch der nächste; sind alle aktiven Worker für einen Task erfolglos, pausiert dieser Task 30 Minuten und die Queue läuft weiter.</li><li><strong>Drei Runden je Kilo:</strong> Ein Kilo-Lauf darf maximal <strong>3 Runden inklusive Erstlauf</strong> haben (Erstlauf + 2 Korrekturen). <code>maxRounds: 3</code> ist damit der Standard für <code>kilo run</code>, <code>kilohandler</code> und den MCP-Server. Technische Wiederholversuche nach 429/Credit- oder Startfehlern zählen nicht als Runden; <code>maxAttempts: 16</code> begrenzt die Startversuche je Gesamtlauf. Die Modellauswahl je Worker bleibt davon unberührt.</li><li><strong>Kilo-Auto-Final-Try (optional, aktuell aus):</strong> OpenRouter-Worker mit <code>kiloAutoFinalTry: true</code> in <code>ops/workers.json</code> hängen nach <code>openrouter/free</code> genau <strong>einen</strong> Abschlussaufruf auf <code>kilo/kilo-auto/free</code> an. Der Aufruf bleibt im OpenRouter-Worker (kein Gateway-Wechsel, kein Chris-Tor, keine Task-Statusänderung); bei 429 oder Fehler wird er im selben Job nicht wiederholt. Ohne <code>openrouter/free</code> als letztem Preset-Glied startet der Worker gar nicht erst. Chris hat <code>openrouter/free</code> am 21.11.2026 aus <code>ops/kilo-handler/openrouter-preset.json</code> entfernt; deshalb ist <code>kiloAutoFinalTry</code> bei Kilo2 (dem einzigen bisherigen Nutzer) auf <code>false</code> gesetzt. Eine Reaktivierung braucht zuerst wieder <code>openrouter/free</code> als letztes Preset-Glied und Chris&#39; Freigabe.</li><li><strong><code>blocked</code> ist task-lokal:</strong> Eine blockierte Task-Karte pausiert nur diesen Task, nicht die Queue. Chris beantwortet Fragen in <code>ops/QUESTIONS.md</code> (Status <code>beantwortet</code>); danach laufen betroffene Tasks <strong>sofort automatisch weiter</strong> (kein zweites „Go“). Chris&#39; finale Freigabe-Tore für die <strong>Live-Präsentation</strong> (Punkt 4 in §7) bleiben ihm vorbehalten; kein Agent lädt ihn eigenmächtig zur fertigen Show ein.</li><li><strong>Merge:</strong> Der Merge nach <code>main</code> ist von Chris seit 18.11. bis auf Widerruf genehmigt und erfolgt durch den Mastermind nach abgeschlossenem Review (<code>§5</code>), nie per Force-Push oder History-Rewrite.</li><li><strong>Ausnahmen:</strong> SafetyGuard, Auth, Secrets, öffentliche Erreichbarkeit, echte Konten sowie CDP-Fensterzugriff (nur Port 9399) und Screengrab-/externe Bilder bleiben beim Mastermind — unabhängig von der Worker-Reihenfolge.</li><li><strong>Vault-Hygiene als Dauerbetrieb:</strong> Die Kontrolle auf verwaiste Fragen und Aufgaben läuft als wiederkehrender, read-only Worker-Task. Sie legt Rückfragen als neue <code>status: offen</code>-Dateien an und archiviert nie ohne Chris&#39; Tor (<code>status: beantwortet</code>/<code>erledigt</code> <strong>und</strong> gepusht). Kein Worker setzt diese Signale selbst.</li></ul>
+<h3>10. OOM-Failsafe, QA-Gate und Kontingentschutz (Chris, 21.11.2026, verbindlich)</h3>
+<p>Dieser Abschnitt hat <strong>vor jeder regulären Worker-Runde</strong> Vorrang.</p>
+<h3>10.1 Prozesskontrolle (Punkt 1)</h3>
+<ul><li>Kein <code>git.exe</code>, <code>node.exe</code>, <code>npm</code>, <code>bedrock_server.exe</code> oder anderes Subprodukt</li></ul>
+<p>  darf verwaisst weiterlaufen. Jeder gestartete Prozess wird in</p>
+<p>  <code>ops/runtime/pids.json</code> mit PID, Rolle und Port registriert und bei Ende</p>
+<p>  wieder entfernt. Bei Timeout/Abbruch gilt immer</p>
+<p>  <code>taskkill /PID &lt;pid&gt; /T /F</code> für den <strong>kompletten Baum</strong>, hartes Timeout</p>
+<p>  standardmäßig 30 s (<code>ops/runtime/process-control.mjs</code>).</p>
+<ul><li><strong>Alle</strong> git-Aufrufe lauten <code>git --no-optional-locks …</code> mit 30-s-Timeout.</li></ul>
+<p>  Referenz: <code>runGit()</code> in <code>ops/runtime/process-control.mjs</code>. Verwaiste</p>
+<p>  <code>git.exe</code>/<code>sh.exe</code>-Bäume werden über</p>
+<p>  <code>node ops/runtime/runtime-guard.mjs reap</code> aktiv abgeräumt.</p>
+<ul><li>Schwergewichtige Läufe (<code>npm run verify</code>, E2E, <code>npm test</code>) laufen **strikt</li></ul>
+<p>  serialisiert** über die Lock-Datei in <code>ops/runtime/locks/</code> (npm-Skripte</p>
+<p>  <code>verify</code>, <code>e2e:*</code>). Nie zwei gleichzeitig. Vor jedem Start gilt</p>
+<p>  <code>node ops/runtime/runtime-guard.mjs can-start</code>.</p>
+<ul><li>RAM-Wächter (<code>node ops/runtime/runtime-guard.mjs watch</code>):</li></ul>
+<p>  **Maschinenspezifische Schwellen aus <code>ops/SYSTEM_SSOT.json</code> →</p>
+<p>  <code>maschinen.&lt;name&gt;.ram</code>** (T-228): Hauptrechner Warnstufe &gt; 80 %, FELDBOOK</p>
+<p>  &gt; 85 %, jeweils oder &lt; 3 GB frei → keine neuen Worker-Tasks und keine</p>
+<p>  neuen E2E-Läufe; Notbremse &gt; 90 % belegt oder &lt; 1,5 GB frei →</p>
+<p>  Sofortstopp in fester Reihenfolge (1) hängende git-/Testprozesse,</p>
+<p>  (2) E2E <code>19134</code>, (3) Show <code>19133</code>. Maschine per <code>--machine &lt;name&gt;</code> oder</p>
+<p>  <code>MCBOT_MACHINE</code> wählen; Default <code>hauptrechner</code>. **Der Live-Server <code>19132</code></p>
+<p>  genießt höchsten Schutz und wird nie beendet.**</p>
+<ul><li>Prozesse in Session 0/fremdem Konto liefern <code>Zugriff verweigert</code>; der Guard</li></ul>
+<p>  meldet das explizit. Die Freigabe dafür läuft über den privilegierten</p>
+<p>  Dienst/Task Scheduler, nicht durch Abschwächen der Prüfung.</p>
+<h3>10.2 Verbindlicher QA-Standard (Punkt 3)</h3>
+<ul><li>Für <strong>alle</strong> Showcases und Meilensteine gilt <code>ops/WORLD_INVARIANTS.md</code> als</li></ul>
+<p>  hartes Gate im Test-Runner (<code>npm run verify -- --observer-gate</code> /</p>
+<p>  <code>npm run verify:show</code>). Ohne grünen <code>observer</code>-Beweis kein Freigabestatus.</p>
+<ul><li>Jeder E2E-Lauf (<code>19134</code>) und jeder Show-Abnahmelauf (<code>19133</code>) verbindet einen</li></ul>
+<p>  separaten <code>observer</code>-Bot. Blöcke gelten erst mit <code>update_block</code>-Paket,</p>
+<p>  gehaltene Items erst mit <code>mob_equipment</code>-Paket des Akteurs an den Zielkoordinaten</p>
+<p>  als bewiesen. Sichtbarkeit (<code>visible=true</code>), Oberflächenlage und der</p>
+<p>  3D-ViewPort-/Voxel-Raycast-Check (Augenhöhe <code>y+1.62</code>, ±45° horizontal,</p>
+<p>  ±35° vertikal, 3–32 Blöcke, keine undurchsichtige Blöcke auf der Sichtlinie)</p>
+<p>  sind Pflicht.</p>
+<ul><li>Produktions-Invarianten (begehbare Wege, Mindest-Raumhöhen, Gehen statt</li></ul>
+<p>  Teleport, kein Reconnect mitten in Szenen, Bühnen-Bounding-Box, Blickrichtung</p>
+<p>  zum Publikum) sind Default; nur ein ausdrücklicher <code>intent</code>-Eintrag im</p>
+<p>  Regieplan darf eine Ausnahme definieren.</p>
+<ul><li>Selbstnoten durch Befehlssenden zählen nicht. Wer nicht aus</li></ul>
+<p>  <code>observer</code>-Sicht und Paketbeweis prüft, darf keinen Meilenstein als grün</p>
+<p>  melden.</p>
+<ul><li><strong>Autonome Nachbesserungs-Schleife bei rotem Gate (Chris, 22.11.2026):</strong> Ein rotes QA-/Observer-Gate ist <strong>kein</strong> Grund für <code>blocked</code> oder eine Rückfrage. Der Worker/Agent nutzt die konkrete Fehlerdiagnose (z. B. <code>y≈32769</code> → Chunk-/Spawn-Init), setzt eine gezielte Korrektur um und wiederholt die Prüfung in einer Schleife von <strong>maximal 5 Versuchen</strong> je Gate-Loop, bis alle 4 Gate-Punkte grün sind. Erst nach Ausschöpfung sauber dokumentieren und mit anderen Tasks weitermachen; die finale Einladung zur Live-Präsentation erfolgt erst bei Grün (siehe §7 Punkt 4).</li></ul>
+<h3>10.3 Kontingentschutz (Punkt 3, Kilo-Worker)</h3>
+<ul><li>Die OpenRouter-Kette von Kilo2 (T-199 – OpenRouter-Modellausfall: Preset prüfen und freigeben; <code>nemotron-3.5-lightning:free</code> usw.) bleibt unverändert.</li><li>95 % der QA-Prüfungen laufen über kostenlose Skripte / Kilo Auto Free</li></ul>
+<p>  (<code>kilo1</code>, <code>kilo3</code>, <code>kilo4</code>) mit <strong>0 OpenRouter-Calls</strong>.</p>
+<ul><li>Ein Vision-Screenshot-Check ist ausschließlich ein optionales letztes Siegel</li></ul>
+<p>  nach grüner Stufe 1 und hart gedeckelt auf **max. 1 Call pro fertigem</p>
+<p>  Meilenstein und max. 3 Calls pro Tag** (<code>ops/kilo-handler/vision-budget.mjs</code>).</p>
+<p>  Bei Limits wird nicht blockiert, sondern gemeldet: „Stufe 1 grün,</p>
+<p>  Vision-Call wegen Tagesbudget übersprungen (Screenshots abgelegt)&quot;.</p>
+<h3>10.4 Browser-E2E für UI-Änderungen (Chris, 22.11.2026, verbindlich)</h3>
+<ul><li>Jede Änderung an <code>ops/cockpit/public/**</code> oder an den Cockpit-APIs muss durch</li></ul>
+<p>  <code>npm run test:browser</code> (<code>tests/cockpit-browser-e2e.test.js</code>) laufen. Der Test</p>
+<p>  startet einen echten Headless-Chromium gegen einen temporären Fixture-Server</p>
+<p>  auf ephemeralem Port — <strong>nie</strong> gegen den Produktiv-Port 7070 und nie gegen</p>
+<p>  Produktionspfade.</p>
+<ul><li>Mindestabnahme aus Operator-Sicht: alle konfigurierten Worker erscheinen in</li></ul>
+<p>  <strong>einem</strong> Tab „Worker&quot; mit sichtbarem Rechner-Badge (<code>Hauptrechner</code> /</p>
+<p>  <code>FELDBOOK</code>), Typ, Task, Runde und Status; alte Einzel-Task-Balken und</p>
+<p>  doppelte Host-Tabs dürfen nicht existieren; alle Tabs sind durchklickbar,</p>
+<p>  alle Karten im ViewPort (<code>width &gt; 0</code>, <code>height &gt; 0</code>, keine Überlappungen).</p>
+<ul><li>Harte Bedingungen: <strong>0 Browser-Konsolenfehler</strong> und **0 fehlgeschlagene</li></ul>
+<p>  API-Requests**. Der Lauf ist über <code>heavy-e2e</code> serialisiert und benötigt</p>
+<p>  <code>can-start</code> gemäß §10.1; er ist zusätzlich in <code>npm run verify</code> verankert.</p>
+<ul><li>Ein <code>npm run verify</code> ohne grünen Browser-Test gilt für UI-Änderungen nicht</li></ul>
+<p>  als abgeschlossen. API-/Quelltext-Tests ersetzen den Browser-Test nicht.</p>
+<h3>11. End-to-End-Produktdenken und simulierter Auftraggeber (dauerhaft, Chris-Vorgabe, 22.11.2026)</h3>
+<p>Dieser Grundsatz gilt <strong>ausnahmslos für jeden Task, jede Änderung und jede Abnahme im gesamten System</strong> — unabhängig vom Task-Thema. Er ist kein Sonderfall für einzelne Tasks und wird ab sofort automatisch auf jeden Task angewendet.</p>
+<p>1. <strong>Vollständiges Spezifikations-Mapping (Schritt 1, verbindlich):</strong> Vor jeder größeren Umsetzung ist zu prüfen, ob die gesamte vorliegende Systemspezifikation (Vault inklusive aller weiterverarbeiteten Inbox-Originale, Referenzanlagen, <code>ops/WORLD_INVARIANTS.md</code>, Codebase, <code>ops/BOARD.md</code>) lückenlos gegen <code>ops/capabilities.json</code> und das Mapping in <code>ops/SPEC_MAPPING.md</code> abgebildet ist. Bestehen Lücken (Soll-Komponenten ohne Code, Code ohne Capability-Eintrag, offene Backlog-Tasks), wird das Mapping <strong>zuerst</strong> vervollständigt (Soll vs. Ist vs. Backlog), damit kein Agent blind rät oder mehrfach nach denselben Bausteinen sucht.</p>
+<p>2. <strong>Vollständige User-Journey herleiten:</strong> Für jede Anforderung ist selbstständig herzuleiten, wie der echte Nutzer/Auftraggeber das System startet, bedient und erlebt — vom ersten Auslöser bis zum sichtbaren Ergebnis im operablen Gesamtsystem. Teil-Checks ohne durchgängige Journey gelten nicht als Abnahme.</p>
+<p>3. <strong>Keine Wegwerf-Testskripte, sondern reguläre Plattform-Bausteine:</strong> Fehlt für den durchgängigen Ablauf eine Komponente (z. B. automatisierter Zuschauer-/Auftraggeber-Client, Chat-/Trigger-Orchestrierung, Abnahme-Modus, Bot-Fähigkeit), ist aus der gemappten Gesamtsystem-Spezifikation und <code>ops/capabilities.json</code>/<code>ops/SPEC_MAPPING.md</code> abzuleiten, was regulär ins Produkt/System gehört. Diese Komponente wird als <strong>wiederverwendbarer System-Baustein</strong> umgesetzt (kein einmaliges <code>_dbg</code>-/Ad-hoc-Skript als Dauerlösung), als Capability bzw. regulärer Aufrufpfad dokumentiert und direkt für die End-to-End-Abnahme genutzt.</p>
+<p>4. <strong>Chris niemals als manueller Test-Klicker:</strong> Chris wird <strong>nicht</strong> aufgefordert, im Client manuell Befehle einzutippen oder Testschritte für den Agenten auszulösen. Ausnahmen sind ausschließlich die vier harten Tore in Abschnitt 7 (Live-<code>19132</code>, kostenpflichtige API-Calls, Windows-Firewall/Systemrechte, finale Einladung zur abgenommenen Live-Präsentation). Alles andere ist durch automatisierte/reguläre Bausteine abzudecken.</p>
+<p>5. <strong>Showcase-, Test- und Meilenstein-Abnahmen:</strong> Trigger und Abnahme laufen über reguläre Bausteine (z. B. programmatischer Auftraggeber/Orchestrator), nie über „bitte tippe im Spiel“. Die finale Einladung an Chris erfolgt erst bei grünen Gate-Punkten gemäß Abschnitt 10.2 und <code>ops/WORLD_INVARIANTS.md</code>.</p>
+<p><strong>Intake-/Task-Leitlinie:</strong> Jeder neue oder überarbeitete Task bildet diesen Abschnitt in seiner Akzeptanz ab (<code>ops/templates/task.md</code> und der Intake-Generator in <code>ops/scripts/vault-intake.mjs</code> enthalten dazu Pflichtpunkte). Bei Konflikt gilt dieser Abschnitt vor der jeweiligen Taskspezifikation.</p>
+<h3>12. Regie-Leitplanken A–D: Autonome Welt-Anpassung, Multi-Seed-Regie &amp; User-Empathy-Prüfung (Chris, 23.11.2026, verbindlich)</h3>
+<p>Diese vier Leitplanken gelten zusätzlich zu §10 und §11 für jedes Vorhaben mit Welt-, Bühnen- oder Showcase-Bezug. Verbindlich ist die Fassung in <code>ops/SYSTEM_SSOT.json</code> → <code>regieLeitplanken</code>; die ausführliche Begründung steht im aktiven Handbuch <code>vault/handbuch/05_Autonome_Weltanpassung_und_Regie.md</code>.</p>
+<ul><li><strong>A — Capability- &amp; Gap-Planner:</strong> Vor jedem Vorhaben <code>ops/capabilities.json</code> prüfen („Kann ich schon?&quot; vs. „Fehlt mir noch?&quot;). Fehlende Grundfähigkeiten werden automatisch als <strong>wiederverwendbare Bausteine</strong> herausgeschnitten und über <code>ops/SPEC_MAPPING.md</code> dokumentiert — kein Ad-hoc-Skript als Dauerlösung (vgl. §11 Punkt 3).</li><li><strong>B — Adaptive Scene Director (Gelände- &amp; Sichtlinien-Regisseur):</strong> Zufallswelten über <code>32×32</code>-Sektoren erkunden, geeignete Flächen finden und Bühnen <strong>sanft an die Topografie anpassen</strong> (Podest/Stufen statt Betonklotz). Verdeckende Blöcke oder den Zuschauer-Logenplatz korrigiert er automatisch über den 3D-ViewPort-Raycast (<code>ops/qa/world-invariants.mjs</code>, Augenhöhe <code>y+1,62</code>).</li><li><strong>C — Dreifache Realitäts-Kopplung &amp; Multi-Seed-Gate (<code>N ≥ 3</code>):</strong> Ein Lauf gilt nur als bestanden, wenn <strong>gleichzeitig</strong> (1) Blockdaten, (2) freier 3D-Raycast und (3) bequeme Spieler-Erreichbarkeit (fester Boden, 2 Blöcke Kopffreiheit, begehbarer Pfad) bewiesen sind — und das auf <code>VoxelCrew:Ende</code> (<code>19134</code>) in <strong>mindestens 3 unterschiedlichen Zufalls-Seeds</strong> (z. B. Wald/Ebene, Hügelland, Küste/Wüste) selbstständig bestanden wurde. Alte Test-Platten werden nach jedem Lauf automatisch per atomarem Master-Reset bereinigt.</li><li><strong>D — User-Empathy-Simulator &amp; BehaviourPack↔Client-Symbiose:</strong> Ein unprivilegierter Spieler-Simulator prüft auf <code>19134</code> aus echter 10-Jahre-Spieler-Perspektive Erreichbarkeit, Sichtfeld (<code>FOV 70°</code>) und ruhiges Vorführ-Tempo. BehaviourPack-Effekte/UI (<code>@minecraft/server</code>, <code>@minecraft/server-ui</code>) und Client-Bot-Aktionen (<code>SWARM_BOT</code>) müssen sauber verzahnt sein; <code>SWARM_BOT</code> bleibt Live-Profil und darf gemäß §2 nie auf <code>19133</code>/<code>19134</code> eingeloggt werden — die Symbiose läuft dort über das Bühnenprofil.</li></ul>
+<p>Die Umsetzung liegt im Bauplan <code>BP-007 (Autonome Welt-Anpassung, Multi-Seed-Regie &amp; User-Empathy-Prüfung)</code> mit Status <code>manual</code>; Freigabe und Worker-Dispatch bleiben bis auf Widerruf pausiert.</p>
+<h3>13. Verbindlicher 4-Stufen-Profi-UI-Prozess (Chris, 23.11.2026, verbindlich)</h3>
+<p>Für <strong>jede</strong> neue oder veränderte Oberfläche gilt: Erst die vier Stufen durchlaufen und dokumentieren, <strong>dann</strong> darf Code geschrieben werden. Verbindlich ist die Fassung in <code>ops/SYSTEM_SSOT.json</code> → <code>uiProzess</code>; das ausführliche Muster (Wireframe nach <code>anlage-07</code>, API-/IPC-Vertrag, Prüfliste) steht in <code>vault/handbuch/07_Vier_Stufen_UI_Prozess.md</code>. Geltungsbereich: VoxelCrew-Werkbank <code>7070</code>, VoxelCrew-2ndScreen-Leitstelle und In-Game-UI (<code>@minecraft/server-ui</code> + Pure-Client-Fallback).</p>
+<p>1. <strong>Job-to-be-Done:</strong> Ein Satz in Sprache ab 10 Jahren — „Wenn …, will ich …, damit …&quot;. Maximal <strong>3 Klicks</strong> vom Auslöser zum sichtbaren Ergebnis. Kein Fachbegriff, kein Dateipfad im Satz.</p>
+<p>2. <strong>4-Zustands-Vertrag:</strong> Jeder Bereich kennt explizit <code>leer</code> / <code>lädt</code> / <code>gefüllt (mit echten Daten)</code> / <code>handlungsbedarf</code>. <strong>Kein rohes Markdown, kein Platzhalter, keine erfundenen Zahlen</strong> im UI. Ein Zustand ohne Beweis darf nicht als „gefüllt&quot; gelten.</p>
+<p>3. <strong>Wireframe + Vertrag vor dem Coding:</strong> ASCII-Skizze nach <code>anlage-07</code> inkl. Klickzielen und Zustandsübergängen <strong>und</strong> exakter API-/IPC-Vertrag (Endpunkt, Methode, Request, Response, Fehlerfall). Ohne beides kein Implementierungsstart.</p>
+<p>4. <strong>Abnahme wie ein Profi:</strong> Playwright-Klick-/Formular-Test mit Screenshot-Beleg, <strong>0 Browser-Konsolenfehler, 0 fehlgeschlagene API-Requests</strong>. 10-Jahre-Verständlichkeitscheck: Haupttext ohne Dateipfade und Tech-Kürzel. Pflicht ist der große <strong>„Bot-Hilfe&quot;-Notfallknopf</strong> in der Leitstelle und im In-Game-Kompass; er erzeugt automatisch einen <strong>60-s-Flugschreiber-Clip</strong> und eine <strong>Eskalationskarte</strong> in Klartext (wiederverwendbarer Baustein <code>ops/runtime/bot-hilfe.mjs</code>).</p>
+<p>Ein UI-Task ohne Nachweis aller vier Stufen ist nicht abnahmefähig. <code>npm run test:browser</code> bzw. der Werkbank-Browser-Test sind zusätzliche harte Bedingungen (§10.4). Die In-Game-Umsetzung des Kompass-Knopfs liegt im Bauplan <code>BP-011 (In-Game-UI &amp; Pure-Client-Fallback)</code>; <code>server/**</code> bleibt bis zu dessen Freigabe unangetastet.</p>
+  </section>
+  <section>
+    <h2>Welt-Invarianten</h2>
+    <h2>WORLD_INVARIANTS.md — Verbindlicher QA- &amp; Welt-Standard</h2>
+<p>Chris-Vorgabe vom 21.11.2026, Punkt 3. Gilt **verbindlich für alle Showcases</p>
+<p>und Meilensteine** auf <code>19133</code> (Show) und <code>19134</code> (E2E). Verankert in</p>
+<p><code>AGENTS.md</code> §10.2 und als hartes Gate in <code>ops/scripts/verify.mjs</code>.</p>
+<p>Dieses Dokument beschreibt Defaults. Eine bewusste Abweichung ist <strong>nur</strong></p>
+<p>gültig, wenn der jeweilige Regieplan (<code>intent</code>) sie ausdrücklich als</p>
+<p><code>intent.exceptions</code> benennt (Beispiel: <code>exit_stage</code> beim geordneten Abgang).</p>
+<p>Ohne Eintrag gilt der Default — auch dann, wenn er „ungeschrieben&quot; war.</p>
+<h3>0. Transport- und Port-Invarianten (Chris, 23.11.2026, T-227; ersetzt Q-T216-03)</h3>
+<p>BDS 1.26.63.1 unterstützt <strong>ausschließlich</strong> NetherNet; <code>transport=raknet</code></p>
+<p>erzeugt den <code>TRANSPORT TYPE ERROR</code>. Chris&#39; verbindliche Matrix (SSOT</p>
+<p><code>ops/SYSTEM_SSOT.json</code>):</p>
+<p class="tabelle"><span>Adresse</span> · <span>Rolle</span> · <span>Transport</span> · <span>LAN-Visibility</span> · <span>UDP</span></p>
+<p class="tabelle"><span>`127.0.0.1:19132` (`19142`)</span> · <span>Live-Welt, höchster Schutz</span> · <span>`nethernet`</span> · <span>`true`</span> · <span>`7551` exklusiver Inhaber</span></p>
+<p class="tabelle"><span>`127.0.0.2:19133` (`19143`)</span> · <span>Showcase-Bühne, direkter Endpunkt</span> · <span>`nethernet`</span> · <span>`false`</span> · <span>`19133` (eigener Port, nie `7551`)</span></p>
+<p class="tabelle"><span>`127.0.0.3:19134` (`19144`)</span> · <span>E2E-Testserver, direkter Endpunkt</span> · <span>`nethernet`</span> · <span>`false`</span> · <span>`19134` (eigener Port, nie `7551`)</span></p>
+<p>Showcases starten nur per Ingame-Chat-Befehl <code>!show</code>. Akteure sind strikt</p>
+<p>getrennt: Live (<code>WaechterBot</code>, <code>BauBot</code>, <code>SWARM_BOT</code>) nie auf 19133/19134; dort</p>
+<p>ausschließlich <code>SHOW_ACTOR</code>/<code>OBSERVER</code>; umgekehrt nie auf 19132. Erzwungen</p>
+<p>durch <code>ops/lib/actor-profile-guard.cjs</code>.</p>
+<ul><li><code>transport=nethernet</code> gilt für <strong>alle drei</strong> Server. <code>19133</code>/<code>19134</code> haben</li></ul>
+<p>  <code>enable-lan-visibility=false</code> und eigene UDP-Ports (<code>server-udp-ports=19133</code></p>
+<p>  bzw. <code>19134</code>); Bots, <code>observer</code> und Chris&#39; echter Client verbinden direkt und</p>
+<p>  <strong>port-exakt</strong>. NetherNet-Discovery-Broadcasts auf UDP <code>7551</code> sind dort</p>
+<p>  untersagt.</p>
+<ul><li><code>19132</code> bleibt strikt <code>nethernet</code> + UDP <code>7551</code> und wird von Show/Test nie</li></ul>
+<p>  berührt. Keine Port-, Firewall- oder LAN-Visibility-Änderung am Live-Server.</p>
+<ul><li>Der Start-Check <code>node ops/scripts/check-e2e-server.mjs</code> verlangt im frischen</li></ul>
+<p>  BDS-Log <code>&quot;transport&quot;:&quot;nethernet&quot;</code> und <code>Server started.</code> sowie das Fehlen von</p>
+<p>  <code>TRANSPORT TYPE ERROR</code>.</p>
+<ul><li>Der <code>observer</code>-Beweis muss die <strong>tatsächlich verbundene</strong> Server-Identität</li></ul>
+<p>  und den tatsächlichen Port prüfen (<code>level_name</code> = <code>ShowWorld</code>, Port <code>19133</code>),</p>
+<p>  nicht nur das angeforderte <code>target_port</code>. Eine Abweichung (z. B.</p>
+<p>  <code>TestWorld</code>/<code>19132</code>) ist sofortiger Abbruch und <code>result=RED</code> — ein</p>
+<p>  sogenanntes „Grün&quot; gegen den Live-Server ist ein False-Green.</p>
+<ul><li>Maschinell geprüft durch <code>checkTransport()</code> in</li></ul>
+<p>  <code>ops/qa/world-invariants.mjs</code> und <code>tests/world-invariants.test.js</code>.</p>
+<h3>1. Unabhängiger <code>observer</code>-Bot und Paket-Beweis</h3>
+<ul><li>Jeder E2E-Lauf und jeder Show-Abnahmelauf verbindet einen <strong>separaten</strong></li></ul>
+<p>  Client mit dem Benutzernamen <code>observer</code>, normaler Spielerstatus im</p>
+<p>  Zuschauerbereich (kein Spectator-Modus, keine Admin-Rechte nötig).</p>
+<ul><li>Alle Show-Bots müssen für den <code>observer</code> <code>visible=true</code> sein (nicht</li></ul>
+<p>  <code>invisible</code>) und auf der Geländeoberfläche stehen (<code>on_surface=true</code>,</p>
+<p>  keine Kuhle, kein Versatz unter die Oberfläche).</p>
+<ul><li><strong>Blöcke</strong> (Bühne, Jukebox, Kulisse) gelten erst als bestanden, wenn der</li></ul>
+<p>  <code>observer</code> das <code>update_block</code>-Paket (oder äquivalente Chunk-Daten) an den</p>
+<p>  Zielkoordinaten empfangen hat. Reines Senden eines Setblock-Befehls ist</p>
+<p>  kein Beweis.</p>
+<ul><li><strong>Gehaltene Items</strong> (z. B. <code>music_disc_cat</code>) gelten erst als bestanden,</li></ul>
+<p>  wenn der <code>observer</code> das <code>mob_equipment</code>-Paket des Akteur-Bots empfangen</p>
+<p>  hat — mit passender Actor-Kennung, Item-ID und Hand-Slot.</p>
+<ul><li>Der Beweis liegt als <code>ops/runtime/latest-observer-proof.json</code> (oder via</li></ul>
+<p>  <code>--out</code> an anderer Stelle) vor und wird von</p>
+<p>  <code>node ops/qa/observer-proof.mjs</code> erzeugt.</p>
+<h3>2. Mathematischer 3D-ViewPort- und Voxel-Raycast-Check</h3>
+<p>Der <code>observer</code> prüft aus seiner Augenposition <code>eye = position + (0, 1.62, 0)</code></p>
+<p>und seiner Blickrichtung (<code>yaw</code>, <code>pitch</code>):</p>
+<ul><li>Sichtfeld: <strong>±45° horizontal</strong>, <strong>±35° vertikal</strong>, Distanz <strong>3–32 Blöcke</strong></li></ul>
+<p>  (jeweils inklusive Grenzen).</p>
+<ul><li>Bühne, Jukebox und alle Show-Bots müssen vollständig darin liegen — bei</li></ul>
+<p>  Bots explizit auf **Fußhöhe (<code>y</code>), Rumpfhöhe (<code>y + 0.9</code>) und Kopfhöhe</p>
+<p>  (<code>y + 1.6</code>)**.</p>
+<ul><li>Auf der 3D-Sichtlinie darf <strong>kein undurchsichtiger Block</strong> liegen</li></ul>
+<p>  (<code>!air</code>, <code>!glass</code>, inkl. <code>glass_pane</code>, <code>stained_glass</code>, <code>tinted_glass</code>).</p>
+<p>  Der Zielblock selbst zählt nicht als Hindernis. Der Check ist ein</p>
+<p>  Voxel-Raycast mit 0,25-Block-Schrittweite</p>
+<p>  (<code>ops/qa/world-invariants.mjs</code> → <code>voxelRaycast</code>).</p>
+<ul><li>„Röntgenblick&quot; ist nicht erlaubt: Ein Bot hinter einer Wand ist auch dann</li></ul>
+<p>  nicht sichtbar, wenn seine Koordinaten im ViewPort lägen.</p>
+<h3>3. Produktions-Invarianten und Regie-Intention</h3>
+<p>Defaults bei Umsetzung <strong>und</strong> Prüfung:</p>
+<p class="tabelle"><span>Invariante</span> · <span>Default</span> · <span>Ausnahme nur mit `intent.exceptions`</span></p>
+<p class="tabelle"><span>Begehbare Wege</span> · <span>Empfang → Zuschauerbereich → Bühne ohne blockierende Blöcke auf Fuß-/Körperhöhe</span> · <span>`blocked_path`</span></p>
+<p class="tabelle"><span>Mindest-Raumhöhe</span> · <span>≥ 2,5 Blöcke über jedem begehbaren Weg (Pre-Build-Layout-Check)</span> · <span>`low_ceiling`</span></p>
+<p class="tabelle"><span>Fortbewegung</span> · <span>Gehen statt Teleportieren</span> · <span>`teleport`</span></p>
+<p class="tabelle"><span>Szenenstabilität</span> · <span>Kein Reconnect während einer laufenden Szene</span> · <span>`reconnect_in_scene`</span></p>
+<p class="tabelle"><span>Tanzfläche</span> · <span>Tänzer bleiben während des Tanzes in der Bühnen-Bounding-Box</span> · <span>`exit_stage` (nur Abgang)</span></p>
+<p class="tabelle"><span>Präsentation/Verbeugung</span> · <span>Blickrichtung zum Publikum</span> · <span>`face_away`</span></p>
+<p class="tabelle"><span>Sichtbarkeit</span> · <span>`visible=true`, Oberflächenlage</span> · <span>`invisible`</span></p>
+<p>Der Regieplan wird als <code>intent</code>-Objekt im Proof abgelegt; jede Ausnahme</p>
+<p>braucht einen kurzen <code>reason</code>-Eintrag. Ohne <code>intent</code> gelten alle Defaults.</p>
+<h3>4. Stufen und Kontingent</h3>
+<p>1. <strong>Stufe 1 (kostenlos, immer):</strong> <code>update_block</code>, <code>mob_equipment</code>,</p>
+<p>   Pre-Build-Layout, 3D-ViewPort/Raycast, <code>WORLD_INVARIANTS.md</code> — reine</p>
+<p>   Skripte / Kilo Auto Free (<code>kilo1</code>, <code>kilo3</code>, <code>kilo4</code>), <strong>0 OpenRouter-Calls</strong>.</p>
+<p>   Ca. 95 % aller QA-Prüfungen.</p>
+<p>2. <strong>Stufe 2 (optional, letztes Siegel):</strong> Vision-Screenshot-Check</p>
+<p>   (z. B. <code>google/gemma-4-31b-it:free</code> oder</p>
+<p>   <code>nvidia/nemotron-3.5-super-vl:free</code>). Nur auslösen, wenn Stufe 1 komplett</p>
+<p>   grün ist. Hart gedeckelt in <code>ops/kilo-handler/vision-budget.mjs</code>:</p>
+<p>   max. <strong>1 Call pro fertigem Meilenstein</strong>, max. <strong>3 Calls pro Tag</strong>.</p>
+<p>   Bei Erreichen wird nicht blockiert, sondern gemeldet:</p>
+<p>   „Stufe 1 grün, Vision-Call wegen Tagesbudget übersprungen (Screenshots</p>
+<p>   abgelegt)&quot;.</p>
+<p>Die OpenRouter-Modellkette von Kilo2 (T-199 – OpenRouter-Modellausfall: Preset prüfen und freigeben) bleibt unverändert.</p>
+<h3>5. Befehle</h3>
+<pre><code>node ops/kilo-handler/vision-budget.mjs status
+node ops/qa/observer-proof.mjs --port 19133 --spec &lt;spec.json&gt; --out ops/runtime/latest-observer-proof.json --duration 20000
+npm run verify:show          # hartes Gate: Proof muss existieren und gruen sein
+node tests/world-invariants.test.js   # Logik-Selbsttest, keine Calls</code></pre>
+  </section>
+  <section>
+    <h2>Spezifikations-Mapping</h2>
+    <h2>SPEC_MAPPING.md — Vollständiges Mapping der Systemspezifikation gegen Ist-Stand</h2>
+<p>Stand: 2026-11-22 (Mastermind/Resident-Agent). Zweck: verhindert blindes Raten und doppelte Suche nach Bausteinen. Basisdokumente: <code>AGENTS.md</code>, <code>ops/PRAESENTATION.md</code>, <code>ops/WORLD_INVARIANTS.md</code>, <code>ops/BOARD.md</code>, <code>ops/QUESTIONS.md</code>, <code>ops/capabilities.json</code>, Code unter <code>app/</code>, <code>ops/qa/</code>, <code>ops/scripts/</code>, Tests unter <code>tests/</code>.</p>
+<h3>1) Port-/Protokoll- und Betriebsinvarianten (Soll)</h3>
+<ul><li><strong>19132 (Live, tabu):</strong> <code>transport=nethernet</code>, <code>server-portv6=19142</code>, <code>enable-lan-visibility=true</code>, exklusiver Inhaber von UDP 7551. Niemals anfassen für Show/E2E. (AGENTS.md §2, PRAESENTATION.md, WORLD_INVARIANTS.md §0)</li><li><strong>19133 (Show/Präsentation):</strong> lokaler Show-Port mit <code>transport=nethernet</code>, <code>server-portv6=19143</code>, <code>enable-lan-visibility=false</code>, eigener UDP-Port <code>19133</code>, direkter Login <code>127.0.0.1:19133</code>, ohne UDP 7551. (T-227 vom 23.11.2026 in <code>WORLD_INVARIANTS.md</code> §0 und <code>ops/SYSTEM_SSOT.json</code>; ersetzt Q-T216-03.)</li><li><strong>19134 (E2E):</strong> lokaler Testport, Analoges zu 19133 (<code>transport=nethernet</code>, UDP <code>19144</code>/<code>19134</code>, LAN aus). (AGENTS.md §2, WORLD_INVARIANTS.md §0)</li><li><strong>Betrieb:</strong> Showcases nicht blind vorab starten; Präsentation per definiertem Trigger (Chat <code>!show</code>/<code>!tanzshow</code> laut PRAESENTATION) bzw. per regulärem Auftraggeber-Baustein <code>npm run show:accept</code> (AGENTS.md §11).</li></ul>
+<p><strong>Ist (Code/Config/Skripte):</strong></p>
+<ul><li><code>ops/PRAESENTATION.md</code>, <code>ops/scripts/setup-presentation-server.ps1</code>, <code>ops/scripts/start-presentation.ps1</code>, <code>ops/config.presentation.yaml</code> vorhanden.</li><li><code>ops/qa/show-server.mjs</code>, <code>ops/e2e/*</code> vorhanden (Discovery/Connect-Checks referenziert).</li><li>Welt-Invarianten-Prüfung: <code>ops/qa/world-invariants.mjs</code>, <code>ops/qa/observer-proof.mjs</code>, <code>npm run verify:show</code> in <code>ops/scripts/verify.mjs</code>/Tests.</li></ul>
+<p><strong>Gaps / Risiken:</strong></p>
+<ul><li>~~Drift AGENTS.md §2 vs WORLD_INVARIANTS.md §0~~ <strong>aufgelöst:</strong> Chris&#39; T-227 (23.11.2026) ersetzt Q-T216-03; alle drei Ports = NetherNet, nur 19132 mit LAN <code>true</code> und UDP 7551. <code>ops/SYSTEM_SSOT.json</code>, <code>ops/config.presentation.yaml</code>, <code>setup-presentation-server.ps1</code>, <code>setup-e2e-server.ps1</code>, <code>TRANSPORT_RULES</code>, <code>observer-proof.mjs</code> und <code>tests/tanzshow-plan.test.js</code> sind darauf abgeglichen. Start-Check <code>check-e2e-server.mjs</code> weist <code>TRANSPORT TYPE ERROR</code> explizit im BDS-Log zurück.</li><li>Kein zentraler, maschinenlesbarer „Runtime-Truth“-Check, der die laufende <code>server.properties</code>/tatsächliche Bindings gegen die Soll-Matrix prüft (teilweise in Skripten vorhanden, aber nicht als einheitlicher Capability-Eintrag dokumentiert).</li></ul>
+<h3>2) Show-/Tanzshow-Fluss T-216 (Soll)</h3>
+<ul><li>Vollständige Regie auf 19133: Kulisse/Bühne/Jukebox/Beleuchtung, 4 Crew-Bots, Choreografie, Verbeugung, geordneter Abgang; Freigabe erst bei grünem <code>observer</code>-Proof <strong>und</strong> grünem 3D-ViewPort-Check. (T-216 Task, PRAESENTATION, WORLD_INVARIANTS)</li><li>4 Gate-Punkte (WORLD_INVARIANTS/AGENTS §10.2 + Q-T216-04): (1) observer + alle 4 Bots bei y≈69 nach korrekter Chunk/Spawn-Init, keine Limbo y≈32769; (2) echte <code>update_block</code>/<code>mob_equipment</code> Pakete; (3) 3D-ViewPort/Raycast mit Bühne/Crew grün; (4) korrekte Server-Identität/Port (ShowWorld/erwarteter Kontext).</li><li>Trigger: Chat <code>!show</code>/<code>!tanzshow</code> (PRAESENTATION) als System-Trigger; Abnahme programmatisch über <code>POST /api/show/run</code> bzw. <code>npm run show:accept</code> (AGENTS.md §11, kein manueller Chris-Klick). Bot-Antwort definiert.</li></ul>
+<p><strong>Ist:</strong></p>
+<ul><li>Regieplan: <code>ops/qa/show-plan.json</code>, Spec: <code>ops/qa/show-spec.tanzshow.json</code>, Builder/Tests: <code>ops/qa/show-spec.builder.mjs</code>, <code>tests/tanzshow-plan.test.js</code>.</li><li>Ausführung: <code>app/backend/show/ShowDirector.js</code>, <code>app/backend/show/show-world.js</code>; Anbindung in <code>app/backend/index.js</code> (lädt Plan, <code>onShowCommand</code> triggert <code>showDirector.run()</code> auf Port 19133).</li><li>Bot-Stack: <code>app/backend/bots/BotManager.js</code>, <code>app/backend/bedrock/BedrockConnector.js</code> (mit Q-T216-04-Fixes in Worktree-Stand: <code>request_chunk_radius</code>, <code>set_local_player_as_initialized</code> für Bots; observer-proof ebenfalls gepatcht).</li><li>Präsentations-Start: <code>ops/scripts/start-presentation.ps1</code>, Config <code>ops/config.presentation.yaml</code>.</li></ul>
+<p><strong>Ist (Stand Abschluss T-216):</strong></p>
+<ul><li><strong>Regulärer, programmatischer Auftraggeber-Baustein vorhanden:</strong> <code>ops/scripts/run-show-acceptance.mjs</code> führt die vollständige User-Journey autonom aus — Backend-/Crew-Preflight (Reconnect getrennter Bots über <code>/api/control</code>), spawn-aware Observer-Platzierung (<code>tp observer …</code> erst nach <code>Player Spawned</code>, Erfolg im BDS-Log bestätigt), wiederverholbarer Bühnen-/Requisiten-Reset (127 Blöcke + hotbar 0 → air), Show-Trigger per <code>POST /api/show/run</code>, observer-proof mit voller Vorlaufzeit, Auswertung der 4 Gates und optional <code>verify:show</code>. Kein menschlicher Chat-Klick nötig.</li><li>Programmatischer Trigger-Schnittstelle: <code>POST /api/show/run</code> in <code>app/backend/web/WebServer.js</code> (lokaler Admin-Endpoint, keine neue Abhängigkeit, kein Safety-/Auth-Eingriff).</li><li><code>mob_equipment</code>-Beweis: <code>app/backend/bedrock/BedrockConnector.js::holdItem()</code> sendet nach Konsolen-<code>replaceitem</code> zusätzlich eine <code>mob_equipment</code>-Handauswahl (Slot 0), damit BDS das Paket an den observer rebroadcastet (sonst ändert <code>replaceitem</code> nur das Inventar, ohne Zuschauer-Paket).</li></ul>
+<p><strong>Gaps / Risiken:</strong></p>
+<ul><li>Wiederholbarkeit (22.11.2026): Reset-Wartezeit im Auftraggeber von 2500 auf 8000 ms erhöht (<code>run-show-acceptance.mjs</code>). Bei 2500 ms konnte ein verspätetes Reset-<code>air</code>-Paket das Quartz-<code>update_block</code> der Kulisse (10,71,6) im Proof überschreiben und einen zweiten, korrekt laufenden Durchgang fälschlich ROT melden. Mit 8000 ms: <code>ALLE GATES GRÜN</code>, <code>openrouter_calls=0</code>, <code>target_port=19133</code>.</li><li>Der Auftraggeber setzt <code>verify:show</code> nur optional (<code>--skip-verify</code> für schnelle Diagnose); im Regelbetrieb/Abnahme ist <code>verify:show</code> zusätzlich direkt zu fahren (siehe Abschnitt 9). Sein Gesamturteil ist <code>result.ok &amp;&amp; verifyExit===0</code>: Der globale Suite-Exit ist derzeit durch den Vault-Hygiene-Blocker (Abschnitt 3) rot, während <code>OBSERVER_GATE GREEN</code> und alle vier Show-Gates grün sind. Kein Show-Gate, kein Abschwächen der Prüfung.</li><li>Kein zentraler „Runtime-Truth&quot;-Abgleich der laufenden <code>server.properties</code> gegen die Soll-Matrix (nur implizit über Server-Identität im observer-proof).</li></ul>
+<h3>3) QA / Observer / Invarianten (Soll)</h3>
+<ul><li>Separater <code>observer</code>-Client, Paketbeweise (<code>update_block</code>, <code>mob_equipment</code>), 3D-ViewPort/Raycast, keine Spec-Seeding-Beweise, harte Gates via <code>verify:show</code> / <code>WORLD_INVARIANTS.md</code>. (AGENTS.md §10.2, WORLD_INVARIANTS.md)</li></ul>
+<p><strong>Ist:</strong></p>
+<ul><li><code>ops/qa/observer-proof.mjs</code>, <code>ops/qa/world-invariants.mjs</code>, Tests <code>tests/world-invariants.test.js</code>, Verify-Integration in <code>ops/scripts/verify.mjs</code> (<code>verify:show</code>).</li></ul>
+<p><strong>Ist (Stand Abschluss T-216):</strong></p>
+<ul><li><code>ops/scripts/run-show-acceptance.mjs</code> triggert den Proof reproduzierbar und wertet die 4 Gates aus; <code>POST /api/show/run</code> + BDS-Konsolenkanal (<code>/api/server/command</code>) sind die regulären Bausteine.</li></ul>
+<p><strong>Gaps:</strong></p>
+<ul><li><code>npm run verify</code> global enthält einen vault-hygiene-Check, der derzeit durch eine vom Kilo-Handler automatisch angelegte, unverfolgte Vault-Frage (<code>fragen/Fragen-T-199-modellausfall.md</code>, <code>status: offen</code>) blockiert wird (<code>pushed:false</code>). Das ist ein betriebsweiter, vorbestehender Zustand außerhalb des T-216-Vault-Schreibbereichs und kein Show-Gate; die Show-spezifischen Gates (<code>verify:show</code> → <code>OBSERVER_GATE GREEN</code>, <code>world-invariants</code>, <code>tanzshow-plan</code>) sind grün.</li></ul>
+<h3>4) capabilities.json (Ist)</h3>
+<p>Enthält verifizierte Low-Level-Funktionen (Bedrock sendChat/sendEmote/useBlock/setBlock/walkTo/holdItem, Interaction, Pathfinder, WorldGrid, WorldMemory) und seit 22.11.2026 zusätzlich die registrierte Show-Capability <code>show.run</code> (<code>app/backend/show/ShowDirector.js::run</code>, Zeile 195). Der zugehörige Auftraggeber/Orchestrator ist über den stabilen Aufrufpfad <code>npm run show:accept</code> (<code>ops/scripts/run-show-acceptance.mjs</code>) als regulärer Plattform-Baustein verankert.</p>
+<p><strong>Weitere Show-/Tanzshow-Bausteine (implementiert, als eigene Capability-Einträge noch Backlog):</strong></p>
+<p class="tabelle"><span>Soll-Capability</span> · <span>Modul / Datei</span> · <span>Beleg</span> · <span>Registry-Stand</span></p>
+<p class="tabelle"><span>`show.run` (programmatischer Trigger)</span> · <span>`app/backend/show/ShowDirector.js::run` → `POST /api/show/run`</span> · <span>`ops/runtime/latest-observer-proof.json`, `npm run verify:show`</span> · <span>✅ registriert</span></p>
+<p class="tabelle"><span>`stage.reset` (BDS-Konsole)</span> · <span>`app/backend/server/ServerManager.js::sendConsoleCommand`, genutzt in `run-show-acceptance.mjs`</span> · <span>BDS-Log `set_build_done`, `Replaced slot … with Air`</span> · <span>Backlog</span></p>
+<p class="tabelle"><span>`observer.proof` (Paketbeweis + ViewPort)</span> · <span>`ops/qa/observer-proof.mjs`, `ops/qa/world-invariants.mjs`</span> · <span>`ops/runtime/latest-observer-proof.json`, `npm run verify:show`</span> · <span>Backlog</span></p>
+<p class="tabelle"><span>`qa.acceptance` (Auftraggeber/Orchestrator)</span> · <span>`ops/scripts/run-show-acceptance.mjs`, `npm run show:accept`</span> · <span>4 Gate-Punkte grün</span> · <span>Backlog (stabiler Aufrufpfad vorhanden)</span></p>
+<p class="tabelle"><span>`bedrock.holdItemBroadcast`</span> · <span>`app/backend/bedrock/BedrockConnector.js::holdItem()` (mob_equipment-Handauswahl)</span> · <span>`latest-observer-proof.json`: `mob_equipment` für `Crew-Jukebox`/`minecraft:music_disc_cat`</span> · <span>Backlog (`bedrock.holdItem` registriert)</span></p>
+<p>Weitere nicht registrierte Betriebsbausteine: Präsentations-Startskripte, <code>verify:show</code> als eigene Capability, Prozess-Supervision (run-watch).</p>
+<h3>5) Abgeleitete Maßnahmen (Status)</h3>
+<p>1. <strong>Regel in AGENTS.md verankert</strong> (§11, Chris-Vorgabe 22.11.2026): End-to-End-Produktdenken &amp; simulierter Auftraggeber, vollständige Journey, keine Wegwerf-Skripte, Chris nie als manueller Klicker außer den 4 harten Toren. ✅</p>
+<p>2. <strong>Regulärer System-Baustein gebaut:</strong> <code>ops/scripts/run-show-acceptance.mjs</code> als wiederverwendbarer Auftraggeber/Orchestrator (Preflight, Reset, Trigger via <code>POST /api/show/run</code>, observer-proof, 4-Gate-Auswertung, optional <code>verify:show</code>). ✅</p>
+<p>3. <strong>T-216</strong> mit diesem Baustein bis zu den 4 grünen Gate-Punkten durchgezogen; <code>latest-observer-proof.json</code> <code>result.ok=true</code>, <code>verify:show</code> Observer-Gate grün. ✅</p>
+<p>4. <strong>Drift 19133/19134 Transport</strong> gemäß T-227 aufgelöst (NetherNet überall, LAN aus und eigene UDP-Ports auf 19133/19134, UDP 7551 exklusiv 19132). ✅</p>
+<p>5. <strong>Registrierung (22.11.2026):</strong> <code>show.run</code> als Capability in <code>ops/capabilities.json</code> registriert, <code>npm run show:accept</code> als stabiler Aufrufpfad in <code>package.json</code> verankert; §11 task-agnostisch formuliert und in Task-Vorlage + Intake-Generator übernommen. ✅ — Rest-Backlog: <code>stage.reset</code>, <code>observer.proof</code>, <code>qa.acceptance</code>, <code>bedrock.holdItemBroadcast</code> als eigene Einträge (Abschnitt 4); Vault-Hygiene-Blocker durch zuständigen Worker auflösen (Abschnitt 3).</p>
+<h3>5a) T-226 (Werkstatt-Feinschliff) — Soll/Ist nach Baustein 1</h3>
+<p class="tabelle"><span>Soll aus `ops/tasks/T-226.md`</span> · <span>Umsetzung</span> · <span>Beleg</span></p>
+<p class="tabelle"><span>Drei Servernamen in SSOT, Registry und Manager; 19132 läuft unter bestehender PID</span> · <span>`ops/SYSTEM_SSOT.json` (`name`, `managerRolle`, `bdsManager`), `ops/runtime/pids.json` (echte PPIDs 15672/15052), `ops/runtime/bds-manager-registry.mjs`</span> · <span>`node ops/runtime/bds-manager-registry.mjs`: `VoxelCrew:Oberwelt` PID 18356 attachiert, `protected: true`, kein Start/Stopp</span></p>
+<p class="tabelle"><span>19132 kein Neustart/Verbinden/Beenden, keine Weltdaten-Berührung</span> · <span>`ServerManager.attachExternal()` ohne stdin; `sendConsoleCommand()` und `stop()` gesperrt</span> · <span>`attachExternal` setzt `external: true`; `stop()`/Kommando liefern klare Schutzmeldung</span></p>
+<p class="tabelle"><span>19133 NetherNet/Show, 19134 NetherNet/E2E, LAN aus (heute, nach T-227)</span> · <span>SSOT + `ops/scripts/setup-e2e-server.ps1` schreibt `server.properties` mit `transport=nethernet`, `19144`, `enable-lan-visibility=false`</span> · <span>Registry zeigt `transport` und `enableLanVisibility` pro Server; Start-Check ohne `TRANSPORT TYPE ERROR`</span></p>
+<p class="tabelle"><span>Wissensanalyse wählt FW-Base oder `level-seed`, erkundet vorab, atomarer Master-Reset</span> · <span>`ops/wissenanalyse/pipeline.mjs`: `chooseWorld`, `exploreWorld`, `masterReset` (LOCK weg, `.stage`, Origin, `world.reset.completed`, 8000 ms)</span> · <span>`tests/wissenanalyse-pipeline.test.js` 11/11 grün</span></p>
+<p class="tabelle"><span>Fünf Härtungen als BP-000, Freigabe `manual`</span> · <span>`ops/blueprints/BP-000.json` via `createBlueprint()` angelegt; `definitionOfReady`, `atomicDiffBudget`, `contractFirst`, `preflight`, `appendLesson` als aufrufbare Funktionen</span> · <span>Registry `BP-000 … BP-006`; `ops/capabilities.json` Einträge `qa.definitionOfReady`, `bds.manager`, `world.chooseAndReset`, `spectator.liveMode`</span></p>
+<p><strong>Gaps (bewusst offen, keine Freigabe):</strong> <code>19134</code> wird erst nach Ausführen des Setup-Skripts mit FW-Base befüllt; die visuelle Spectator-Journey und die UI-Nachschliffe folgen in den nächsten Bausteinen. BP-000 bleibt <code>status: entwurf</code> und <code>freigabe: manual</code>.</p>
+<h3>5b) T-227 — Regie-Leitplanken A–D (Soll / Ist / Backlog)</h3>
+<p class="tabelle"><span>Leitplanke (Soll)</span> · <span>Ist (verankert)</span> · <span>Backlog / Umsetzung</span></p>
+<p class="tabelle"><span>**A Capability- &amp; Gap-Planner**: vor jedem Vorhaben `ops/capabilities.json` prüfen, fehlende Grundfähigkeiten als wiederverwendbare Bausteine herausschneiden</span> · <span>`ops/SYSTEM_SSOT.json` → `regieLeitplanken.A_capabilityGapPlanner`; `AGENTS.md` §12 A; Handbuch 05 §A; `ops/capabilities.json` + `ops/SPEC_MAPPING.md` (dieses Dokument)</span> · <span>Capability-Einträge für Planner/Scoring erst bei Umsetzung; Mapping hier laufend gepflegt</span></p>
+<p class="tabelle"><span>**B Adaptive Scene Director**: 32×32-Sektoren, sanfte Topografie-Anpassung, Raycast-Korrektur von Verdeckung/Loge</span> · <span>SSOT `regieLeitplanken.B_adaptiveSceneDirector`; AGENTS.md §12 B; Handbuch 05 §B; `ops/qa/world-invariants.mjs` (`voxelRaycast`, Augenhöhe 1,62)</span> · <span>Regieplan-Autopass für Podest/Stufen und Loge; Meilenstein B in `BP-007`</span></p>
+<p class="tabelle"><span>**C Dreifache Realitäts-Kopplung + Multi-Seed-Gate N ≥ 3**: Blockdaten + freier Raycast + bequeme Erreichbarkeit, 3 Seeds auf 19134, automatische Platten-Bereinigung</span> · <span>SSOT `regieLeitplanken.C_dreifacheRealitaetsKopplung` und `welten.masterReset`; AGENTS.md §12 C; Handbuch 05 §C; `ops/wissenanalyse/pipeline.mjs` (`masterReset`)</span> · <span>Seed-Orchestrator und 3-Fach-Beweis als eigener Baustein; Meilenstein C in `BP-007`</span></p>
+<p class="tabelle"><span>**D User-Empathy-Simulator + BP↔Client-Symbiose**: unprivilegierter Spieler, FOV 70°, ruhiges Tempo, `@minecraft/server`/`@minecraft/server-ui`/`SWARM_BOT`</span> · <span>SSOT `regieLeitplanken.D_userEmpathy` und `akteure`; AGENTS.md §12 D; Handbuch 05 §D; `ops/lib/actor-profile-guard.cjs` (Isolation)</span> · <span>Simulator und UI-/Effect-Brücke; `SWARM_BOT` bleibt Live-Profil, auf 19134 über `SHOW_ACTOR`/`OBSERVER`; Meilenstein D in `BP-007`</span></p>
+<p><strong>Soll/Ist/Backlog-Fazit:</strong> Die vier Leitplanken sind als Verbindlichkeits- und Beweisregeln vollständig gemappt (Soll = Ist Dokumentation/SSOT); die ausführenden Bausteine sind bewusst <strong>Backlog</strong> und liegen als Meilensteine im Bauplan <code>BP-007 (Autonome Welt-Anpassung, Multi-Seed-Regie &amp; User-Empathy-Prüfung)</code> mit <code>freigabe: manual</code>. Kein Vorgriff auf Freigabe oder Worker-Dispatch.</p>
+<h3>6) Offene Entscheidungen (kurz)</h3>
+<ul><li>~~Welche programmatische Trigger-Schnittstelle für ShowDirector soll der Auftraggeber nutzen?~~ — erledigt: lokaler Admin-Endpoint <code>POST /api/show/run</code> (ohne neue Abhängigkeit, ohne Safety-/Auth-Eingriff).</li><li>~~Genaue Soll-Transportmatrix für 19133/19134 finalisieren~~ — erledigt durch T-227 (NetherNet überall, LAN aus auf 19133/19134, UDP 7551 nur 19132).</li></ul>
+<h3>7) Vollständiges Vault-/Inbox-Spezifikationsinventar (Soll-Anteile)</h3>
+<p>Pfadbasis: <code>vault/</code>. Quelle: read-only Inventur aller Inbox-Originale, Vault-Spezifikationen und Handlungsanweisungen (Chris-Erinnerung: „alles, was in der Inbox weiterverarbeitet wurde, auch&quot;). Große Referenzwerke sind über ihre Quellzuordnung in <code>Inbox-Auswertung-2026-11-19.md</code> und Volltextsuche erfasst. Relevanz: <strong>direkt</strong> = Soll-Anforderung für T-216-Show/QA; <strong>indirekt</strong> = Plattform-Kontext; <strong>keine</strong> = anderer Fachbereich.</p>
+<p class="tabelle"><span>Datei (relativ zu `vault/`)</span> · <span>Art</span> · <span>Soll-Anforderung (Kurzfassung)</span> · <span>Relevanz</span></p>
+<p class="tabelle"><span>`handlungen/bearbeitet/Handlung-T-216-grosse-crew-bot-tanzshow.md`</span> · <span>Handlung</span> · <span>Show erst nach grünem Stufe-1-Gate; kein Reconnect/Teleport in Szenen; 4 Gate-Punkte (observer-Proof, sichtbare Bots, `update_block`/`mob_equipment`-Paketbeweis, 3D-ViewPort); `verify:show`, `result.ok=true`, `openrouter_calls=0`.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`handlungen/bearbeitet/Handlung-T-215-verbindlicher-qa-welt-standard.md`</span> · <span>Handlung</span> · <span>Stufe-1 (Observer-Paketbeweis + ViewPort) kostenlos und hartes Pflicht-Gate; Vision nur optionales Siegel danach (max. 1/Meilenstein, 3/Tag), keine Selbstbenotung.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/2026-11-21 tanzshow-regie-spezifikation-komplett.md`</span> · <span>Spezifikation</span> · <span>Vollumfang: Kulisse per `/fill`/`/setblock` auf 19133, Anteroom mit beleuchtetem Weg, 4 Bots aus 4 Richtungen, Jukebox, `music_disc_cat` sichtbar in der Hand (`mob_equipment`), Choreografie, Verbeugung, geordneter Abgang; Verifikation per `testforblock`, Client-Listener, Vision/Screenshot.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/2026-11-21 tanzshow-familien-drehbuch.md`</span> · <span>Beispiel</span> · <span>3–4 Bots, Showmaster, 3 Akte (Warm-up, synchrones Tanzen, Finale mit `zugabe`); Regie-Vorlage für Showcase A (T-206).</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`wissen/szenarien/Theater-Show.md`</span> · <span>Spezifikation</span> · <span>Wiederholbare Vorführung: 4 Bots, Chat-Signal, Item zeigen, Jukebox, 1–2 Min Choreografie, Abgang, zweiter Lauf ohne Serverneustart.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`wissen/szenarien/Der Spaß und der Tanz und die Motivation.md`</span> · <span>Beispiel</span> · <span>Ursprungsidee: menschliche Spieler betreten Saal, Chat-Signal, 4 Bots (3 Formation, 4. zeigt Schallplatte + Jukebox), 1–2 Min Hüpfen/Emotes, wiederholbar.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`wissen/minecraft/Daten/kuratiert/notizen/showcases-als-meilensteine.md`</span> · <span>Referenz</span> · <span>Showcases intern E2E-testen, dann Chris präsentieren; nur `19133`, `online-mode=false`, sauberer Stop, Nachweis in `bds.log` + `bot-proof.jsonl`; kein Screengrab ohne Freigabe; Abnahme: Chat startet, 4 Bots, Jukebox hörbar, 2. Lauf ohne Neustart.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`wissen/minecraft/Daten/kuratiert/notizen/e2e-belege-bds-und-bot.md`</span> · <span>Referenz</span> · <span>Isolierte BDS-Kopie, Port 19133, `enable-lan-visibility=false`, `bds.log` + `bot-proof.jsonl` + `summary.json`; clientseitige Effekte (Hotbar/Ausrüsten) sind nicht belegt → Observer-Paketbeweis nötig.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`wissen/Bedrock-26.60-NetherNet.md`</span> · <span>Referenz</span> · <span>Ab 26.60 NetherNet (UDP-Discovery 7551); Bot `transport: nethernet`; die zeitweise RakNet-Ausnahme Q-T216-03 ist durch T-227 ersetzt (alle Ports nethernet).</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/bedrock_26_65_ki_architektur_spezifikation.md`</span> · <span>Spezifikation</span> · <span>NetherNet als Transportlayer; Bot-Clients/Bridges mit `serveridentity`-Verifikation; bevorzugt serverseitige Simulated Players.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/ki-architektur-handlungsleitfaden-bedrock-26-65.md`</span> · <span>Handlung</span> · <span>Modus A (Script API/BDS) vs. Modus B (`bedrock-protocol`, reiner Client) bewusst wählen; DRY, State-Hoheit, Vanilla-Mechaniken.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/2026-11-21 e2e-live-spectator.md`</span> · <span>Spezifikation</span> · <span>Menschlicher Spectator darf joinen, ohne Assertions zu brechen; automatischer `/gamemode spectator` + Teleport in Sichtweite (Q-T210).</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/2026-11-21 live-zuschauer-modus.md`</span> · <span>Spezifikation</span> · <span>Feste beleuchtete Tribüne mit freiem Blick auf die Bühne; Join im Spectator-Modus ohne Störung; Abnahme-Maske mit Port/Start-Trigger (Q-T211).</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/10_referenz-showcase-regie-und-review-schema.md`</span> · <span>Spezifikation</span> · <span>`showcase_script.json` (stage/cast/acts, Kamera-Cues) vorab auf E2E-BDS trocken testen; Feedback in `review_submissions`.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/00_README_KONZEPT_INDEX.md`</span> · <span>Spezifikation</span> · <span>„Autonomous E2E before Human Acceptance&quot;; 5-stufiger Regie-Prozess, 3-Akt-Story, Bühne ≤32×32, nur Vanilla-Elemente der Zielversion.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/01_architektur-briefing-multi-bot-bedrock-v14.md`</span> · <span>Spezifikation</span> · <span>Vier Betriebsmodi (PURE_CLIENT/PRODUCTION_BDS/E2E_TEST_SERVER/DEMO_SHOWCASE_SERVER), strikte `world_context_id`-Isolation, 3D-Reality-Check, 50-ms-HFSM.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/06_referenz-fast-voxel-raycaster-tof.md`</span> · <span>Referenz</span> · <span>Zero-Allocation Raycaster, Augenhöhe als Ausgangspunkt, Sichtlinie pro Pixel bis `maxDist` (Grundlage ViewPort-Check, nicht identisch mit Gate-Parametern).</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/2026-11-19 anlage-03-revision-v1-chris-protokoll-matrix.md`</span> · <span>Spezifikation</span> · <span>5-Phasen-Vertrag `PRE_CHECK → TIMING → APPROACH → EXECUTE (50 ms) → VERIFY_AND_COMMIT`; Erfolg erst nach echter Server-Quittung (`UpdateBlock`, `MobEquipment`).</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/BDS-ServerManager-Systementwurf.md`</span> · <span>Spezifikation</span> · <span>Rollen `prod-main`/`pres-demo`/`e2e-test`/`ana-opt`, Portkollisionsprüfung, zentraler Vorlagen-Pool, atomarer Master-Reset, Schutzschloss, automatisierte Invarianten.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/Referenzanlage-A-Prozess-und-Ports.md`</span> · <span>Referenz</span> · <span>`PortGuard` prüft IPv4+IPv6; `BdsWindowsProcess` steuert via stdin, harter Kill nach Timeout.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/Referenzanlage-B-Welt-Vorlagen-und-Reset.md`</span> · <span>Referenz</span> · <span>Template-Deployment über Staging, `db/LOCK` entfernen, atomares `rename`, bitgenauer Master-Reset.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/Referenzanlage-C-Packs-und-Welt-Monitor.md`</span> · <span>Referenz</span> · <span>Behavior-Packs pro Welt aktivieren, Script-API-Module erlauben, `server.properties` verlustfrei aktualisieren.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/Referenzanlage-E-Welt-Gedaechtnis-und-Event-Bus.md`</span> · <span>Referenz</span> · <span>Bei Reset Gedächtnis leeren und `world.reset.completed` publizieren, bevor Bots joinen; Log-Regex → `[BOT_EVENT]`-Marker.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`konzept/systemspezifikationen.md`</span> · <span>Spezifikation</span> · <span>Deterministische Weltgenerierung, Koordinaten-/Chunk-Mapping, vier Bot-Anbindungsmuster, Hybrid Echtzeit/Offline-Planung.</span> · <span>indirekt</span></p>
+<p class="tabelle"><span>`konzept/02_ui-ux-architektur-briefing-leitstelle-v2.md`</span> · <span>Spezifikation</span> · <span>Zielgruppe ab 10 Jahren; zentrale 2D-Karte; „Demonstrations-Server-Regie&quot; als Fernbedienung für Showcases und Abnahme-Masken.</span> · <span>indirekt</span></p>
+<p class="tabelle"><span>`konzept/2026-11-20 vanilla-portale-und-funktionale-aufbauten-als-block-muster.md`, `…/nether_portal_spezifikation_bedrock_26_65-v2.md`, `…/redstone-spezifikation-bedrock-26-65-v3.md`, `…/bedrock-26-65-block-architektur-spezifikation-v2.md`, `…/bedrock-26-65-dimensionen-spezifikation-v3.md`</span> · <span>Spezifikation</span> · <span>Fachspezifikationen Portal/Redstone/Blöcke/Dimensionen (T-204 u. a.); `minecraft:observer` hier Redstone-Block, **nicht** der QA-Observer-Bot.</span> · <span>keine</span></p>
+<p class="tabelle"><span>`konzept/2026-11-19 feingranulare-handlungsausfuehrung.md`, `…/block-muster-und-2-5d-weltkarte.md`, `…/bot-relay-und-copilot-modus.md`, `…/anlage-04…09`</span> · <span>Spezifikation/Referenz</span> · <span>VoxelCrew/Frontier-Erweiterungen, Flugschreiber, Co-Pilot-Stufen; Plattform-Kontext für Bots/QA, nicht Show-spezifisch.</span> · <span>indirekt</span></p>
+<p class="tabelle"><span>`konzept/2026-11-21 dauerbetrieb-absturzschutz.md`, `…/multi-worker-parallelbetrieb-kilo1-bis-4.md`</span> · <span>Spezifikation</span> · <span>Circuit Breaker, Work-Stealing, RAM-Notbremse; Betriebsrahmen (§10 AGENTS),_show-Server bleibt tabu für Worker.</span> · <span>indirekt</span></p>
+<p class="tabelle"><span>`konzept/2026-11-20 2026-11-21-ops-center-gui-redesign-md.md`, `…/ops-center-live-feed-konsole.md`, `…/vault-sync-button-im-cockpit.md`</span> · <span>Spezifikation</span> · <span>Ops-Center-UI/Feed/Vault-Sync; `npm run verify` grün halten (UI-Änderungen → `npm run test:browser`).</span> · <span>keine/indirekt</span></p>
+<p class="tabelle"><span>`entscheidungen/ADR-005-Mehrbot-Betrieb.md`</span> · <span>Spezifikation</span> · <span>`bots:`-Liste mit je eigenem SafetyGuard/BotController/BedrockConnector, geteiltes WorldMemory; `max-players` muss Bot-Anzahl decken.</span> · <span>direkt</span></p>
+<h3>8) Abschluss-Mapping des Neuaufbaus (23.11.2026)</h3>
+<p class="tabelle"><span>Soll-Baustein</span> · <span>Ist</span> · <span>Beleg</span></p>
+<p class="tabelle"><span>SSOT statt widersprüchlicher Runner-/Worker-Dateien</span> · <span>`ops/SYSTEM_SSOT.json` generiert `runner.json`, `runner.feldbuch.json`, `workers.json`</span> · <span>`node ops/scripts/system-config-sync.mjs`, `ops/SYSTEM_SSOT.sync.json`, `npm run config:sync`</span></p>
+<p class="tabelle"><span>Harte Akteurs-Isolation</span> · <span>`ops/lib/actor-profile-guard.cjs` vor jedem Verbindungsaufbau; 19132 nur `LIVE`, 19133/19134 nur `SHOW_ACTOR`/`OBSERVER`</span> · <span>`tests/rebuild-process-guard.test.mjs`, `tests/bot-manager.test.js`</span></p>
+<p class="tabelle"><span>Echtes Monitoring</span> · <span>`machine-monitor.mjs` (PID-Registry, 15-s-Hausmeister), `feldbook-telemetry.mjs` (Git-Transport, 30-s-Heartbeat, Cache)</span> · <span>`node ops/runtime/machine-monitor.mjs snapshot`, `node ops/runtime/feldbook-telemetry.mjs read`</span></p>
+<p class="tabelle"><span>Vault-Haushalt ohne Chris-Tore</span> · <span>`vault-housekeeping.mjs` mit gemeinsamem Git-Write-Lock, `pull --rebase`, `push`, 30-s-Timeout</span> · <span>`ops/monitor/vault-housekeeping.json`, `ALLOWED_VAULT_SYNC_DIRS`</span></p>
+<p class="tabelle"><span>Wissensanalyse + Baupläne</span> · <span>`ops/wissenanalyse/initial-2026-11-23.*`, `ops/blueprints/pipeline.mjs`, 6 initiale Baupläne, Freigabe `manual`</span> · <span>`ops/blueprints/registry.json`, `npm run blueprints`</span></p>
+<p class="tabelle"><span>Vierteiliges Vault-Handbuch</span> · <span>`handbuch/01…04`, automatische Aktualisierung bei Bauplan-Abschluss</span> · <span>`ops/wissenanalyse/handbuch-sync.mjs`</span></p>
+<p class="tabelle"><span>Werkbank ohne Login</span> · <span>`ops/werkbank/server.mjs`, SSE &lt; 200 ms, 6 Bereiche, Freigabe-/Not-Aus-Schalter</span> · <span>`tests/werkbank-browser-e2e.test.js`, `npm run werkbank:e2e`</span></p>
+<p class="tabelle"><span>Prozessschutz</span> · <span>30-s-Timeout, `taskkill /F /T /PID`, RAM 80/90, Verify/E2E-Lock, kein 429-Cooldown, Quarantäne nach 2 Fehlstarts</span> · <span>`ops/runtime/process-control.mjs`, `tests/rebuild-process-guard.test.mjs`</span></p>
+<p class="tabelle"><span>Abschlussprüfung</span> · <span>zentraler Rebuild-Verify inkl. Live-Check</span> · <span>`npm run rebuild:verify`, `ops/runtime/rebuild-verify.json`</span></p>
+<p>Cache-/Transport-Lücke aus Abschnitt 1 und die Backlog-Einträge aus Abschnitt 4 sind damit als reguläre Bausteine abgebildet; die initialen Baupläne übernehmen die offenen Punkte als geplante Arbeit, ohne Worker-Dispatch auszulösen.</p>
+<p class="tabelle"><span>`wissen/Sicherheitsregeln.md`, `wissen/Befehle-und-Gesten.md`, `wissen/Emotes.md`</span> · <span>Spezifikation/Referenz</span> · <span>50-Block-Geofence, verbotene Items, Kistenschutz; Chat-Befehle/Gesten/Emote-UUIDs teils live erfassen.</span> · <span>indirekt</span></p>
+<p class="tabelle"><span>`wissen/szenarien/README.md`, `wissen/szenarien/Weltvorlagen.md`</span> · <span>Spezifikation</span> · <span>Szenario-Schritt `welt:` auf frischer Kopie (SHA256 vor/nach), `.mcworld`-Vorlagen nicht in Git; `theater.mcworld` für Theater-Show.</span> · <span>direkt/indirekt</span></p>
+<p class="tabelle"><span>`handlungen/README.md`</span> · <span>Handlung</span> · <span>Verarbeitung erst bei `status: erledigt` **und** gepushtem Vault; keine Keys/Weltdateien/Screengrabs/echten Konten; Serverstart mit eigenem Freigabe-Task.</span> · <span>direkt</span></p>
+<p class="tabelle"><span>`_archiv/2026-11-23-spuelgang/veraltete-projekt-dateien/Inbox-Auswertung-2026-11-19.md`</span> · <span>Referenz</span> · <span>Alle 21 technischen Inbox-Dokumente unter Vorbehalt/nicht validiert, konsolidiert durch T-077; Originale bytegleich in `bearbeitet/`.</span> · <span>indirekt</span></p>
+<p class="tabelle"><span>`wissen/minecraft/README.md`, `…/Schema.md`</span> · <span>Spezifikation</span> · <span>Kanonische Wissens-DB als SSOT, Vertrauensstufen, keine geratenen IDs/Härtewerte; vor Item-/Blockarbeit lesen.</span> · <span>keine</span></p>
+<h3>8) Inbox-Original → verarbeitetes Artefakt → Status („weiterverarbeitete Inbox&quot;, Chris-Erinnerung)</h3>
+<p class="tabelle"><span>Inbox-Original (`vault/…`)</span> · <span>Verarbeitetes Artefakt (`vault/…`)</span> · <span>Status / abgeleitete Soll-Anforderung</span></p>
+<p class="tabelle"><span>`konzept/2026-11-21 tanzshow-regie-spezifikation-komplett.md`</span> · <span>`fragen/bearbeitet/Fragen-T-217-klaerung.md`; `handlungen/bearbeitet/Handlung-T-216-grosse-crew-bot-tanzshow.md`</span> · <span>`beantwortet` (Freigabe „ready&quot;, rote Linie Screenshot) / Handlung `erledigt` ohne Abnahme — 4 Gate-Punkte bleiben Bedingung.</span></p>
+<p class="tabelle"><span>`konzept/2026-11-21 tanzshow-familien-drehbuch.md`</span> · <span>T-206 (Regie-Skript/Bühnenplan); `fragen/bearbeitet/Fragen-T-206-klaerung.md`</span> · <span>`beantwortet` / FREIGEGEBEN; 3-Akt-Regie mit Showmaster und Requisiten.</span></p>
+<p class="tabelle"><span>`konzept/00_README_KONZEPT_INDEX.md` (+01–10, Parser)</span> · <span>`Fragen-T-206-klaerung.md`; `_archiv/2026-11-23-spuelgang/veraltete-projekt-dateien/Inbox-Auswertung-2026-11-19.md`; `…/showcases-als-meilensteine.md`</span> · <span>`beantwortet` / `draft` / `draft`; Regie-Pipeline, 5-stufiger Ablauf, Meilensteine.</span></p>
+<p class="tabelle"><span>`konzept/10_referenz-showcase-regie-und-review-schema.md`</span> · <span>`_archiv/2026-11-23-spuelgang/veraltete-projekt-dateien/Inbox-Auswertung-2026-11-19.md` (T-077)</span> · <span>`draft`, unter Vorbehalt; `showcase_script.json` + `review_submissions`.</span></p>
+<p class="tabelle"><span>`konzept/2026-11-21 e2e-live-spectator.md`</span> · <span>`Fragen-T-210-klaerung.md`</span> · <span>`beantwortet`, FREIGEGEBEN (rote Linie Port) → Spectator-Beitritt ohne Assertions-Bruch.</span></p>
+<p class="tabelle"><span>`konzept/2026-11-21 live-zuschauer-modus.md`</span> · <span>`Fragen-T-211-klaerung.md`</span> · <span>`beantwortet`, freigegeben → Tribüne + Start-Trigger in Abnahme-Maske.</span></p>
+<p class="tabelle"><span>`konzept/BDS-ServerManager-Systementwurf.md`</span> · <span>`Fragen-T-101/108/115/138/167/191-klaerung.md`</span> · <span>alle `beantwortet`; Rollen, Portpaare, Master-Reset, Schutzschloss.</span></p>
+<p class="tabelle"><span>`konzept/Referenzanlage-A-Prozess-und-Ports.md`</span> · <span>`Fragen-T-102/109/116/139/168/192-klaerung.md`</span> · <span>alle `beantwortet`; Windows-Prozesssteuerung + UDP-Port-Schutz.</span></p>
+<p class="tabelle"><span>`konzept/Referenzanlage-B-Welt-Vorlagen-und-Reset.md`</span> · <span>`Fragen-T-103/110/117/140/169/193-klaerung.md`, `Fragen-T-193-prozessschutz-worktree.md`</span> · <span>alle `beantwortet`; Vorlagen-Pool, atomarer Reset, Worktree-Schutz.</span></p>
+<p class="tabelle"><span>`konzept/Referenzanlage-C/D/E/F-*.md`</span> · <span>`Fragen-T-104/105/106/107`, `-111/112/113/114`, `-118/119/120/121`, `-141/142/143/144`, `-170/171/172/173`, `-194/195/196/197/198-klaerung.md`</span> · <span>alle `beantwortet`; Packs/properties, Discovery/Migration, Event-Bus, UI-ViewModels.</span></p>
+<p class="tabelle"><span>`konzept/2026-11-19 anlage-01…09 + block-muster + bot-relay + konto-UI + feingranulare + resource-pack + namensgebung + README_PAKET_INDEX`</span> · <span>`Fragen-T-122…137`, `-151…166`, `-175…190-klaerung.md`</span> · <span>alle `beantwortet`; VoxelCrew-/Frontier-Erweiterungen, Anlagen 01–09.</span></p>
+<p class="tabelle"><span>`konzept/Flache Welten als Vorlagen.md`, `Kontrollierte … Testumgebungen…`, `Kommunikation mit dem KI Agenten…`</span> · <span>`_archiv/2026-11-23-spuelgang/veraltete-projekt-dateien/Inbox-Auswertung.md` → T-014, T-019; `wissen/szenarien/Weltvorlagen.md`, `wissen/szenarien/README.md`</span> · <span>`draft`; T-014: Welten als `FW-*`, Szenario-Schritt `welt:` braucht exportierte Dateien.</span></p>
+<p class="tabelle"><span>`konzept/Editor-App für Blueprints.md`, `Erstellung Minecraft-Wissen…md`</span> · <span>`Inbox-Auswertung.md` → T-015/016/017; `Fragen-T-017-exe-bereitstellung.md`</span> · <span>`beantwortet`; QA-Phasen und Render-Pipeline als offene Entscheidungen markiert.</span></p>
+<p class="tabelle"><span>`konzept/Module und Vision Tribes…md`</span> · <span>`fragen/bearbeitet/T-025-Wissensstand zur Sichtung.md`; `…/tribes-features-unter-vorbehalt.md`</span> · <span>`beantwortet` / `extracted`; Korrektur Q-023: Semantic Zones, keine Multiblock-Vorlagen.</span></p>
+<p class="tabelle"><span>`konzept/gewünschter Test des Systems so früh wie abbildbar.md`</span> · <span>`…/showcases-als-meilensteine.md` (Meilenstein 2), T-050</span> · <span>`draft` / `ready`; Structure-Block-Analyse eigenes Showcase.</span></p>
+<p class="tabelle"><span>`_archiv/2026-11-23-spuelgang/inbox-entwuerfe/Minecraft_Bedrock_Handbuch.md`</span> · <span>`…/T-069-handbuch-und-rezepte-live-tests.md`; Original nach `bearbeitet/` verschoben</span> · <span>`extracted`, unter Vorbehalt; kuratierte Notiz ist Arbeitsquelle.</span></p>
+<p class="tabelle"><span>`konzept/2026-11-20 vanilla-portale-und-funktionale-aufbauten-als-block-muster.md`</span> · <span>`…/vanilla-strukturen-als-block-muster.md`</span> · <span>`extracted`, noch kein E2E-Lauf; Portale als Block-Muster (T-204).</span></p>
+<p class="tabelle"><span>`_archiv/2026-11-23-spuelgang/inbox-entwuerfe/Chat in Minecraft.md`</span> · <span>`Fragen-T-037.md`</span> · <span>`beantwortet`; Chat-Befehle je Feature teils öffentlich, teils beschränkt.</span></p>
+<p class="tabelle"><span>`_archiv/2026-11-23-spuelgang/inbox-entwuerfe/Weiteren Kilo-Worker Rechner einrichten.md`</span> · <span>`Fragen-T-038.md`</span> · <span>`beantwortet`; zweiter Kilo-Worker.</span></p>
+<p class="tabelle"><span>`_archiv/2026-11-23-spuelgang/inbox-entwuerfe/Neue Fähigkeiten durch OpenRouter Modelle.md`</span> · <span>`Fragen-T-039.md`</span> · <span>`beantwortet`; OpenRouter-Modelle/Autonomie (Kette unverändert).</span></p>
+<p class="tabelle"><span>`_archiv/2026-11-23-spuelgang/inbox-entwuerfe/2026-11-20 showcase-dankeschoen-oase.md`, `…schatzjaeger-parcours…`, `…vanilla-portale…`</span> · <span>`handlungen/bearbeitet/Handlung-Gate-0-Werkstatt-Readiness.md`; `abnahmen/2026-11-20-Werkstatt-Readiness.md` → T-202/203/204</span> · <span>`erledigt` / Testlauf `passed`; Quellen nach `bearbeitet/` archiviert.</span></p>
+<p class="tabelle"><span>`_archiv/2026-11-23-spuelgang/inbox-entwuerfe/2026-11-21 multi-worker-parallelbetrieb-kilo1-bis-4.md`, `…vault-sync-button…`, `…ops-center-gui-redesign…`, `2026-11-20 testthema.md`</span> · <span>`Fragen-T-214/213/207/150/174-klaerung.md`</span> · <span>alle `beantwortet`; Intake-Freigaben mit roter Linie Port/UI.</span></p>
+<h3>9) Vollständige User-Journey T-216 (Auftraggeber-Sicht, Soll → Ist)</h3>
+<p>1. <strong>Auslöser (kein Mensch tippt):</strong> Agent/CI ruft <code>npm run show:accept</code> auf (<code>ops/scripts/run-show-acceptance.mjs</code>). → Ist: Baustein existiert als regulärer Plattform-Baustein mit stabilem Aufrufpfad, liest <code>ops/qa/show-spec.tanzshow.json</code> (nur Erwartungen, keine Beweise).</p>
+<p>2. <strong>Voraussetzungen:</strong> Backend <code>127.0.0.1:3100</code> erreichbar; alle 4 Crew-Bots connected (Reconnect getrennter Bots via <code>/api/control</code>). → Ist: <code>ensureCrewConnected()</code>, <code>stillMissing=[]</code>.</p>
+<p>3. <strong>Observer platzieren:</strong> observer-Bot joined 19133, wartet auf <code>Player Spawned: observer</code>, <code>tp observer 10 71 16 180 -10</code>, Erfolg im echten BDS-Log. → Ist: <code>placeObserver()</code>, <code>confirmed=true</code>, Position <code>(10.5, 71, 16.5)</code>, <code>rotation_acknowledged=true</code>.</p>
+<p>4. <strong>Bühne zurücksetzen:</strong> 127 kanonische Blöcke + Crew-Requisit auf <code>air</code>, damit wiederholte Läufe echte Pakete erzeugen. → Ist: <code>resetStage()</code>, <code>ok=128, failed=0</code>.</p>
+<p>5. <strong>Show starten:</strong> <code>POST /api/show/run</code> (programmatisch, kein Chat-Klick). → Ist: HTTP 200, <code>Tanzshow gestartet</code>.</p>
+<p>6. <strong>Regie erleben:</strong> Bühne/Jukebox/Beleuchtung, 4 Bots aus 4 Richtungen, Choreografie, <code>music_disc_cat</code> in der Hand, Verbeugung, Abgang. → Ist: ShowDirector-Marker im BDS-Log, <code>show_end</code>.</p>
+<p>7. <strong>Observer-Beweis:</strong> echter Paketstrom (<code>update_block</code>, <code>mob_equipment</code>), 3D-ViewPort/Raycast, Server-Identität <code>ShowWorld</code>/19133. → Ist: <code>latest-observer-proof.json</code> <code>result.ok=true</code>, 254 <code>update_block</code> + 1 <code>mob_equipment</code> (<code>Crew-Jukebox</code>/<code>minecraft:music_disc_cat</code>), 4 Gates grün.</p>
+<p>8. <strong>Hartes Gate + Bericht:</strong> <code>npm run verify:show</code> (Observer-Gate grün), <code>npm run verify -- --out ops/results/T-216.verify.json</code>, Ergebnisdatei + Board/Log. → Ist: <code>verify:show</code> Observer-Gate grün; globaler <code>verify</code> durch außerhalb liegenden Vault-Hygiene-Blocker (Abschnitt 3) rot — dokumentiert, kein Show-Gate.</p>
+<h3>10) Widersprüche &amp; verbindliche Auflösung</h3>
+<p>1. <strong>Port-Rolle 19133:</strong> Vault (älter) = E2E, <code>AGENTS.md</code> 21.11. + Q-T216-03 = Präsentation. → <strong>AGENTS.md/Q-T216-03 gewinnt</strong> (19133 Show, 19134 E2E, 19132 Live/NetherNet/7551).</p>
+<p>2. <strong>Start-Auslöser:</strong> Vault-Spezifikation verlangt Chris-Chat <code>!show</code>; §11 verbietet manuellen Klicker. → Chat-Trigger bleibt als System-Trigger zulässig, Abnahme programmatisch über Auftraggeber; kein „bitte tippen&quot; an Chris.</p>
+<p>3. <strong>Vision/Screenshot:</strong> Inbox-Spezifikation verlangt Screenshot-Beleg; T-215/§10.3/Q-T217 rote Linie. → Stufe-1-Paketbeweis ist Pflicht; Vision optionales Siegel mit Budget, ohne separate Freigabe kein Screengrab.</p>
+<p>4. <strong>Status <code>erledigt</code> vs. Checkliste:</strong> <code>Handlung-T-216</code> <code>erledigt</code> ohne Abnahme (Watcher-Freigabe), Checkliste offen. → <code>erledigt</code> ist kein Testattest; 4 Gate-Punkte bleiben Bedingung.</p>
+<p>5. <strong>Besetzung 3–4 vs. 4:</strong> Familien-Drehbuch/Theater-Show älter (3–4/3 Formation). → neuere Vorgabe exakt 4 Bots aus 4 Richtungen gewinnt.</p>
+<p>6. <strong>Begriff <code>observer</code>:</strong> In Telemetrie-Schemas <code>observer_type</code> (Weltgedächtnis-Quelle) ≠ QA-Observer-Bot. → nicht gleichsetzen.</p>
+<p>7. <strong>ViewPort-Parameter:</strong> §10.2 (Augenhöhe <code>y+1.62</code>, ±45°/±35°, 3–32 Blöcke) ist Gate; 80°-ToF-Raycaster ist Wahrnehmungs-Sensor. → nicht als Ersatz für Gate-Check verwenden.</p>
+<h3>11) T-228 — Lückenloses Soll/Ist/Backlog-Mapping für den Gesamt-Entwicklungsplan (23.11.2026)</h3>
+<p>Pflicht aus AGENTS.md §11 und §12 A: erst Inventur, dann Umsetzung. Quellen: <code>vault/konzept/00_README_KONZEPT_INDEX.md</code>, <code>01_architektur-briefing-multi-bot-bedrock-v14.md</code>, <code>02_ui-ux-architektur-briefing-leitstelle-v2.md</code>, <code>03_schnittstellen-spezifikation-tribes-weltgedaechtnis-leitstelle-v2.md</code>, Anlagen 01–10 (insb. 03 Revisionsprotokoll-Matrix, 04–10 VoxelCrew/Frontier), <code>vault/handbuch/05_Autonome_Weltanpassung_und_Regie.md</code>, <code>ops/capabilities.json</code> und Codebase. <strong>Leseregeln:</strong> „grün&quot; = registrierte Capability + reproduzierbarer Testbeleg; „fehlt&quot; = Soll aus der Spezifikation ohne Beweis → Bauplan. Keine Beweisersetzung durch Befehlssenden, keine geratenen IDs/Härtewerte/Rezepte.</p>
+<p class="tabelle"><span>Soll-Bereich (aus den Quellen)</span> · <span>Ist — nachgewiesen grün (Capability + Beleg)</span> · <span>Fehlt / Backlog (Bauplan)</span></p>
+<p class="tabelle"><span>Wahrnehmung &amp; 64×36-ToF-Raycaster (alle 500 ms, Amanatides &amp; Woo)</span> · <span>`qa.voxelRaycast` in `ops/qa/world-invariants.mjs` (Augenhöhe y+1,62, ±45°/±35°, 3–32 Blöcke); Referenzanlage `06_referenz-fast-voxel-raycaster-tof.md`</span> · <span>Kontinuierlicher 64×36-Tiefen-Sensor als Bot-Wahrnehmung → **BP-008**. Gate-Strahl ist nicht der Sensor.</span></p>
+<p class="tabelle"><span>Sense→Think→Act→Verify (50-ms-HFSM, echte Server-Quittung)</span> · <span>`qa.definitionOfReady` / 5-Phasen-Vertrag Anlage 03 (`PRE_CHECK→TIMING→APPROACH→EXECUTE(50 ms)→VERIFY_AND_COMMIT`), `tests/wissenanalyse-pipeline.test.js` 11/11</span> · <span>Ausführbarer Executive-Loop mit Quittierung pro Schritt → **BP-009**.</span></p>
+<p class="tabelle"><span>Sieben Handlungsgruppen</span> · <span>Low-Level-Primitives `bedrock.sendChat`, `sendEmote`, `commandInteraction`, `walkTo`, `holdItem`, `useBlock`, `setBlock` + `interaction.*`; `tests/interaction.test.js`, `tests/step3a.test.js`</span> · <span>Generische Gruppierungs-/Orchestrierungsschicht → **BP-009**.</span></p>
+<p class="tabelle"><span>Gestenerkennung (Winken/Klatschen/Folge-mir, ≤12 Blöcke, 2,5-s-Ringpuffer)</span> · <span>`interaction.resolveGesture`, `interaction.handleEmote`, `bedrock.sendEmote`; Combo-Fenster/Gaze in `tests/interaction.test.js`</span> · <span>Drei Emote-UUIDs **live erfassen** (nicht raten); Ringpuffer-Sensor → **BP-008**.</span></p>
+<p class="tabelle"><span>MSA &amp; Co-Pilot-Relay (lokales WebSocket/REST, Modus-Trennung)</span> · <span>Vier Betriebsmodi und `world_context_id`-Isolation als Regel in AGENTS.md §2/SSOT, Actor-Profile-Guard</span> · <span>Relay/Bridge und Co-Pilot-Stufen → **BP-012**; Öffentlichkeit/Ports nur nach Chris-Tor.</span></p>
+<p class="tabelle"><span>Shared Weltgedächtnis / Blockmuster / 2.5D-Weltkarte</span> · <span>`memory.WorldMemory` (SQLite, Marker überleben Neustart), Kuratierungsregeln in `vault/wissen/minecraft/README.md`</span> · <span>Geteiltes Gedächtnis, Blockmuster-Bibliothek, 2.5D-Karte → **BP-010**.</span></p>
+<p class="tabelle"><span>Ikonischer Resource-Pack-Generator</span> · <span>Keine Capability; Anlage 08/09 als Spezifikation inventarisiert</span> · <span>Generator → **BP-013**; nur kuratierte Quelle, keine geratenen IDs.</span></p>
+<p class="tabelle"><span>Leitstellen-Screens/Wizards (Second Screen, Single-Map, Abnahme-Masken)</span> · <span>`werkbank.server`, `werkbank.freigabe`, Cockpit-2ndScreen; `tests/werkbank-browser-e2e.test.js`, `tests/cockpit-browser-e2e.test.js`, 0 Konsolenfehler/0 API-Fehler</span> · <span>Vollständige Wizard-Suite aus UI/UX v2 → **BP-015** (Review-Rückfluss), Teile in **BP-011**.</span></p>
+<p class="tabelle"><span>In-Game-UI + Pure-Client-Fallback (`@minecraft/server-ui`)</span> · <span>4-Stufen-Prozess (AGENTS.md §13, SSOT `uiProzess`, Handbuch 07), `hilfe.botHilfe` mit 60-s-Clip + Eskalationskarte in Werkbank und Leitstelle</span> · <span>Umsetzung im Spiel und Kompass-Notfallknopf → **BP-011**; `server/**` bis Freigabe unangetastet.</span></p>
+<p class="tabelle"><span>BDS-Werkstatt (Serverhoheit, FW-Base, atomarer Reset)</span> · <span>`bds.manager` (19132 attach-only/protected), `world.chooseAndReset`, `spectator.liveMode`, `qa.definitionOfReady`; `tests/wissenanalyse-pipeline.test.js`</span> · <span>Feinschliff/FW-Base-Befüllung 19134 → **BP-000 (manual, unverändert)**.</span></p>
+<p class="tabelle"><span>Adaptive Scene Director + Multi-Seed-Gate (N ≥ 3)</span> · <span>SSOT `regieLeitplanken A–D`, AGENTS.md §12, Handbuch 05, `world.chooseAndReset` (atomarer Master-Reset)</span> · <span>Ausführender 32×32-Regisseur und 3-Fach-Beweis → **BP-007 (manual, unverändert)**.</span></p>
+<p class="tabelle"><span>User-Empathy-Simulator (FOV 70°, ruhiges Tempo)</span> · <span>10-Jahre-Verständlichkeitscheck in den Stufe-4-Browser-Tests (`hilfe.botHilfe`), SSOT `regieLeitplanken.D`</span> · <span>Unprivilegierter FOV-70°-Spieler-Simulator → **BP-007/D**.</span></p>
+<p class="tabelle"><span>Showcases (E2E trocken → Abnahme 19133 → Review)</span> · <span>`show.run`, Observer-Proof (254 `update_block` + 1 `mob_equipment`), `qa.acceptance` via `npm run show:accept`, `verify:show` grün</span> · <span>Showcase-Skript/Review-Rückfluss als eigener Baustein → **BP-015**.</span></p>
+<p class="tabelle"><span>Tribes/Frontier (SQLite-Weltgedächtnis, Frontier, eine Instanz pro Welt)</span> · <span>Schnittstelle v2 volltextinventarisiert in Abschnitt 7/8 (Status `extracted`/`beantwortet`)</span> · <span>Implementierung und offene Zahlen/IDs → **BP-014** (nicht raten).</span></p>
+<p class="tabelle"><span>Zero-Terminal-Betrieb (Auto-Sync, Notebook-Export, RAM-Schranken)</span> · <span>`sync.werkbankAuto` (25 Prüfungen), `export.notebookSync`, `ram.maschinenSchwellen` (13 Prüfungen), Bot-Hilfe in beiden UIs</span> · <span>Kein offener Soll-Anteil; Knowledge-/Worker-Dispatch bleibt bewusst pausiert.</span></p>
+<p><strong>Fazit:</strong> Jeder Soll-Bereich der Spezifikation ist entweder mit Beleg grün oder eindeutig einem Bauplan zugeordnet. Damit ist das Mapping lückenlos; kein Agent muss blind raten oder mehrfach nach demselben Baustein suchen. Die Kette ab <code>BP-008</code> ist abhängigkeitsgeprüft (siehe <code>ops/blueprints/registry.json</code>, <code>haengtVon</code> je Bauplan) und bleibt vollständig <code>status: entwurf</code>, <code>freigabe: manual</code>. <code>BP-000</code>–<code>BP-007</code> sind unverändert. Der ausführliche, kindgerechte Plan steht in <code>vault/handbuch/06_Gesamt_Entwicklungsplan_und_Meilensteine.md</code>.</p>
+<h3>12) T-231 — 1-Link-SSOT-Bundle &amp; Pages-Auto-Mirror (Soll → Ist)</h3>
+<p><strong>User Journey ohne manuelle Klicks:</strong> Ein Push auf <code>main</code> im Code-Repo löst <code>.github/workflows/notebook-mirror-sync.yml</code> aus → <code>npm run notebook:export</code> liest SSOT, Regeln, Baupläne, Handbuch und Konzept/Anlagen (live Vault oder eingecheckter Quellspiegel) → Redaction-Check bricht bei Tokens/.env/Auth-Cache/Server-Secrets/Keys hart ab → <code>voxelcrew-sync-bundle.md</code>, <code>index.html</code> und <code>.nojekyll</code> entstehen → die Action kopiert genau diese drei Dateien mit <code>NOTEBOOK_SYNC_TOKEN</code> nach <code>brotfeld/voxelcrew-notebook-sync</code> (<code>main</code>) → ein einziger Pages-Link liefert die gerenderte Gesamtspezifikation an NotebookLM.</p>
+<p class="tabelle"><span>Soll</span> · <span>Ist</span> · <span>Beleg</span></p>
+<p class="tabelle"><span>Ein Link = gesamte aktuelle Spezifikation</span> · <span>Bundle mit SSOT inkl. `repos`, AGENTS.md, WORLD_INVARIANTS.md, SPEC_MAPPING.md, capabilities.json, Registry, BP-000–BP-015, Handbuch 01–07, 20 Konzept-/Anlagendokumenten und frischer Inventur (Negativliste 0)</span> · <span>`tests/notebook-export-bundle.test.mjs`</span></p>
+<p class="tabelle"><span>Vollständig gerendertes HTML ohne 404</span> · <span>UTF-8-`index.html` mit einem Artikel pro Quelle, `nav` zu jedem Abschnitt und `.nojekyll`; keine externen Requests</span> · <span>`tests/notebook-export-bundle.test.mjs`</span></p>
+<p class="tabelle"><span>Push auf `main` genügt</span> · <span>Workflow mit `push: branches: [main]` + `workflow_dispatch`, Mirror nur der drei Artefakte via `${{ secrets.NOTEBOOK_SYNC_TOKEN }}`</span> · <span>`.github/workflows/notebook-mirror-sync.yml`</span></p>
+<p class="tabelle"><span>CI ohne Vault bleibt funktionsfähig</span> · <span>`ops/notebook-sync/quellen/` (27 Dateien, `_manifest.json`) als eingecheckter Quellspiegel; `npm run notebook:quellen` frischt ihn aus dem Vault auf</span> · <span>`tests/notebook-export-bundle.test.mjs` (Fallback-Modus)</span></p>
+<p class="tabelle"><span>Keine Secrets im Bundle</span> · <span>`pruefeRedaction()` vor jedem Schreiben; SSOT `repos` enthält nur Slugs/Pages-URL</span> · <span>`tests/notebook-export-bundle.test.mjs` (5 verbotene Muster)</span></p>
+<p><strong>Gaps / Risiken:</strong> Der Pages-Link ist erst nach dem ersten erfolgreichen Workflow-Lauf auf <code>main</code> öffentlich erreichbar; das Secret <code>NOTEBOOK_SYNC_TOKEN</code> muss im Mirror-Repo vorhanden sein. Worker-Dispatch bleibt pausiert; keine finale Einladung zur Live-Präsentation. T-232 (BP-016 (GitHub-Pages-Sync &amp; 4-Punkte-Ergebnis-Feed)) ergänzt die Aufteilung in kleine Seiten und den 4-Punkte-Feed; die Quell-Repos bleiben privat.</p>
+<h3>13) T-232 — BP-016: GitHub-Pages-Sync &amp; 4-Punkte-Ergebnis-Feed (Soll → Ist)</h3>
+<p><strong>User Journey ohne manuelle Klicks:</strong> Ein Push auf <code>main</code> (SSOT, Handbücher, Baupläne, Observer-Proof, Verify-Artefakte, Exporter oder Workflow) startet <code>.github/workflows/notebook-pages.yml</code>. Der Exporter liest dieselben geprüften Quellen wie T-231, ergänzt echte Belege aus <code>ops/runtime/latest-observer-proof.json</code> und <code>ops/results/*.verify.json</code> und baut acht kleine, JS-freie Dateien in <code>_site/</code>. Der <code>pruefePagesGuard()</code> prüft vor jedem Schreiben Redaction, 0 <code>&lt;script&gt;</code>, 0 externe Ressourcen, UTF-8, Überschriften und strikt <code>&lt; 180 KB</code> pro Datei. Der lokale E2E-Test crawlt alle Seiten über einen echten HTTP-Server auf ephemeralem Port. <code>_site/</code> wird als Artifact hochgeladen und — nur bei hinterlegtem <code>DOCS_PAGES_TOKEN</code> — in das reine Doku-Repo <code>brotfeld/voxelcrew-pages</code> gepusht. Danach prüft <code>curl</code> HTTP 200, Content-Type, Dateigröße und Commit-SHA im Body. Chris tippt nichts; beide Quell-Repos bleiben privat.</p>
+<p class="tabelle"><span>Soll</span> · <span>Ist</span> · <span>Beleg</span></p>
+<p class="tabelle"><span>Kleine, stabile Seiten statt einer großen HTML-Datei</span> · <span>`index.html`, `ssot-und-regeln.html`, `handbuecher-1-4.html`, `handbuecher-5-7.html`, `bauplaene-000-007.html`, `bauplaene-008-016.html`, `e2e-ergebnisse.html`, `stand.json`, `.nojekyll`</span> · <span>`tests/notebook-pages-e2e.test.js`, `ops/results/T-232.md`</span></p>
+<p class="tabelle"><span>JS-frei, kompakt, UTF-8, semantisch</span> · <span>0 `&lt;script&gt;`, 0 externe Requests, `&lt;meta charset=&quot;utf-8&quot;&gt;`, `h1`–`h3`, jede Datei strikt &lt; 184 320 Byte</span> · <span>`pruefePagesGuard()` in `ops/scripts/export-notebook-sync.mjs`</span></p>
+<p class="tabelle"><span>Vier Punkte mit echten Belegen</span> · <span>observer-proof: `update_block`, `mob_equipment`, ViewPort/Raycast, Server-Identität 19133; zusätzlich echte `total/passed/failed` aller `*.verify.json`</span> · <span>`ops/runtime/latest-observer-proof.json`, `ops/results/*.verify.json`</span></p>
+<p class="tabelle"><span>Kein Secret im Bundle</span> · <span>Redaction vor jedem Write; `DOCS_PAGES_TOKEN`/`DOCS_PAGES_REPO` stehen nur in GitHub Secrets/Variables und nie in `_site`</span> · <span>`pruefeRedaction()`, `pruefePagesGuard()`</span></p>
+<p class="tabelle"><span>Privat bleibt privat</span> · <span>Kein Pages im Code-Repo, keine Sichtbarkeitsänderung; Push nur ins separate Doku-Repo</span> · <span>`.github/workflows/notebook-pages.yml`, Chris&#39; Nachtrag 2026-11-23</span></p>
+<p class="tabelle"><span>Fallback ohne Token</span> · <span>Artifact `_site`, lokaler E2E grün, Push übersprungen — kein Stopp, keine Rückfrage</span> · <span>Workflow-Schritt `Doku-Pages publizieren`</span></p>
+<p class="tabelle"><span>Registrierter Baustein</span> · <span>Capability `export.notebookPages`, BP-016 (`manual`, `entwurf`) in Registry/Versionen/Landkarte</span> · <span>`ops/capabilities.json`, `ops/blueprints/registry.json`, `ops/system-map.json`</span></p>
+<p><strong>Vier-Stufen-Prozess (AGENTS.md §13):</strong> vor dem Coding in <code>ops/plan/BP-016-ui-prozess.md</code> dokumentiert — Job-to-be-Done, vier Zustände (<code>leer</code>/<code>lädt</code>/<code>gefüllt</code>/<code>handlungsbedarf</code>), Wireframe + Exporter-/Workflow-Vertrag, Abnahme mit Playwright/HTTP-Crawler und Screenshot-Beleg.</p>
+<p><strong>Gaps / Risiken:</strong> Veröffentlichung und Live-Curl hängen vom ersten Workflow-Lauf auf <code>main</code> und vom hinterlegten Repo-Secret ab; ohne Token bleibt der Artifact-Fallback grün. Worker-Dispatch bleibt pausiert; keine finale Einladung zur Live-Präsentation.</p>
+  </section>
+  <section>
+    <h2>Fähigkeiten</h2>
+    <pre><code>{
+  &quot;schema&quot;: &quot;capability-registry.v1&quot;,
+  &quot;stand&quot;: &quot;2026-11-23&quot;,
+  &quot;capabilities&quot;: [
+    {
+      &quot;id&quot;: &quot;bedrock.sendChat&quot;,
+      &quot;modul&quot;: &quot;app/backend/bedrock/BedrockConnector.js&quot;,
+      &quot;funktion&quot;: &quot;sendChat&quot;,
+      &quot;zeile&quot;: 1356,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;text&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Zu sendende Chat-Nachricht&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/Befehle-und-Gesten.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/interaction.test.js (Schritt-3A-Tests 6, 10, 11, 12), BedrockConnector.js:1356&quot;
+    },
+    {
+      &quot;id&quot;: &quot;bedrock.sendEmote&quot;,
+      &quot;modul&quot;: &quot;app/backend/bedrock/BedrockConnector.js&quot;,
+      &quot;funktion&quot;: &quot;sendEmote&quot;,
+      &quot;zeile&quot;: 1443,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;gestureName&quot;,
+          &quot;typ&quot;: &quot;string (wave|simple_clap|follow_me|over_there|double_jump)&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Gestenname, der über data/interaction.yaml in eine Emote-ID aufgelöst wird&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/Emotes.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/interaction.test.js (Interaktions-Test 8), BedrockConnector.js:1443&quot;
+    },
+    {
+      &quot;id&quot;: &quot;bedrock.commandInteraction&quot;,
+      &quot;modul&quot;: &quot;app/backend/bedrock/BedrockConnector.js&quot;,
+      &quot;funktion&quot;: &quot;commandInteraction&quot;,
+      &quot;zeile&quot;: 1503,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;action&quot;,
+          &quot;typ&quot;: &quot;string (follow|stop|escort|guard|attention)&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Interaktionsaktion aus der Web-/Chat-Steuerung&quot;
+        },
+        {
+          &quot;name&quot;: &quot;payload&quot;,
+          &quot;typ&quot;: &quot;object&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;Zusatzdaten (playerName, x, y, z für escort)&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/Befehle-und-Gesten.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/interaction.test.js (Interaktions-Test 5, 9), BedrockConnector.js:1503&quot;
+    },
+    {
+      &quot;id&quot;: &quot;bedrock.executeInteractionCommand&quot;,
+      &quot;modul&quot;: &quot;app/backend/bedrock/BedrockConnector.js&quot;,
+      &quot;funktion&quot;: &quot;executeInteractionCommand&quot;,
+      &quot;zeile&quot;: 1495,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;command&quot;,
+          &quot;typ&quot;: &quot;string (follow|stop|escort|guard|attention)&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Internes Interaktionskommando&quot;
+        },
+        {
+          &quot;name&quot;: &quot;payload&quot;,
+          &quot;typ&quot;: &quot;object&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;Payload mit playerName, player, lookTarget, center&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/Befehle-und-Gesten.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/interaction.test.js (Interaktions-Test 5, 6, 7, 9), BedrockConnector.js:1495&quot;
+    },
+    {
+      &quot;id&quot;: &quot;bedrock.walkTo&quot;,
+      &quot;modul&quot;: &quot;app/backend/bedrock/BedrockConnector.js&quot;,
+      &quot;funktion&quot;: &quot;walkTo&quot;,
+      &quot;zeile&quot;: 1845,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;targetPos&quot;,
+          &quot;typ&quot;: &quot;{x:number, y:number, z:number}&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Zielkoordinaten&quot;
+        },
+        {
+          &quot;name&quot;: &quot;stopDistance&quot;,
+          &quot;typ&quot;: &quot;number&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;standard&quot;: 3,
+          &quot;beschreibung&quot;: &quot;Mindestabstand zum Ziel, ab dem als erreicht gilt&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/Befehle-und-Gesten.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/step3a.test.js (Schritt-3A-Tests 4, 5, 8, 13), BedrockConnector.js:1845&quot;
+    },
+    {
+      &quot;id&quot;: &quot;bedrock.holdItem&quot;,
+      &quot;modul&quot;: &quot;app/backend/bedrock/BedrockConnector.js&quot;,
+      &quot;funktion&quot;: &quot;holdItem&quot;,
+      &quot;zeile&quot;: 1972,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;itemName&quot;,
+          &quot;typ&quot;: &quot;string (z. B. minecraft:music_disc_cat)&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Item-Name, der in der Haupt-Hand gehalten wird&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/Befehle-und-Gesten.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/interaction.test.js (Interaktions-Test 10), tests/scenarios/theater-erster-schnitt.yaml (hold_item), BedrockConnector.js:1972&quot;
+    },
+    {
+      &quot;id&quot;: &quot;bedrock.useBlock&quot;,
+      &quot;modul&quot;: &quot;app/backend/bedrock/BedrockConnector.js&quot;,
+      &quot;funktion&quot;: &quot;useBlock&quot;,
+      &quot;zeile&quot;: 2043,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;target&quot;,
+          &quot;typ&quot;: &quot;{x:number, y:number, z:number}&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Zielblock-Koordinaten&quot;
+        },
+        {
+          &quot;name&quot;: &quot;face&quot;,
+          &quot;typ&quot;: &quot;number 0-5&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;standard&quot;: 0,
+          &quot;beschreibung&quot;: &quot;Block-Seite/Face (0=unten, 1=oben, 2=norden, 3=sueden, 4=westen, 5=osten)&quot;,
+          &quot;block_state&quot;: &quot;facing&quot;
+        }
+      ],
+      &quot;block_states&quot;: [
+        &quot;facing&quot;
+      ],
+      &quot;doku&quot;: &quot;vault/wissen/minecraft/README.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/cockpit-handlung-e2e.test.js (use_block face 0 in theater-erster-schnitt), BedrockConnector.js:2043&quot;
+    },
+    {
+      &quot;id&quot;: &quot;bedrock.setBlock&quot;,
+      &quot;modul&quot;: &quot;app/backend/bedrock/BedrockConnector.js&quot;,
+      &quot;funktion&quot;: &quot;setBlock&quot;,
+      &quot;zeile&quot;: 2082,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;position&quot;,
+          &quot;typ&quot;: &quot;{x:number, y:number, z:number}&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Blockposition&quot;
+        },
+        {
+          &quot;name&quot;: &quot;blockName&quot;,
+          &quot;typ&quot;: &quot;string (z. B. minecraft:quartz_block)&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Zu setzender Block-Name&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/minecraft/README.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/scenario-runner.test.js (Szenario-Test 8: theater-erster-schnitt set_block), BedrockConnector.js:2082&quot;
+    },
+    {
+      &quot;id&quot;: &quot;interaction.resolveGesture&quot;,
+      &quot;modul&quot;: &quot;app/backend/interaction/InteractionEngine.js&quot;,
+      &quot;funktion&quot;: &quot;resolveGesture&quot;,
+      &quot;zeile&quot;: 289,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;emoteId&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Emote-ID, die in einen Gestenname aufgelöst wird&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/Emotes.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/interaction.test.js (Interaktions-Test 3, 4, 8), InteractionEngine.js:289&quot;
+    },
+    {
+      &quot;id&quot;: &quot;interaction.handleEmote&quot;,
+      &quot;modul&quot;: &quot;app/backend/interaction/InteractionEngine.js&quot;,
+      &quot;funktion&quot;: &quot;handleEmote&quot;,
+      &quot;zeile&quot;: 328,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;now&quot;,
+          &quot;typ&quot;: &quot;number&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Zeitstempel für Combo-Fenster&quot;
+        },
+        {
+          &quot;name&quot;: &quot;player&quot;,
+          &quot;typ&quot;: &quot;object&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Spieler mit name und position&quot;
+        },
+        {
+          &quot;name&quot;: &quot;emoteId&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Erfasste Emote-ID&quot;
+        },
+        {
+          &quot;name&quot;: &quot;botPosition&quot;,
+          &quot;typ&quot;: &quot;{x,y,z}&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Aktuelle Bot-Position&quot;
+        },
+        {
+          &quot;name&quot;: &quot;lookTarget&quot;,
+          &quot;typ&quot;: &quot;{x,y,z}&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;Blickziel für Gaze-Pruefung&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/Emotes.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/interaction.test.js (Interaktions-Test 3, 4, 8, 9), InteractionEngine.js:328&quot;
+    },
+    {
+      &quot;id&quot;: &quot;interaction.rotationTo&quot;,
+      &quot;modul&quot;: &quot;app/backend/interaction/InteractionEngine.js&quot;,
+      &quot;funktion&quot;: &quot;rotationTo&quot;,
+      &quot;zeile&quot;: 107,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;from&quot;,
+          &quot;typ&quot;: &quot;{x,y,z}&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Startposition (Bot-Augen)&quot;
+        },
+        {
+          &quot;name&quot;: &quot;to&quot;,
+          &quot;typ&quot;: &quot;{x,y,z}&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Zielposition (Spieler-Augen)&quot;
+        },
+        {
+          &quot;name&quot;: &quot;pitchPositiveDown&quot;,
+          &quot;typ&quot;: &quot;boolean&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;standard&quot;: true,
+          &quot;beschreibung&quot;: &quot;Minecraft-Pitch-Konvention (positiv = nach unten)&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/Befehle-und-Gesten.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/interaction.test.js (Interaktions-Test 2, 2b), InteractionEngine.js:107&quot;
+    },
+    {
+      &quot;id&quot;: &quot;world.pathfinder.findPath&quot;,
+      &quot;modul&quot;: &quot;app/backend/world/Pathfinder.js&quot;,
+      &quot;funktion&quot;: &quot;findPath&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;startPos&quot;,
+          &quot;typ&quot;: &quot;{x,y,z}&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Startposition&quot;
+        },
+        {
+          &quot;name&quot;: &quot;target&quot;,
+          &quot;typ&quot;: &quot;{x,y,z}&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Zielposition&quot;
+        },
+        {
+          &quot;name&quot;: &quot;stopDistance&quot;,
+          &quot;typ&quot;: &quot;number&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;standard&quot;: 3,
+          &quot;beschreibung&quot;: &quot;Mindestabstand zum Ziel&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/minecraft/README.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/step3a.test.js (Schritt-3A-Tests 2, 5, 8, 13), Pathfinder.js A*&quot;
+    },
+    {
+      &quot;id&quot;: &quot;world.worldGrid.isSolid&quot;,
+      &quot;modul&quot;: &quot;app/backend/world/WorldGrid.js&quot;,
+      &quot;funktion&quot;: &quot;isSolid&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;x&quot;,
+          &quot;typ&quot;: &quot;number&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Block-X&quot;
+        },
+        {
+          &quot;name&quot;: &quot;y&quot;,
+          &quot;typ&quot;: &quot;number&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Block-Y&quot;
+        },
+        {
+          &quot;name&quot;: &quot;z&quot;,
+          &quot;typ&quot;: &quot;number&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Block-Z&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/minecraft/README.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/step3a.test.js (Schritt-3A-Test 2: Geofence), WorldGrid.js Block-Raster&quot;
+    },
+    {
+      &quot;id&quot;: &quot;memory.WorldMemory&quot;,
+      &quot;modul&quot;: &quot;app/backend/memory/WorldMemory.js&quot;,
+      &quot;funktion&quot;: &quot;WorldMemory&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;welt&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Welt-Name für SQLite-Datenbank&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/wissen/minecraft/README.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/step3a.test.js (Schritt-3A-Test 8: Marker ueberleben Neustart), WorldMemory.js sqlite&quot;
+    },
+    {
+      &quot;id&quot;: &quot;werkbank.server&quot;,
+      &quot;modul&quot;: &quot;ops/werkbank/server.mjs&quot;,
+      &quot;funktion&quot;: &quot;createWerkbankServer&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;options&quot;,
+          &quot;typ&quot;: &quot;object&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;port, host, dataDir, fixtures, root&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/werkbank/README.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/werkbank-browser-e2e.test.js (6 Tabs, SSE, 0 Konsolenfehler), ops/SYSTEM_SSOT.json werkbank&quot;
+    },
+    {
+      &quot;id&quot;: &quot;werkbank.freigabe&quot;,
+      &quot;modul&quot;: &quot;ops/blueprints/pipeline.mjs&quot;,
+      &quot;funktion&quot;: &quot;setApprovalMode/approveBlueprint&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;modus&quot;,
+          &quot;typ&quot;: &quot;string (manual|auto_if_clear)&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Freigabemodus der Bauplan-Pipeline&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/handbuch/04_Bedienung_und_Ablaeufe.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;ops/wissenanalyse/pipeline.test.js, ops/SYSTEM_SSOT.json werkbank.freigabeStandard&quot;
+    },
+    {
+      &quot;id&quot;: &quot;monitor.machine&quot;,
+      &quot;modul&quot;: &quot;ops/runtime/machine-monitor.mjs&quot;,
+      &quot;funktion&quot;: &quot;localMachineSnapshot/startHausmeister&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;options&quot;,
+          &quot;typ&quot;: &quot;object&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;pidsFile, workerStatusFile, intervalMs&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/runtime/machine-monitor.mjs&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;node ops/runtime/machine-monitor.mjs snapshot (echte PID-Registry, 15-s-Hausmeister)&quot;
+    },
+    {
+      &quot;id&quot;: &quot;monitor.feldbook&quot;,
+      &quot;modul&quot;: &quot;ops/runtime/feldbook-telemetry.mjs&quot;,
+      &quot;funktion&quot;: &quot;captureSnapshot/pushSnapshot/startAsyncRefresh&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;event&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;task_start|round_change|task_end|heartbeat&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/runtime/feldbook-telemetry.mjs&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;node ops/runtime/feldbook-telemetry.mjs read (origin/monitor/alt-laptop, Legacy-Fallback)&quot;
+    },
+    {
+      &quot;id&quot;: &quot;vault.housekeeping&quot;,
+      &quot;modul&quot;: &quot;ops/runtime/vault-housekeeping.mjs&quot;,
+      &quot;funktion&quot;: &quot;runHousekeeping&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;options&quot;,
+          &quot;typ&quot;: &quot;object&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;vaultRoot, dryRun, intervalMs&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/runtime/vault-housekeeping.mjs&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;geteilter Git-Write-Lock, pull --rebase, push, credential.interactive=never&quot;
+    },
+    {
+      &quot;id&quot;: &quot;show.run&quot;,
+      &quot;modul&quot;: &quot;app/backend/show/ShowDirector.js&quot;,
+      &quot;funktion&quot;: &quot;run&quot;,
+      &quot;zeile&quot;: 195,
+      &quot;parameter&quot;: [],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/SPEC_MAPPING.md (Abschnitt 2: Show-/Tanzshow-Fluss)&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;ops/runtime/latest-observer-proof.json (result.ok=true, 254 update_block + 1 mob_equipment), npm run verify:show (Observer-Gate gruen), npm run show:accept (Auftraggeber/Orchestrator)&quot;
+    },
+    {
+      &quot;id&quot;: &quot;bds.manager&quot;,
+      &quot;modul&quot;: &quot;ops/runtime/bds-manager-registry.mjs&quot;,
+      &quot;funktion&quot;: &quot;createBdsManagers/attachLive/start/stop&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;port&quot;,
+          &quot;typ&quot;: &quot;number (19133|19134)&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;Zielserver; 19132 ist attach-only und fuer Start/Stop gesperrt&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/SYSTEM_SSOT.json (bdsManager, Serverrollen)&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;node ops/runtime/bds-manager-registry.mjs: Live-PID 18356 attachiert (protected, kein Neustart), 19133/19134 in Manager-Hoheit&quot;
+    },
+    {
+      &quot;id&quot;: &quot;world.chooseAndReset&quot;,
+      &quot;modul&quot;: &quot;ops/wissenanalyse/pipeline.mjs&quot;,
+      &quot;funktion&quot;: &quot;chooseWorld/exploreWorld/masterReset&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;plan&quot;,
+          &quot;typ&quot;: &quot;object&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;Bauplan mit weltArt oder Gelände-Hinweisen&quot;
+        },
+        {
+          &quot;name&quot;: &quot;serverDir&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;BDS-Verzeichnis; der Pfad server/ und Port 19132 sind gesperrt&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/SPEC_MAPPING.md (Abschnitt 8: T-226 Bausteine)&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/wissenanalyse-pipeline.test.js (11/11 gruen): Weltwahl, Erkundung, LOCK-Entfernung, Origin, Reset-Marker, 8000-ms-Schutzfenster&quot;
+    },
+    {
+      &quot;id&quot;: &quot;spectator.liveMode&quot;,
+      &quot;modul&quot;: &quot;ops/wissenanalyse/pipeline.mjs&quot;,
+      &quot;funktion&quot;: &quot;spectatorTiming&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/SYSTEM_SSOT.json (spectator)&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/wissenanalyse-pipeline.test.js: 12 s Vorlauf, 3 s Schlussbild, Pausenfaktor 1.5–2, nur bei echten visuellen Laeufen&quot;
+    },
+    {
+      &quot;id&quot;: &quot;qa.definitionOfReady&quot;,
+      &quot;modul&quot;: &quot;ops/wissenanalyse/pipeline.mjs&quot;,
+      &quot;funktion&quot;: &quot;definitionOfReady/atomicDiffBudget/contractFirst/preflight&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;step&quot;,
+          &quot;typ&quot;: &quot;object&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;Bauplan-Schritt mit zieldateien, weltArt, capabilities, pruefKriterium&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/blueprints/BP-000.json (fuenf Haertungen)&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/wissenanalyse-pipeline.test.js: Ready-Lint, 2–4 Dateien/&lt;20 Min, Contract-First, 3-s-Pre-Flight&quot;
+    },
+    {
+      &quot;id&quot;: &quot;sync.werkbankAuto&quot;,
+      &quot;modul&quot;: &quot;ops/runtime/werkbank-sync.mjs&quot;,
+      &quot;funktion&quot;: &quot;syncWerkbankAktion&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;aktion&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Auslösende Werkbank-Aktion (idee|freigabe|frage|handlung|showcase|nachbesserung)&quot;
+        },
+        {
+          &quot;name&quot;: &quot;options&quot;,
+          &quot;typ&quot;: &quot;object&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;root, leitstelleRepo, vaultRepo, timeoutMs; Default 30 000 ms Prozessbaum-Timeout&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/werkbank/README.md, vault/handbuch/04_Bedienung_und_Ablaeufe.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/werkbank-auto-sync.test.mjs (25 Prüfungen grün): gemeinsamer Git-Write-Lock für Leitstelle + Vault, credential.interactive=never, pushTimeouts [30000], Fehler-UI wiederholbar&quot;
+    },
+    {
+      &quot;id&quot;: &quot;export.notebookSync&quot;,
+      &quot;modul&quot;: &quot;ops/scripts/export-notebook-sync.mjs&quot;,
+      &quot;funktion&quot;: &quot;exportNotebookSync&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;out&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;Zielordner; Default &lt;root&gt;/.local-notebook-sync/ (gitignoriert)&quot;
+        },
+        {
+          &quot;name&quot;: &quot;ohneVault&quot;,
+          &quot;typ&quot;: &quot;boolean&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;CI-Fallback: Quellen aus ops/notebook-sync/quellen/ statt aus dem Vault&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/werkbank/README.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/notebook-export-bundle.test.mjs: Bundle mit SSOT inkl. repos, AGENTS.md, WORLD_INVARIANTS.md, SPEC_MAPPING.md, capabilities.json, Registry, BP-000–BP-016, Handbuch 01–07 und 20 Konzept-/Anlagendokumenten; vollständiges index.html plus .nojekyll; Inventur grün; Redaction hart; Fallback grün&quot;
+    },
+    {
+      &quot;id&quot;: &quot;export.notebookPages&quot;,
+      &quot;modul&quot;: &quot;ops/scripts/export-notebook-sync.mjs&quot;,
+      &quot;funktion&quot;: &quot;exportNotebookPages&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;pagesDir&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Zielordner für die acht statischen Seiten (z. B. _site); nie die Repo-Wurzel&quot;
+        },
+        {
+          &quot;name&quot;: &quot;commitSha&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;Commit-SHA aus GITHUB_SHA für stand.json und die Seiten; lokal &#39;lokal&#39;&quot;
+        },
+        {
+          &quot;name&quot;: &quot;ohneVault&quot;,
+          &quot;typ&quot;: &quot;boolean&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;CI-Fallback: Quellen aus ops/notebook-sync/quellen/ statt aus dem Vault&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;.github/workflows/notebook-pages.yml, ops/plan/BP-016-ui-prozess.md, ops/SPEC_MAPPING.md Abschnitt 13&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/notebook-pages-e2e.test.js: lokaler HTTP-Server auf ephemeralem Port, 8 Seiten, Content-Type text/html; charset=utf-8, 0 &lt;script&gt;, 0 externe Requests, jede Datei &lt; 180 KB, vier echte Punkte aus latest-observer-proof.json, Commit-SHA in stand.json, Pages-Guard bricht bei Secret/JS/Größe hart ab&quot;
+    },
+    {
+      &quot;id&quot;: &quot;mirror.notebookPages&quot;,
+      &quot;modul&quot;: &quot;ops/scripts/export-notebook-sync.mjs&quot;,
+      &quot;funktion&quot;: &quot;exportNotebookSync&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;trigger&quot;,
+          &quot;typ&quot;: &quot;string (push main|workflow_dispatch)&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Start des Mirror-Laufs ohne manuellen Klick&quot;
+        },
+        {
+          &quot;name&quot;: &quot;NOTEBOOK_SYNC_TOKEN&quot;,
+          &quot;typ&quot;: &quot;secret&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Push-Recht für brotfeld/voxelcrew-notebook-sync; niemals im Repo oder Bundle&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;.github/workflows/notebook-mirror-sync.yml, ops/tasks/T-231.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/notebook-export-bundle.test.mjs prüft Trigger, Secret und genau drei kopierte Artefakte (voxelcrew-sync-bundle.md, index.html, .nojekyll); SSOT repos.notebookMirror/notebookPagesUrl aus ops/SYSTEM_SSOT.json&quot;
+    },
+    {
+      &quot;id&quot;: &quot;hilfe.botHilfe&quot;,
+      &quot;modul&quot;: &quot;ops/runtime/bot-hilfe.mjs&quot;,
+      &quot;funktion&quot;: &quot;erstelleHilfe&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;grund&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: true,
+          &quot;beschreibung&quot;: &quot;Klartextproblem aus der 10-Jahre-Sicht, ohne Dateipfade/Tech-Kürzel&quot;
+        },
+        {
+          &quot;name&quot;: &quot;options&quot;,
+          &quot;typ&quot;: &quot;object&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;root, clipSekunden (Default 60), dataDir (Fixture-Isolation)&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;vault/handbuch/07_Vier_Stufen_UI_Prozess.md&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/werkbank-browser-e2e.test.js + tests/cockpit-browser-e2e.test.js: 60-s-Flugschreiber-Clip, Eskalationskarte mit 3 Optionen, Screenshot-Beleg, 0 Konsolenfehler&quot;
+    },
+    {
+      &quot;id&quot;: &quot;ram.maschinenSchwellen&quot;,
+      &quot;modul&quot;: &quot;ops/runtime/runtime-guard.mjs&quot;,
+      &quot;funktion&quot;: &quot;ramSchwellenFuer&quot;,
+      &quot;zeile&quot;: null,
+      &quot;parameter&quot;: [
+        {
+          &quot;name&quot;: &quot;machine&quot;,
+          &quot;typ&quot;: &quot;string&quot;,
+          &quot;pflicht&quot;: false,
+          &quot;beschreibung&quot;: &quot;maschinen.&lt;name&gt; aus der SSOT; Default hauptrechner, alternativ MCBOT_MACHINE&quot;
+        }
+      ],
+      &quot;block_states&quot;: [],
+      &quot;doku&quot;: &quot;ops/SYSTEM_SSOT.json → maschinen.&lt;name&gt;.ram&quot;,
+      &quot;verified&quot;: true,
+      &quot;beleg&quot;: &quot;tests/runtime-guard-ram.test.mjs (13 Prüfungen grün): Hauptrechner 80/90, FELDBOOK 85/90 aus SSOT; generierte worker/runner-Configs ohne Drift; Live-19132 nie beendet&quot;
+    }
+  ],
+  &quot;inventur&quot;: {
+    &quot;stand&quot;: &quot;2026-11-23&quot;,
+    &quot;methode&quot;: &quot;Read-only Inventur aller Inbox-Originale und weiterverarbeiteter Artefakte (vault/konzept/**, vault/wissen/szenarien/**, vault/wissen/**), Referenzanlagen 01–10, Handbuch 05 und Codebase. Trennung strikt nach Beweisstand: &#39;nachgewiesen grün&#39; nur mit registrierter Capability + reproduzierbarem Testbeleg, alles Übrige &#39;fehlt&#39; mit Bauplan-Zuordnung. Keine geratenen IDs/Härtewerte/Rezepte.&quot;,
+    &quot;nachgewiesen_gruen&quot;: [
+      {
+        &quot;bereich&quot;: &quot;Wahrnehmung &amp; 64×36-Raycaster&quot;,
+        &quot;capability&quot;: &quot;qa.voxelRaycast&quot;,
+        &quot;beleg&quot;: &quot;ops/qa/world-invariants.mjs, Augenhöhe y+1,62, ±45°/±35°, 3–32 Blöcke; Referenz vault/konzept/06_referenz-fast-voxel-raycaster-tof.md&quot;,
+        &quot;hinweis&quot;: &quot;Nur der Gate-Strahl ist grün, nicht der 64×36-ToF-Depth-Sensor selbst.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Sense→Think→Act→Verify&quot;,
+        &quot;capability&quot;: &quot;qa.definitionOfReady&quot;,
+        &quot;beleg&quot;: &quot;ops/wissenanalyse/pipeline.mjs (5-Phasen-Vertrag anlage-03, 50-ms-EXECUTE, echte Server-Quittung); tests/wissenanalyse-pipeline.test.js 11/11&quot;,
+        &quot;hinweis&quot;: &quot;Phasen-Vertrag als Regel grün; laufender HFSM-Sense→Think→Act→Verify-Loop fehlt.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;7 Handlungsgruppen&quot;,
+        &quot;capability&quot;: &quot;bedrock.* (sendChat/sendEmote/commandInteraction/walkTo/holdItem/useBlock/setBlock)&quot;,
+        &quot;beleg&quot;: &quot;ops/capabilities.json Einträge bedrock.* + interaction.*; tests/interaction.test.js, tests/step3a.test.js&quot;,
+        &quot;hinweis&quot;: &quot;Die Low-Level-Primitives sind grün; die generische Gruppierungs-/Orchestrierungsschicht fehlt.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Gestenerkennung&quot;,
+        &quot;capability&quot;: &quot;interaction.resolveGesture / interaction.handleEmote / bedrock.sendEmote&quot;,
+        &quot;beleg&quot;: &quot;tests/interaction.test.js (Combo-Fenster, Gaze, Emote-Mapping data/interaction.yaml)&quot;,
+        &quot;hinweis&quot;: &quot;Drei Emote-UUIDs (Winken/Klatschen/Folge-mir) sind live zu erfassen — nicht geraten.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Shared Weltgedächtnis/Blockmuster/2.5D&quot;,
+        &quot;capability&quot;: &quot;memory.WorldMemory&quot;,
+        &quot;beleg&quot;: &quot;tests/step3a.test.js (Marker überleben Neustart), WorldMemory.js sqlite&quot;,
+        &quot;hinweis&quot;: &quot;Lokales Gedächtnis grün; geteiltes Gedächtnis, Blockmuster-Bibliothek und 2.5D-Karte fehlen.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Leitstellen-Screens/Wizards&quot;,
+        &quot;capability&quot;: &quot;werkbank.server / werkbank.freigabe&quot;,
+        &quot;beleg&quot;: &quot;tests/werkbank-browser-e2e.test.js, tests/cockpit-browser-e2e.test.js (Second Screen, 6 Bereiche, 0 Konsolenfehler)&quot;,
+        &quot;hinweis&quot;: &quot;Werkbank + 2ndScreen grün; vollständige Wizard-Suite aus UI/UX v2 noch nicht.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;In-Game-UI + Fallback&quot;,
+        &quot;capability&quot;: &quot;hilfe.botHilfe&quot;,
+        &quot;beleg&quot;: &quot;vault/handbuch/07_Vier_Stufen_UI_Prozess.md; AGENTS.md §13; Bot-Hilfe in Werkbank + Leitstelle, 4-Stufen-Prozess verankert&quot;,
+        &quot;hinweis&quot;: &quot;Prozess und Notfallknopf grün; @minecraft/server-ui + Pure-Client-Fallback im Spiel fehlt (server/** tabu bis BP-011).&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;BDS-Werkstatt&quot;,
+        &quot;capability&quot;: &quot;bds.manager / world.chooseAndReset / spectator.liveMode&quot;,
+        &quot;beleg&quot;: &quot;ops/runtime/bds-manager-registry.mjs (19132 attach-only, protected), tests/wissenanalyse-pipeline.test.js 11/11&quot;,
+        &quot;hinweis&quot;: &quot;Serverhoheit, Weltwahl und Reset grün; Feinschliff bleibt BP-000 (manual).&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Adaptive Scene Director + Multi-Seed-Gate&quot;,
+        &quot;capability&quot;: &quot;regieLeitplanken (SSOT) + qa.voxelRaycast + world.chooseAndReset&quot;,
+        &quot;beleg&quot;: &quot;ops/SYSTEM_SSOT.json → regieLeitplanken A–D, AGENTS.md §12, Handbuch 05, BP-007 (manual)&quot;,
+        &quot;hinweis&quot;: &quot;Verbindlichkeits- und Beweisregeln grün; ausführende Regie-Bausteine in BP-007 (manual) offen.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;User-Empathy-Simulator&quot;,
+        &quot;capability&quot;: &quot;hilfe.botHilfe (10-Jahre-Check)&quot;,
+        &quot;beleg&quot;: &quot;AGENTS.md §13 Stufe 4, Browser-E2E mit 10-Jahre-Verständlichkeitscheck ohne Dateipfade/Tech-Kürzel&quot;,
+        &quot;hinweis&quot;: &quot;UI-Verständlichkeitscheck grün; echter unprivilegierter FOV-70°-Spieler-Simulator fehlt (BP-007/D).&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Showcases&quot;,
+        &quot;capability&quot;: &quot;show.run&quot;,
+        &quot;beleg&quot;: &quot;ops/runtime/latest-observer-proof.json (result.ok=true, 254 update_block + 1 mob_equipment), npm run verify:show, npm run show:accept&quot;,
+        &quot;hinweis&quot;: &quot;Vollständige Show-Journey mit Observer-Gate und programmatischem Auftraggeber grün.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Zero-Terminal-Betrieb&quot;,
+        &quot;capability&quot;: &quot;sync.werkbankAuto / export.notebookSync / ram.maschinenSchwellen&quot;,
+        &quot;beleg&quot;: &quot;tests/werkbank-auto-sync.test.mjs (25), tests/runtime-guard-ram.test.mjs (13), npm run notebook:export&quot;,
+        &quot;hinweis&quot;: &quot;Automatischer Commit/Push, git-freier Export und maschinenspezifische RAM-Schranken grün (T-228).&quot;
+      }
+    ],
+    &quot;fehlt&quot;: [
+      {
+        &quot;bereich&quot;: &quot;Wahrnehmung &amp; 64×36-Raycaster&quot;,
+        &quot;soll&quot;: &quot;64×36-ToF-Tiefenkarte alle 500 ms (Amanatides &amp; Woo), Zero-Allocation, als Bot-Wahrnehmungssensor&quot;,
+        &quot;bauplan&quot;: &quot;BP-008&quot;,
+        &quot;grund&quot;: &quot;Nur der QA-Gate-Raycast ist umgesetzt; der kontinuierliche Tiefen-Sensor fehlt. Keine geratenen Reichweiten/Parameter.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Sense→Think→Act→Verify&quot;,
+        &quot;soll&quot;: &quot;Laufender 50-ms-HFSM mit Sense→Think→Act→Verify und echter Quittierung pro Schritt&quot;,
+        &quot;bauplan&quot;: &quot;BP-009&quot;,
+        &quot;grund&quot;: &quot;Phasen-Vertrag ist Regel, aber kein ausführbarer Executive-Loop.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;7 Handlungsgruppen&quot;,
+        &quot;soll&quot;: &quot;Generische Gruppierung und Orchestrierung der sieben Handlungsgruppen über den Primitives&quot;,
+        &quot;bauplan&quot;: &quot;BP-009&quot;,
+        &quot;grund&quot;: &quot;Primitives vorhanden, Gruppierungs-/Planungsschicht fehlt.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;MSA &amp; Co-Pilot-Relay&quot;,
+        &quot;soll&quot;: &quot;Lokales WebSocket/REST-Relay, Co-Pilot-Stufen, sichere Trennung der Betriebsmodi&quot;,
+        &quot;bauplan&quot;: &quot;BP-012&quot;,
+        &quot;grund&quot;: &quot;Schnittstellenspezifikation v2 inventarisiert, kein Baustein; Ports/Öffentlichkeit nur nach Chris-Tor.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Shared Weltgedächtnis/Blockmuster/2.5D&quot;,
+        &quot;soll&quot;: &quot;Geteiltes Weltgedächtnis über Bots, kuratierte Blockmuster-Bibliothek, 2.5D-Weltkarte&quot;,
+        &quot;bauplan&quot;: &quot;BP-010&quot;,
+        &quot;grund&quot;: &quot;Lokales WorldMemory grün, gemeinsame Schicht und Blockmuster/2.5D fehlen.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Ikonischer Resource-Pack-Generator&quot;,
+        &quot;soll&quot;: &quot;Ikonisches Resource-Pack aus kuratierten Blockmustern erzeugen&quot;,
+        &quot;bauplan&quot;: &quot;BP-013&quot;,
+        &quot;grund&quot;: &quot;Keine registrierte Capability; IDs/Rezepte nicht raten — kuratierte Quelle nötig.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;In-Game-UI + Fallback&quot;,
+        &quot;soll&quot;: &quot;@minecraft/server-ui + Pure-Client-Fallback, Kompass-Notfallknopf im Spiel&quot;,
+        &quot;bauplan&quot;: &quot;BP-011&quot;,
+        &quot;grund&quot;: &quot;server/** bleibt bis zu dessen Freigabe unangetastet; Prozess ist verankert, Umsetzung fehlt.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Adaptive Scene Director + Multi-Seed-Gate&quot;,
+        &quot;soll&quot;: &quot;Ausführender 32×32-Sektor-Regisseur, N≥3-Seed-Gate mit dreifacher Realitätskopplung&quot;,
+        &quot;bauplan&quot;: &quot;BP-007&quot;,
+        &quot;grund&quot;: &quot;Regeln grün, ausführende Bausteine bewusst manual/backlog — kein Vorgriff auf Freigabe.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;User-Empathy-Simulator&quot;,
+        &quot;soll&quot;: &quot;Unprivilegierter FOV-70°-Spieler-Simulator mit ruhigem Tempo auf 19134&quot;,
+        &quot;bauplan&quot;: &quot;BP-007&quot;,
+        &quot;grund&quot;: &quot;Nur UI-Verständlichkeitscheck grün; Simulator fehlt.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Showcase-Regie &amp; Review-Rückfluss&quot;,
+        &quot;soll&quot;: &quot;Showcase-Skript trocken auf 19134, Abnahme auf 19133, Feedback in review_submissions zurück in Baupläne&quot;,
+        &quot;bauplan&quot;: &quot;BP-015&quot;,
+        &quot;grund&quot;: &quot;Show.run grün, aber Regie-Skript/Review-Rückfluss als eigener Baustein fehlt.&quot;
+      },
+      {
+        &quot;bereich&quot;: &quot;Tribes/Frontier&quot;,
+        &quot;soll&quot;: &quot;Tribes/SQLite-Weltgedächtnis, Frontier-Grenzen, eine Instanz pro Welt&quot;,
+        &quot;bauplan&quot;: &quot;BP-014&quot;,
+        &quot;grund&quot;: &quot;Schnittstelle v2 inventarisiert, keine Umsetzung; Zahlen/IDs offen (nicht raten).&quot;
+      }
+    ]
+  }
+}</code></pre>
+  </section>
+  <section>
+    <h2>Bauplan-Registry</h2>
+    <pre><code>{
+  &quot;schema&quot;: &quot;blueprint-registry.v1&quot;,
+  &quot;stand&quot;: &quot;2026-11-23&quot;,
+  &quot;approvalMode&quot;: null,
+  &quot;ids&quot;: [
+    &quot;BP-000&quot;,
+    &quot;BP-001&quot;,
+    &quot;BP-002&quot;,
+    &quot;BP-003&quot;,
+    &quot;BP-004&quot;,
+    &quot;BP-005&quot;,
+    &quot;BP-006&quot;,
+    &quot;BP-007&quot;,
+    &quot;BP-008&quot;,
+    &quot;BP-009&quot;,
+    &quot;BP-010&quot;,
+    &quot;BP-011&quot;,
+    &quot;BP-012&quot;,
+    &quot;BP-013&quot;,
+    &quot;BP-014&quot;,
+    &quot;BP-015&quot;,
+    &quot;BP-016&quot;
+  ]
+}</code></pre>
+  </section>
+  <section>
+    <h2>Spülgang-Inventur</h2>
+    <p class="tabelle"><span>Prüfung</span> · <span>Ergebnis</span></p>
+<p class="tabelle"><span>Quellmodus</span> · <span>eingecheckter Quellspiegel (CI-Fallback)</span></p>
+<p class="tabelle"><span>Vault Ebene 1 (Positivliste)</span> · <span>3/13 Ordnungs- und Dateieinträge, unerwartet: 0</span></p>
+<p class="tabelle"><span>Vault Ebene 2 (Pflichtinhalte)</span> · <span>2 geprüfte Bereiche, Fehler: 0</span></p>
+<p class="tabelle"><span>Negativliste Vault + Code-Repo</span> · <span>0 Treffer</span></p>
+<p class="tabelle"><span>Gesamturteil</span> · <span>GRÜN</span></p>
+  </section>
+  </main>
+  <footer>Seiten für dein Notizbuch — ohne Anmeldung und ohne JavaScript.</footer>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "schema": "voxelcrew-pages-stand.v1",
+  "generatedAt": "2026-11-23T20:21:58.294Z",
+  "datum": "2026-11-23",
+  "commitSha": "e2a3c4d59589daf386172627168af7d3f6ba34a5",
+  "quellmodus": "spiegel",
+  "ssotStand": "2026-11-23",
+  "blueprints": 17,
+  "handbuch": 7,
+  "observerPunkte": 4,
+  "seiten": [
+    "index.html",
+    "ssot-und-regeln.html",
+    "handbuecher-1-4.html",
+    "handbuecher-5-7.html",
+    "bauplaene-000-007.html",
+    "bauplaene-008-016.html",
+    "e2e-ergebnisse.html",
+    "stand.json"
+  ],
+  "negativlisteTreffer": 0,
+  "redaction": "gruen",
+  "groessenlimitBytes": 184320,
+  "seitenGroessen": {
+    "index.html": 4552,
+    "ssot-und-regeln.html": 159312,
+    "handbuecher-1-4.html": 28560,
+    "handbuecher-5-7.html": 34195,
+    "bauplaene-000-007.html": 7999,
+    "bauplaene-008-016.html": 7912,
+    "e2e-ergebnisse.html": 4965,
+    "stand.json": 858,
+    ".nojekyll": 0
+  }
+}

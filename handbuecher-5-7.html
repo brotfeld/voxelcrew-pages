@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Handbuch 5 bis 7 — VoxelCrew Wissen</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    body { margin: 0; color: #17202a; background: #f7f9fb; line-height: 1.55; }
+    header, main, footer { max-width: 980px; margin: 0 auto; padding: 1.25rem 1.5rem; }
+    header { background: #fff; border-bottom: 3px solid #2c7a7b; }
+    h1 { margin: 0 0 .35rem; font-size: 1.7rem; }
+    h2 { font-size: 1.25rem; margin: 1.75rem 0 .6rem; }
+    h3 { font-size: 1.05rem; margin: 1.1rem 0 .4rem; color: #2c7a7b; }
+    p, li { margin: .35rem 0; }
+    nav { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+    nav a { padding: .25rem .55rem; border: 1px solid #cbd5e0; border-radius: .35rem; color: #2c7a7b; text-decoration: none; font-size: .85rem; }
+    section, article { background: #fff; border: 1px solid #e2e8f0; border-radius: .5rem; padding: .75rem 1.1rem; margin: .9rem 0; }
+    pre { margin: 0; overflow-x: auto; white-space: pre-wrap; word-break: break-word; font-size: .78rem; }
+    code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
+    .meta { color: #4a5568; font-size: .85rem; }
+    .tabelle span { display: inline-block; padding: 0 .45rem 0 0; }
+    .hinweis { border-left: 3px solid #2c7a7b; padding-left: .7rem; color: #2d3748; }
+    footer { color: #4a5568; font-size: .8rem; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Handbuch 5 bis 7</h1>
+    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-23 · e2a3c4d59589daf386172627168af7d3f6ba34a5</p>
+    <p class="meta">Aus geprüften Quellen erzeugt · spiegel · Negativliste: 0 Treffer</p>
+    <nav aria-label="Kapitel">
+      <a href="index.html">Übersicht</a>
+      <a href="ssot-und-regeln.html">Regeln &amp; SSOT</a>
+      <a href="handbuecher-1-4.html">Handbuch 1–4</a>
+      <a href="handbuecher-5-7.html">Handbuch 5–7</a>
+      <a href="bauplaene-000-007.html">Baupläne 000–007</a>
+      <a href="bauplaene-008-016.html">Baupläne 008–016</a>
+      <a href="e2e-ergebnisse.html">Testergebnisse</a>
+    </nav>
+  </header>
+  <main>
+<section>
+    <h2>05 — Autonome Welt-Anpassung, Multi-Seed-Regie &amp; User-Empathy-Prüfung</h2>
+    <p>---</p>
+<p>typ: handbuch</p>
+<p>stand: 2026-11-23</p>
+<p>quelle: ops/SYSTEM_SSOT.json -&gt; regieLeitplanken (Chris, 23.11.2026, T-227)</p>
+<p>auto_aktualisierung: bauplan_abschluss</p>
+<p>status: aktiv</p>
+<p>---</p>
+<h2>05 — Autonome Welt-Anpassung, Multi-Seed-Regie &amp; User-Empathy-Prüfung</h2>
+<p>Dieses Kapitel ist die verbindliche, menschenlesbare Fassung der vier Regie-Leitplanken. Maschinenlesbar liegen sie in <code>ops/SYSTEM_SSOT.json</code> unter <code>regieLeitplanken</code>; die Umsetzung ist im Bauplan <code>BP-007 (Autonome Welt-Anpassung, Multi-Seed-Regie &amp; User-Empathy-Prüfung)</code> mit Freigabemodus <code>manual</code> beschrieben. Es gilt zusätzlich zu <code>AGENTS.md</code> §10 (QA-Gate) und §11 (End-to-End-Produktdenken).</p>
+<p><strong>Übergeordneter Grundsatz:</strong> Das System rät nicht, ändert nicht die Anforderung und macht Chris nicht zum manuellen Test-Klicker. Jede Prüfung läuft über reguläre, wiederverwendbare Bausteine; die finale Einladung zur Live-Präsentation bleibt Chris vorbehalten (AGENTS.md §7 Punkt 4).</p>
+<h3>A — Capability- &amp; Gap-Planner</h3>
+<p>Vor jedem Vorhaben wird <code>ops/capabilities.json</code> geprüft: *Kann ich das schon?* vs. *Fehlt mir noch etwas?* Fehlende Grundfähigkeiten werden automatisch als <strong>wiederverwendbare Bausteine</strong> herausgeschnitten und über <code>ops/SPEC_MAPPING.md</code> als Soll / Ist / Backlog dokumentiert. Ein einmaliges <code>_dbg</code>- oder Ad-hoc-Skript ist keine Dauerlösung (AGENTS.md §11 Punkt 3).</p>
+<ul><li><strong>Anker:</strong> <code>ops/capabilities.json</code>, <code>ops/SPEC_MAPPING.md</code>, <code>vault/wissen/Handbuch/03_Faehigkeiten_und_Bauplan_Katalog.md</code></li><li><strong>source:</strong> Chris, 23.11.2026 (T-227); <code>ops/SYSTEM_SSOT.json</code> → <code>regieLeitplanken.A_capabilityGapPlanner</code></li><li><strong>begruendung:</strong> Ohne vorherigen Fähigkeitsabgleich bauen Agenten doppelt oder raten IDs/Rezepte. Der Planner macht Lücken sichtbar, bevor Code entsteht.</li></ul>
+<h3>B — Adaptive Scene Director (Gelände- &amp; Sichtlinien-Regisseur)</h3>
+<p>Zufallswelten werden über <strong><code>32×32</code>-Sektoren</strong> erkundet. Der Director sucht geeignete Flächen und passt Bühnen <strong>sanft an die Topografie an</strong>: Podest und Stufen statt Betonklotz. Verdeckende Blöcke oder den Platz der Zuschauer-Loge korrigiert er automatisch über den 3D-ViewPort-Raycast.</p>
+<ul><li><strong>Beweis:</strong> Augenhöhe <code>y + 1,62</code>, ±45° horizontal, ±35° vertikal, 3–32 Blöcke, keine undurchsichtigen Blöcke auf der Sichtlinie (<code>ops/qa/world-invariants.mjs</code>, <code>ops/qa/observer-proof.mjs</code>).</li><li><strong>Anker:</strong> <code>ops/WORLD_INVARIANTS.md</code>, Handbuch 02 §3/§4</li><li><strong>source:</strong> Chris, 23.11.2026 (T-227); <code>ops/SYSTEM_SSOT.json</code> → <code>regieLeitplanken.B_adaptiveSceneDirector</code></li><li><strong>begruendung:</strong> Eine Show muss auf jeder Zufallswelt begehbar und sichtbar sein. Starre Bühnen scheitern an Hügeln oder Bäumen; die sanfte Anpassung verhindert Nachbesserungen von Hand.</li></ul>
+<h3>C — Dreifache Realitäts-Kopplung &amp; Multi-Seed-Gate (<code>N ≥ 3</code>)</h3>
+<p>Ein Lauf gilt <strong>nur dann</strong> als bestanden, wenn gleichzeitig present sind:</p>
+<p>1. <strong>Blockdaten</strong> — <code>update_block</code>-Pakete bzw. Chunk-Daten an den Zielkoordinaten,</p>
+<p>2. <strong>freier 3D-Raycast</strong> — Sichtlinie ohne undurchsichtige Blöcke,</p>
+<p>3. <strong>bequeme Spieler-Erreichbarkeit</strong> — fester Boden, 2 Blöcke Kopffreiheit, begehbarer Pfad.</p>
+<p>Zusätzlich muss das Ergebnis auf <code>VoxelCrew:Ende</code> (<code>19134</code>) in <strong>mindestens 3 unterschiedlichen Zufalls-Seeds</strong> selbstständig bestanden werden (Beispiele: Wald/Ebene, Hügelland, Küste/Wüste). Alte Test-Platten werden nach jedem Lauf automatisch per atomarem Master-Reset bereinigt (<code>.stage-&lt;welt&gt;</code> → <code>.world-origin.json</code> → <code>world.reset.completed</code>, <code>db/LOCK</code> entfernt).</p>
+<ul><li><strong>Gate:</strong> <code>N ≥ 3</code>, alle drei Beweise gleichzeitig, kein Grün bei nur Teilnachweis.</li><li><strong>Anker:</strong> <code>ops/SYSTEM_SSOT.json</code> → <code>welten.masterReset</code>, <code>e2e_gate</code>; <code>ops/WORLD_INVARIANTS.md</code></li><li><strong>source:</strong> Chris, 23.11.2026 (T-227); <code>ops/SYSTEM_SSOT.json</code> → <code>regieLeitplanken.C_dreifacheRealitaetsKopplung</code></li><li><strong>begruendung:</strong> Ein Einzelfall oder ein reiner Befehlsnachweis kann Zufall oder „Röntgenblick&quot; sein. Drei Seeds plus drei gekoppelte Beweise machen das Ergebnis belastbar und wiederholbar.</li></ul>
+<h3>D — User-Empathy-Simulator &amp; BehaviourPack↔Client-Symbiose</h3>
+<p>Ein <strong>unprivilegierter Spieler-Simulator</strong> prüft auf <code>19134</code> aus echter 10-Jahre-Spieler-Perspektive Erreichbarkeit, <strong>Sichtfeld <code>FOV 70°</code></strong> und ruhiges Vorführ-Tempo. BehaviourPack-Effekte und UI (<code>@minecraft/server</code>, <code>@minecraft/server-ui</code>) müssen sauber mit den Client-Bot-Aktionen (<code>SWARM_BOT</code>) verzahnt sein.</p>
+<ul><li><strong>Akteurs-Isolation:</strong> <code>SWARM_BOT</code> bleibt Live-Profil und wird gemäß Handbuch 02 §2 <strong>nie</strong> auf <code>19133</code>/<code>19134</code> eingeloggt; auf den Testwelten läuft die Symbiose über <code>SHOW_ACTOR</code>/<code>OBSERVER</code>.</li><li><strong>Anker:</strong> <code>ops/SYSTEM_SSOT.json</code> → <code>akteure</code>, <code>spectator</code>; Handbuch 02 §2</li><li><strong>source:</strong> Chris, 23.11.2026 (T-227); <code>ops/SYSTEM_SSOT.json</code> → <code>regieLeitplanken.D_userEmpathy</code></li><li><strong>begruendung:</strong> Technisch korrekte Blöcke allein sind kein gutes Erlebnis. Erst die Perspektive eines echten Spielers deckt unerreichbare Wege, zu schnelle Schnitte oder eine gerissene BP↔Client-Kopplung auf.</li></ul>
+<h3>Umsetzung und Sichtbarkeit</h3>
+<p>Die vier Bausteine liegen als Meilensteine A–D im Bauplan <code>BP-007</code>; Status <code>entwurf</code>, Freigabe <code>manual</code>. Der Plan erscheint im Bauplan-Inspektor der Werkbank (<code>http://127.0.0.1:7070</code>) und wird erst nach Chris&#39; Freigabe umgesetzt. Das Kapitel ist in der Werkbank unter <strong>Maschinen &amp; Handbuch</strong> lesbar (<code>/api/handbuch</code>, Datei <code>05_Autonome_Weltanpassung_und_Regie.md</code>).</p>
+<h3>Verkehrsmittel der Testwelten</h3>
+<p>Seit BDS 1.26.63.1 nutzen <strong>alle drei</strong> Server <code>transport=nethernet</code>; <code>19133</code>/<code>19134</code> haben <code>enable-lan-visibility=false</code> und eigene UDP-Ports. Nur <code>19132</code> behält UDP 7551, LAN <code>true</code> und PID 18356 und bleibt für Tests und Shows strikt tabu. Details in Handbuch 02.</p>
+  </section>
+  <section>
+    <h2>06 — Gesamt-Entwicklungsplan und Meilensteine</h2>
+    <p>---</p>
+<p>typ: handbuch</p>
+<p>stand: 2026-11-23</p>
+<p>quelle: ops/capabilities.json, ops/SPEC_MAPPING.md §11, ops/blueprints/registry.json (Chris, 23.11.2026, T-228)</p>
+<p>auto_aktualisierung: bauplan_abschluss</p>
+<p>status: aktiv</p>
+<p>---</p>
+<h2>06 — Gesamt-Entwicklungsplan und Meilensteine</h2>
+<p>Dieses Kapitel ist die menschenlesbare Gesamtübersicht des VoxelCrew-Plans. Es sagt in einfachen Worten: <strong>Was können wir schon? Was fehlt noch? In welcher Reihenfolge bauen wir es — und wie merken wir, dass es wirklich fertig ist?</strong> Die technische Fassung steht in <code>ops/capabilities.json</code> (Inventur) und <code>ops/SPEC_MAPPING.md</code> (Soll / Ist / Backlog); die einzelnen Baupläne liegen unter <code>ops/blueprints/BP-000.json</code> … <code>BP-015.json</code>.</p>
+<p><strong>Grundhaltung:</strong> Ein Kind ab 10 Jahren soll das System bedienen können. Nichts wird geraten, nichts wird „einfach fertig&quot; genannt, und Chris wird nie gebeten, im Spiel Testschritte von Hand einzutippen. Wir prüfen selbst — und zwar so, dass man es sehen kann.</p>
+<ul><li><strong>source:</strong> Chris, 23.11.2026 (T-228); <code>vault/00 Inbox/bearbeitet/00_README_KONZEPT_INDEX.md</code>, <code>01_architektur-briefing-multi-bot-bedrock-v14.md</code>, <code>02_ui-ux-architektur-briefing-leitstelle-v2.md</code>, <code>03_schnittstellen-spezifikation-tribes-weltgedaechtnis-leitstelle-v2.md</code>, Anlagen 01–10, <code>Handbuch/05</code></li><li><strong>begruendung:</strong> Vorher wusste niemand auf einen Blick, welcher Baustein schon da ist und welcher als Nächstes kommt. Das führte zu doppelter Suche und zu Schritten, die man falsch „grün&quot; nannte. Der Plan macht Stand, Reihenfolge und Beweis an einem Ort sichtbar — für Chris, seinen Sohn und alle Worker.</li></ul>
+<p>---</p>
+<h3>1. Wie das Ganze zusammenpasst</h3>
+<p>Stell dir eine kleine Theatertruppe vor. Die Bots sind die Schauspieler, die Werkbank ist der Regietisch und das Weltgedächtnis ist das Buch, in dem steht, was schon gebaut wurde.</p>
+<p>1. <strong>Wahrnehmen:</strong> Ein Bot schaut sich um und sieht jede halbe Sekunde ein kleines Bild der Welt vor sich (64×36 Punkte). Dazu erkennt er Winken, Klatschen und „Folge mir&quot;.</p>
+<p>2. <strong>Denken und Handeln:</strong> Er macht einen Schritt, schaut nach, ob es geklappt hat, und erst dann den nächsten. Sieben Arten von Handlungen stehen ihm bereit.</p>
+<p>3. <strong>Merken:</strong> Alles, was gebaut wird, kommt in ein gemeinsames Buch. Alle Bots lesen darin, damit keiner die Arbeit des anderen kaputt macht.</p>
+<p>4. <strong>Zeigen:</strong> Auf der Bühne und im Spiel sieht man, was passiert. Ein großer Hilfeknopf holt Hilfe, wenn etwas schiefgeht — mit einem <strong>60 Sekunden langen Film</strong> vom Geschehen.</p>
+<p>5. <strong>Verbessern:</strong> Nach der Vorführung schreiben die Bots selbst auf, was gefallen hat. Die nächste Show wird automatisch besser.</p>
+<p>Aus jeder dieser Fähigkeiten ist ein <strong>Bauplan</strong> geworden. Ein Bauplan ist wie ein Rezept: Erst die einfache Beschreibung, dann die Schritte, dann die technischen Details, ganz unten.</p>
+<p>---</p>
+<h3>2. Was schon klappt — nachgewiesen grün</h3>
+<p>„Grün&quot; heißt bei uns: Es gibt einen echten Test und einen echten Beweis. Nur zu sagen „ich habe den Befehl geschickt&quot;, zählt <strong>nicht</strong>.</p>
+<p class="tabelle"><span>Bereich</span> · <span>Was wir schon können</span> · <span>Beweis</span></p>
+<p class="tabelle"><span>Bühne und Show</span> · <span>Bots führen die Tanzshow auf, Observer sehen Blöcke und gehaltene Items wirklich</span> · <span>`show.run`, Observer-Proof: 254 `update_block` + 1 `mob_equipment`, `npm run verify:show` grün</span></p>
+<p class="tabelle"><span>Sichtlinie prüfen</span> · <span>Wir können prüfen, ob die Bühne frei sichtbar ist (Augenhöhe 1,62; 3–32 Blöcke)</span> · <span>`ops/qa/world-invariants.mjs`, `qa.voxelRaycast`</span></p>
+<p class="tabelle"><span>Server und Welten</span> · <span>Drei sauber getrennte Server; die Live-Welt wird nie angefasst</span> · <span>`bds.manager`, `world.chooseAndReset`, Master-Reset mit 8-s-Schutzfenster</span></p>
+<p class="tabelle"><span>Werkbank ohne Terminal</span> · <span>Jede Aktion wird im Hintergrund selbst committet und gepusht; Notizbuch-Export ohne git; FELDBOOK schaltet bei 85/90 ab</span> · <span>`sync.werkbankAuto` (25 Prüfungen), `export.notebookSync`, `ram.maschinenSchwellen` (13 Prüfungen)</span></p>
+<p class="tabelle"><span>Bedienung</span> · <span>Werkbank und zweite Leitstelle funktionieren ohne Konsolenfehler; 4-Stufen-Prozess und Bot-Hilfe sind überall</span> · <span>`hilfe.botHilfe`, zwei Browser-Tests mit Screenshot-Beleg</span></p>
+<p class="tabelle"><span>Gedächtnis (lokal)</span> · <span>Merker überleben einen Neustart</span> · <span>`memory.WorldMemory` (SQLite)</span></p>
+<p class="tabelle"><span>Gesten (Grundlagen)</span> · <span>Emotes werden erkannt und aufgelöst</span> · <span>`interaction.resolveGesture`, `interaction.handleEmote`</span></p>
+<p class="tabelle"><span>Regeln für Regie</span> · <span>Vier Leitplanken A–D sind überall verankert</span> · <span>`ops/SYSTEM_SSOT.json` → `regieLeitplanken`, `AGENTS.md` §12, Handbuch 05</span></p>
+<p><strong>Wichtig:</strong> Bei der Wahrnehmung ist nur der *Prüfstrahl* grün, nicht der dauerhafte 64×36-Sensor. Bei den Gesten fehlen noch drei echte Emote-Nummern — die werden vom echten Client aufgeschrieben, nicht erfunden.</p>
+<p>---</p>
+<h3>3. Die Bauer-Kette — was von was abhängt</h3>
+<p>Ein Pfeil bedeutet: „Das muss erst fertig sein, bevor das nächste anfangen kann.&quot;</p>
+<pre><code>BP-007  Regie-Leitplanken (manual, unverändert — Grundlage)
+   │
+   └─► BP-008  Sensorik &amp; Wahrnehmung (64×36, Gesten)
+            │
+            ├─► BP-009  Executive Loop (Denken→Handeln→Prüfen, 7 Handlungsgruppen)
+            │        │
+            │        ├─► BP-010  Gemeinsames Weltgedächtnis, Blockmuster, 2.5D-Karte
+            │        │        ├─► BP-013  Ikonischer Resource-Pack-Generator
+            │        │        └─► BP-012  Lokales Relay &amp; Co-Pilot
+            │        │                 └─► BP-014  Tribes/Frontier (eine Welt, ein Buch)
+            │        └─► BP-011  In-Game-UI + Notfallknopf im Spiel
+            └─► (BP-010 wie oben)
+
+BP-015  Showcase-Regie &amp; Review-Rückfluss
+        braucht: BP-011 + BP-014 + BP-007</code></pre>
+<p>Alle neuen Baupläne <code>BP-008</code> bis <code>BP-015</code> sind <strong><code>status: entwurf</code></strong> und <strong><code>freigabe: manual</code></strong>. Das heißt: Sie sind fertig geplant, aber niemand startet sie ohne Chris. <code>BP-000</code> bis <code>BP-007</code> bleiben <strong>unverändert</strong> — keine Überschreibung, kein heimlicher Start.</p>
+<p>---</p>
+<h3>4. Die acht neuen Baupläne — kurz erklärt</h3>
+<h3>BP-008 — Sensorik &amp; Wahrnehmung</h3>
+<p><strong>Wenn</strong> ich zum ersten Mal in eine neue Welt schaue, <strong>will ich</strong>, dass der Bot jede halbe Sekunde sieht, was vor ihm ist, <strong>damit</strong> er nicht gegen Blöcke rennt und meine Gesten versteht.</p>
+<p>Schritte: Tiefenkarte 64×36 → Gesten-Ringpuffer (≤12 Blöcke, 2,5 Sekunden) → drei Emote-Nummern live erfassen → Beweis auf <code>19134</code>.</p>
+<h3>BP-009 — Executive Loop</h3>
+<p><strong>Wenn</strong> ich dem Bot einen Auftrag gebe, <strong>will ich</strong>, dass er ihn in kleinen Schritten macht und nach jedem Schritt selbst nachschaut, <strong>damit</strong> er nicht „fertig&quot; sagt, obwohl nichts passiert ist.</p>
+<p>Schritte: 50-ms-Takt mit fünf Phasen → sieben Handlungsgruppen → echte Server-Quittung → Journey-Beweis.</p>
+<h3>BP-010 — Gemeinsames Weltgedächtnis</h3>
+<p><strong>Wenn</strong> mehrere Bots bauen, <strong>will ich</strong>, dass sie sich merken, was schon da ist, <strong>damit</strong> keiner die Arbeit des anderen kaputt macht.</p>
+<p>Schritte: eine Instanz pro Welt → nur kuratierte Blockmuster → 2.5D-Karte mit echten Daten → Zwei-Bot-Beweis.</p>
+<h3>BP-011 — In-Game-UI &amp; Pure-Client-Fallback</h3>
+<p><strong>Wenn</strong> ich im Spiel neben dem Bot stehe, <strong>will ich</strong> mit höchstens drei Klicks sehen, was er macht, <strong>damit</strong> ich ohne Computer helfen kann.</p>
+<p>Schritte: erst die vier Stufen (Satz, vier Zustände, Wireframe, Profi-Test) → Oberfläche im Spiel → gleiche Oberfläche ohne Script-API → großer Hilfeknopf mit 60-s-Film. <strong><code>server/</strong></code> bleibt bis zur Freigabe unangetastet.**</p>
+<h3>BP-012 — Lokales Relay &amp; Co-Pilot</h3>
+<p><strong>Wenn</strong> ich von einem zweiten Gerät zuschauen will, <strong>will ich</strong>, dass die Bots nur bei uns zu Hause reden, <strong>damit</strong> niemand von außen steuern kann.</p>
+<p>Schritte: nur Loopback → klare Co-Pilot-Stufen → Modus-Trennung → Beweis ohne externen Call. <strong>Öffnung nach außen oder Firewall-Änderungen nur mit Chris&#39; Tor.</strong></p>
+<h3>BP-013 — Ikonischer Resource-Pack-Generator</h3>
+<p><strong>Wenn</strong> die Bots etwas bauen, <strong>will ich</strong>, dass es im Spiel so aussieht wie auf unseren Bildern, <strong>damit</strong> ich auf einen Blick weiß, was gemeint ist.</p>
+<p>Schritte: Kurateliste mit Quelle und Grund → Icons erzeugen → auf <code>19134</code> laden und beweisen → neue Muster sauber zurück in den Vault.</p>
+<h3>BP-014 — Tribes/Frontier</h3>
+<p><strong>Wenn</strong> viele Bots in verschiedenen Welten spielen, <strong>will ich</strong>, dass jede Gruppe ihr eigenes Buch hat, <strong>damit</strong> nichts durcheinanderkommt.</p>
+<p>Schritte: eine SQLite-Instanz pro Welt → Grenzen aus echten Daten → Relay anbinden → Beweis mit zwei Seeds. <strong>Tribes-Zahlen und IDs bleiben offen, bis sie belegt sind.</strong></p>
+<h3>BP-015 — Showcase-Regie &amp; Review-Rückfluss</h3>
+<p><strong>Wenn</strong> die Vorführung vorbei ist, <strong>will ich</strong>, dass die Bots selbst aufschreiben, was gefallen hat, <strong>damit</strong> die nächste Show besser wird, ohne dass ich tippen muss.</p>
+<p>Schritte: Trockenlauf auf <code>19134</code> → Abnahme auf <code>19133</code> mit vier grünen Toren → Feedback wird neue Bauplan-Version → Wizard-Suite in der Leitstelle. <strong>Die Einladung zur fertigen Live-Show lädt ausschließlich Chris ein.</strong></p>
+<p>---</p>
+<h3>5. Wie wir prüfen — die vier Tore</h3>
+<p>Ein Meilenstein ist erst fertig, wenn <strong>alle vier</strong> Punkte gleichzeitig grün sind:</p>
+<p>1. <strong>Observer dabei:</strong> Ein eigener Zuschauer-Bot sitzt auf der Bühne, alle Akteure an der richtigen Stelle (keine „y≈32769&quot;-Geister).</p>
+<p>2. <strong>Echte Pakete:</strong> Blöcke und gehaltene Dinge kommen als <code>update_block</code> bzw. <code>mob_equipment</code> an — nicht nur als Befehl.</p>
+<p>3. <strong>Freie Sicht + 3D-Check:</strong> Auf Augenhöhe (y + 1,62), ±45° waagerecht, ±35° senkrecht, 3–32 Blöcke weit, nichts Undurchsichtiges auf der Linie.</p>
+<p>4. <strong>Richtiger Ort:</strong> Die Welt heißt wie erwartet und der Port stimmt (<code>19133</code> Show, <code>19134</code> Test).</p>
+<p>Dazu kommt bei <code>BP-007</code>/Regie die <strong>dreifache Realitäts-Kopplung</strong>: Blockdaten <strong>und</strong> freier Raycast <strong>und</strong> bequemer Weg (fester Boden, zwei Blöcke Kopffreiheit) — und das auf <strong>mindestens drei verschiedenen Zufalls-Seeds</strong>. Nach jedem Lauf wird die Testplatte automatisch sauber zurückgesetzt.</p>
+<p>Der komplette Ablauf läuft über reguläre Bausteine (<code>npm run show:accept</code>, <code>npm run verify:show</code>, <code>npm run verify</code>). <strong>Chris tippt nichts.</strong> Screenshots sind nur ein optionales Siegel nach grünem Stufe-1-Gate.</p>
+<p>---</p>
+<h3>6. Bedienung ohne Terminal — für Chris und seinen Sohn</h3>
+<p>1. Werkbank öffnen → Idee einwerfen oder Bauplan ansehen.</p>
+<p>2. Prüfpunkte und einfache Beschreibung lesen; bei Bedarf den großen <strong>🆘 Bot-Hilfe</strong>-Knopf drücken. Es entsteht automatisch ein 60-Sekunden-Film und eine Karte in Klartext mit drei möglichen nächsten Schritten.</p>
+<p>3. Bauplan freigeben oder Frage beantworten — der Hintergrund speichert <strong>und pusht</strong> alles selbstständig in beide Repos. Schlägt ein Push fehl, steht es oben rot in der Werkbank und der Knopf kann erneut gedrückt werden.</p>
+<p>4. Das Notizbuch (<code>npm run notebook:export</code>, automatisch beim Start und nach Bauplan-Abschlüssen) liegt als saubere Markdown-Dateien im Ordner <code>.local-notebook-sync/</code> — kein git nötig.</p>
+<p>Oben rechts bleibt der <strong>Not-Aus</strong>; er pausiert nur die Anzeige des Worker-Dispatch. Die Live-Welt <code>19132</code> läuft weiter und wird nie beendet.</p>
+<p>---</p>
+<h3>7. Regeln, die nie gebrochen werden</h3>
+<ul><li><code>19132</code> ist die Live-Welt: strikt tabu für Shows, Tests und Notbremse; keine Weltdaten, keine Auth-Caches.</li><li>Live-Profile (<code>WaechterBot</code>, <code>BauBot</code>, <code>SWARM_BOT</code>) nie auf <code>19133</code>/<code>19134</code>; dort nur <code>SHOW_ACTOR</code>/<code>OBSERVER</code>.</li><li>Keine neuen Abhängigkeiten, keine kostenpflichtigen API-Calls, keine echten Konten, keine Firewall-/Systemänderungen ohne Chris.</li><li>Nicht raten: Emote-Nummern, FW-Vorlagennamen, Rätselblöcke und Tribes-Zahlen/IDs bleiben offen, bis sie aus einer echten Quelle kommen.</li><li>Kein Worker-Dispatch, bis Chris den Plan in der Werkbank geprüft hat. Keine zweite Rückfrage nötig — der Auftrag ist erteilt.</li></ul>
+<p><strong>Offene Punkte:</strong> drei Emote-UUIDs live erfassen (BP-008); konkrete FW-Vorlagennamen (BP-004) und Rätselblöcke (BP-001); Tribes-Zahlen/IDs (BP-014). Sie sind bewusst als offen markiert und werden nicht erfunden.</p>
+  </section>
+  <section>
+    <h2>07 — Verbindlicher 4-Stufen-Profi-UI-Prozess</h2>
+    <p>---</p>
+<p>typ: handbuch</p>
+<p>stand: 2026-11-23</p>
+<p>quelle: ops/SYSTEM_SSOT.json -&gt; uiProzess (Chris, 23.11.2026, T-228)</p>
+<p>auto_aktualisierung: bauplan_abschluss</p>
+<p>status: aktiv</p>
+<p>---</p>
+<h2>07 — Verbindlicher 4-Stufen-Profi-UI-Prozess</h2>
+<p>Dieses Kapitel ist die menschenlesbare Fassung des Prozesses, der <strong>vor jedem Coding</strong> einer Oberfläche durchlaufen wird. Maschinenlesbar liegt er in <code>ops/SYSTEM_SSOT.json</code> → <code>uiProzess</code>, verbindlich verankert in <code>AGENTS.md</code> §13. Er gilt für die VoxelCrew-Werkbank <code>7070</code>, die VoxelCrew-2ndScreen-Leitstelle und die In-Game-UI (<code>@minecraft/server-ui</code> mit Pure-Client-Fallback).</p>
+<p><strong>Grundhaltung:</strong> Ein Kind ab 10 Jahren soll das System ohne Anleitung bedienen können. Wenn eine Oberfläche Erklärungen, Dateipfade oder Fachbegriffe braucht, ist sie noch nicht fertig. Chris wird niemals gebeten, im Client manuell Testschritte auszulösen (AGENTS.md §11 Punkt 4).</p>
+<ul><li><strong>source:</strong> Chris, 23.11.2026 (T-228); Referenz <code>2026-11-20 anlage-07-referenz-minecraft-ui-design-system-und-wireframes.md</code></li><li><strong>begruendung:</strong> Bisher konnten Oberflächen direkt implementiert werden, ohne dass Ziel, Zustände und Vertrag vorab standen. Das erzeugte Nachbesserungen, Platzhalter im UI und Tests, die nur Code prüften, nicht die Journey. Die vier Stufen machen das vorher sichtbar.</li></ul>
+<p>---</p>
+<h3>Stufe 1 — Job-to-be-Done in einem Satz</h3>
+<p><strong>Pflicht:</strong> Genau ein Satz nach dem Muster</p>
+<p class="hinweis">„Wenn ______, will ich ______, damit ______.&quot;</p>
+<p>Regeln:</p>
+<ul><li>Sprache ab 10 Jahren; kein Fachbegriff, kein Dateipfad, kein Kürzel im Satz.</li><li><strong>Maximal 3 Klicks</strong> vom Auslöser bis zum sichtbaren Ergebnis. Der Klickpfad wird als Pfeilkette notiert: <code>Start → Knopf → Ergebnis</code>.</li><li>Der Satz steht im Task und im Result; er ist die Ablehnungsgrenze für alles, was danach gebaut wird.</li></ul>
+<p><strong>Beispiel (Bot-Hilfe):</strong> „Wenn der Bot etwas Falsches macht, will ich auf den großen Hilfeknopf drücken, damit er mir sofort sagt, was los ist und was ich tun kann.&quot; — Klickpfad: <code>Leitstelle → 🆘 Bot-Hilfe → Eskalationskarte</code> (2 Klicks).</p>
+<p><strong>Beweis:</strong> Ein-Satz-Text + Klickpfad im Task/Result. Fehlt er, gibt es keinen Implementierungsstart.</p>
+<p>---</p>
+<h3>Stufe 2 — 4-Zustands-Vertrag</h3>
+<p>Jeder Datenbereich einer Oberfläche muss vier explizite Zustände haben. Es gibt <strong>keinen</strong> fünften Zustand und keinen „irgendwie&quot;-Zustand.</p>
+<p class="tabelle"><span>Zustand</span> · <span>Bedeutung im UI</span> · <span>Erlaubte Darstellung</span> · <span>Verbot</span></p>
+<p class="tabelle"><span>`leer`</span> · <span>Noch nichts vorhanden</span> · <span>Freundlicher Satz + ein großer nächster Schritt</span> · <span>Leere Fläche, `-`, `null`</span></p>
+<p class="tabelle"><span>`laedt`</span> · <span>Anfrage läuft</span> · <span>Spinner + Kurztext „Ich schaue nach …&quot;</span> · <span>Alte Daten als neu ausgeben</span></p>
+<p class="tabelle"><span>`gefuellt`</span> · <span>Echte Daten da</span> · <span>Werte aus der API/IPC-Antwort mit Quelle und Zeitpunkt</span> · <span>Platzhalter, erfundene Zahlen, rohes Markdown</span></p>
+<p class="tabelle"><span>`handlungsbedarf`</span> · <span>Etwas blockiert oder fehlt</span> · <span>Klartext + genau eine empfohlene Aktion</span> · <span>Stiller Fehler, Consolenfehler, Tech-Fehlercode im Haupttext</span></p>
+<p><strong>Harte Regel:</strong> <code>gefuellt</code> ist nur erlaubt, wenn ein Beweis in der API-Antwort oder im Paketbeweis liegt. Ein fehlgeschlagener Request überschreibt nie den letzten guten Stand.</p>
+<p><strong>Beweis:</strong> Zustandstabelle je Bereich im Wireframe (Stufe 3), mit Spalte „Woher kommt der Wert?&quot;.</p>
+<p>---</p>
+<h3>Stufe 3 — ASCII-Wireframe nach anlage-07 + exakter Vertrag</h3>
+<p><strong>Pflicht vor dem Coding:</strong> Eine ASCII-Skizze mit Klickzielen und Zustandsübergängen <strong>und</strong> ein exakter API-/IPC-Vertrag. Beides gehört in Task/Handbuch, bevor die erste Zeile UI-Code entsteht.</p>
+<h3>Wireframe-Muster (Bot-Hilfe in der Leitstelle)</h3>
+<pre><code>+--------------------------------------------------------------+
+| VoxelCrew-Leitstelle        [ Server-Ampeln ]   [ 🆘 Bot-Hilfe ]|  &lt;- Klickziel 1
++--------------------------------------------------------------+
+| Zustand: gefuellt | Stand: 12:04 | Quelle: Werkbank           |
++--------------------------------------------------------------+
+|                                                              |
+|   🆘 Ich brauche Hilfe                                        |
+|   Der letzte Minuten-Film ist gespeichert.                    |
+|                                                              |
+|   Was ist passiert?   Der Bot hat die Treppe nicht gesehen.   |
+|   Was brauche ich?    Bitte schau auf den Film.               |
+|                                                              |
+|   [ Erneut versuchen ]  [ Auftrag stoppen ]  [ Mensch holen ] |  &lt;- Klickziel 2
++--------------------------------------------------------------+</code></pre>
+<p>Zustandsübergänge: <code>leer</code> → (Klick) → <code>laedt</code> → (Antwort ok) → <code>gefuellt</code> / (Antwort fehler) → <code>handlungsbedarf</code>. Jeder Übergang ist im Wireframe beschriftet.</p>
+<h3>API-/IPC-Vertrag (Beispiel Bot-Hilfe)</h3>
+<p class="tabelle"><span>Feld</span> · <span>Wert</span></p>
+<p class="tabelle"><span>Endpunkt</span> · <span>`POST /api/bot-hilfe`</span></p>
+<p class="tabelle"><span>Request</span> · <span>`{ &quot;grund&quot;: &quot;string (optional, max 200)&quot;, &quot;kontext&quot;: &quot;object (optional)&quot; }`</span></p>
+<p class="tabelle"><span>Response 200</span> · <span>`{ ok: true, hilfeId, clip: { von, bis, sekunden: 60, frames }, eskalation: { titel, wasPassiert, wasBraucheIch, optionen[] } }`</span></p>
+<p class="tabelle"><span>Response Fehler</span> · <span>`{ ok: false, error: &quot;Klartext ohne Dateipfad&quot; }` — UI zeigt `handlungsbedarf` mit Wiederholen-Knopf</span></p>
+<p class="tabelle"><span>In-Game (IPC)</span> · <span>Kompass → `ActionFormData` „🆘 Bot-Hilfe&quot; → `hilfe.request` → Antwort `hilfe.card`; bei fehlendem BehaviourPack identische Journey per Chat `/hilfe` → Bot-Feedback → Second Screen</span></p>
+<p>Ein Vertrag ohne Fehlerfall ist unvollständig. Für die In-Game-Variante wird zusätzlich der Pure-Client-Fallback beschrieben; es werden keine IDs oder Effekte geraten (AGENTS.md §5).</p>
+<p>---</p>
+<h3>Stufe 4 — Abnahme wie ein Profi</h3>
+<p><strong>Pflichtnachweise:</strong></p>
+<p>1. <strong>Playwright-Klick-/Formular-Test</strong> der kompletten Journey vom Auslöser bis zum sichtbaren Ergebnis — nicht nur Unit-Tests gegen Quelltext.</p>
+<p>2. <strong>Screenshot-Beleg</strong> je kritischem Zustand (<code>gefuellt</code>, <code>handlungsbedarf</code>), abgelegt im Testlauf.</p>
+<p>3. <strong>0 Browser-Konsolenfehler</strong> und <strong>0 fehlgeschlagene API-Requests</strong> (AGENTS.md §10.4).</p>
+<p>4. <strong>10-Jahre-Verständlichkeitscheck:</strong> Haupttext ohne Dateipfade, ohne <code>API</code>/<code>IPC</code>/<code>IPC-Vertrag</code>-Kürzel, ohne Englisch. Ein Test liest die sichtbaren Texte und prüft die Verbotsliste.</p>
+<p>5. <strong>Bot-Hilfe-Nachweis:</strong> Der große Notfallknopf erzeugt im Test einen 60-s-Clip und eine Eskalationskarte mit Klartext; beide sind im Beleg sichtbar.</p>
+<p>Der Lauf ist über den <code>heavy-e2e</code>-Lock serialisiert. Für Werkbank-Änderungen gilt zusätzlich <code>tests/werkbank-browser-e2e.test.js</code>, für Leitstellen-Änderungen <code>npm run test:browser</code> (<code>tests/cockpit-browser-e2e.test.js</code>). Ein <code>npm run verify</code> ohne grünen Browser-Test gilt für UI-Änderungen nicht als abgeschlossen.</p>
+<p>---</p>
+<h3>Der große „Bot-Hilfe&quot;-Notfallknopf</h3>
+<p>Der Baustein <code>ops/runtime/bot-hilfe.mjs</code> ist <strong>eine</strong> wiederverwendbare Plattformkomponente für alle drei Oberflächen (kein Wegwerf-Skript):</p>
+<ul><li><strong>Auslöser:</strong> Großer, gut sichtbarer Knopf mit 🆘 in der VoxelCrew-Werkbank und der 2ndScreen-Leitstelle. Im Spiel liegt er im In-Game-Kompass (Umsetzung in <code>BP-011 (In-Game-UI &amp; Pure-Client-Fallback)</code>; <code>server/**</code> bleibt bis zur Freigabe unangetastet).</li><li><strong>Automatik:</strong> Beim Drücken wird der letzte <strong>60-Sekunden-Flugschreiber-Clip</strong> eingesammelt und abgelegt. Kein Nutzer muss etwas einstellen oder tippen.</li><li><strong>Eskalationskarte:</strong> Klartext mit vier Feldern — „Was ist passiert?&quot;, „Was habe ich erwartet?&quot;, „Was brauche ich?&quot; und genau eine empfohlene Aktion. Keine Dateipfade, keine Tech-Kürzel, keine Schuldzuweisung.</li><li><strong>Ablage:</strong> <code>ops/runtime/bot-hilfe/</code> (gitignored). Kein Clip, kein Geheimnis und keine Weltdatei wird committet.</li></ul>
+<p><strong>Klickpfad:</strong> <code>Leitstelle → 🆘 Bot-Hilfe → Eskalationskarte</code> — 2 Klicks, erfüllt Stufe 1.</p>
+<h3>Geltungsbereich im Überblick</h3>
+<p class="tabelle"><span>Oberfläche</span> · <span>Stufe 1–3 dokumentiert</span> · <span>Stufe 4 Browser-Test</span> · <span>Bot-Hilfe-Status</span></p>
+<p class="tabelle"><span>Werkbank `7070`</span> · <span>ja (T-228)</span> · <span>`tests/werkbank-browser-e2e.test.js`</span> · <span>umgesetzt</span></p>
+<p class="tabelle"><span>2ndScreen-Leitstelle</span> · <span>ja (T-228)</span> · <span>`npm run test:browser`</span> · <span>umgesetzt</span></p>
+<p class="tabelle"><span>In-Game-Kompass</span> · <span>ja (T-228 / BP-011)</span> · <span>E2E auf `19134` nach Freigabe</span> · <span>vertraglich festgelegt, Umsetzung in BP-011</span></p>
+<p><strong>Offen (nicht geraten):</strong> Die konkreten Emote-UUIDs für Winken/Klatschen/Folge-mir sind im Vault ausdrücklich „live erfassen&quot;; sie werden nicht erfunden. Die In-Game-Dialoge entstehen erst mit Freigabe von <code>BP-011</code>.</p>
+  </section>
+  </main>
+  <footer>Seiten für dein Notizbuch — ohne Anmeldung und ohne JavaScript.</footer>
+</body>
+</html>

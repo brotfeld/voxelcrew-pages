@@ -28,7 +28,7 @@
 <body>
   <header>
     <h1>Regeln und SSOT</h1>
-    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-23 · e66c68b7bbe59a69abf1334e15efb29ec57f8bbe</p>
+    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-23 · e2a3c4d59589daf386172627168af7d3f6ba34a5</p>
     <p class="meta">Aus geprüften Quellen erzeugt · spiegel · Negativliste: 0 Treffer</p>
     <nav aria-label="Kapitel">
       <a href="index.html">Übersicht</a>
@@ -873,24 +873,6 @@ node tests/world-invariants.test.js   # Logik-Selbsttest, keine Calls</code></pr
 <p class="tabelle"><span>Registrierter Baustein</span> · <span>Capability `export.notebookPages`, BP-016 (`manual`, `entwurf`) in Registry/Versionen/Landkarte</span> · <span>`ops/capabilities.json`, `ops/blueprints/registry.json`, `ops/system-map.json`</span></p>
 <p><strong>Vier-Stufen-Prozess (AGENTS.md §13):</strong> vor dem Coding in <code>ops/plan/BP-016-ui-prozess.md</code> dokumentiert — Job-to-be-Done, vier Zustände (<code>leer</code>/<code>lädt</code>/<code>gefüllt</code>/<code>handlungsbedarf</code>), Wireframe + Exporter-/Workflow-Vertrag, Abnahme mit Playwright/HTTP-Crawler und Screenshot-Beleg.</p>
 <p><strong>Gaps / Risiken:</strong> Veröffentlichung und Live-Curl hängen vom ersten Workflow-Lauf auf <code>main</code> und vom hinterlegten Repo-Secret ab; ohne Token bleibt der Artifact-Fallback grün. Worker-Dispatch bleibt pausiert; keine finale Einladung zur Live-Präsentation.</p>
-<h3>14) T-233 — Eine URL: <code>index.html</code> als vollständige Hauptquelle (Soll → Ist)</h3>
-<p><strong>User Journey:</strong> Externe Website-Quellen rufen genau <code>https://github.io</code> auf und folgen keinen</p>
-<p>HTML-Unterlinks. Deshalb enthält die direkt gelieferte <code>index.html</code> seit T-233 alle fünf</p>
-<p>Wissensblöcke selbst: Stand/Commit, SSOT/Kernregeln, Handbuch/Fähigkeiten, alle 17 Baupläne</p>
-<p>und die vier echten Observer-Punkte samt Verify-Historie. <code>GET /</code> und <code>GET /index.html</code></p>
-<p>liefern identischen Inhalt; die Unterseiten bleiben nur noch Detail-Archiv.</p>
-<p class="tabelle"><span>Soll</span> · <span>Ist</span> · <span>Beleg</span></p>
-<p class="tabelle"><span>Eine URL genügt</span> · <span>Fünf `&lt;section&gt;`-Blöcke, 17 Baupläne, vier Observer-Punkte direkt im DOM</span> · <span>`tests/notebook-pages-e2e.test.js`, `tests/notebook-pages-browser.test.js`</span></p>
-<p class="tabelle"><span>Strenges Budget</span> · <span>`index.html` strikt &lt; 179 200 Byte; alle anderen Seiten &lt; 184 320 Byte</span> · <span>`INDEX_LIMIT_BYTES` in `ops/scripts/export-notebook-sync.mjs`</span></p>
-<p class="tabelle"><span>Nie an der Größe scheitern</span> · <span>`verdichteIndexHtml()`: Verify-Historie auf 5 Läufe, Whitespace, Detaillisten; Guard gibt verdichtete Seiten zurück</span> · <span>Guard-Negativ- und Positivfall im E2E-Test</span></p>
-<p class="tabelle"><span>0 JavaScript, 0 externe Requests</span> · <span>Inline-Icon, `pruefePagesGuard()` vor dem ersten Write, Browser-Ressourcen-Check</span> · <span>`tests/notebook-pages-browser.test.js`, 5 Screenshots in `ops/results/T-233-belege/`</span></p>
-<p class="tabelle"><span>Kein manueller Chris-Klick</span> · <span>Workflow baut, prüft Budget/Blöcke und pusht nur ins Doku-Repo; ohne Token Artifact-Fallback</span> · <span>`.github/workflows/notebook-pages.yml`</span></p>
-<p><strong>Vier-Stufen-Prozess (AGENTS.md §13):</strong> vor dem Coding in <code>ops/plan/T-233-ein-url-ui-prozess.md</code></p>
-<p>dokumentiert — Job-to-be-Done, vier Zustände, Wireframe plus Budget-Vertrag, Abnahme per</p>
-<p>HTTP-Crawler und echtem Chromium mit Screenshot-Belegen.</p>
-<p><strong>Gaps / Risiken:</strong> Die tatsächliche Veröffentlichung hängt weiterhin vom Workflow-Lauf auf</p>
-<p><code>main</code> und dem Doku-Token ab; lokal ist der Artifact-Fallback grün. Keine Änderung an Ports,</p>
-<p>Safety, Auth oder Sichtbarkeit der Quell-Repos.</p>
   </section>
   <section>
     <h2>Fähigkeiten</h2>

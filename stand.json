@@ -1,8 +1,8 @@
 {
   "schema": "voxelcrew-pages-stand.v1",
-  "generatedAt": "2026-11-23T21:07:36.715Z",
+  "generatedAt": "2026-11-23T21:21:23.368Z",
   "datum": "2026-11-23",
-  "commitSha": "e66c68b7bbe59a69abf1334e15efb29ec57f8bbe",
+  "commitSha": "e2a3c4d59589daf386172627168af7d3f6ba34a5",
   "quellmodus": "spiegel",
   "ssotStand": "2026-11-23",
   "blueprints": 17,
@@ -22,16 +22,14 @@
   "redaction": "gruen",
   "groessenlimitBytes": 184320,
   "seitenGroessen": {
-    "index.html": 26049,
-    "ssot-und-regeln.html": 161830,
+    "index.html": 4552,
+    "ssot-und-regeln.html": 159312,
     "handbuecher-1-4.html": 28560,
     "handbuecher-5-7.html": 34195,
     "bauplaene-000-007.html": 7999,
     "bauplaene-008-016.html": 7912,
-    "e2e-ergebnisse.html": 5077,
-    "stand.json": 959,
+    "e2e-ergebnisse.html": 4965,
+    "stand.json": 858,
     ".nojekyll": 0
-  },
-  "indexLimitBytes": 179200,
-  "verifyLaeufeImIndex": 5
+  }
 }

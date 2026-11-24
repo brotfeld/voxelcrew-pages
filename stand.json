@@ -1,8 +1,8 @@
 {
   "schema": "voxelcrew-pages-stand.v1",
-  "generatedAt": "2026-11-24T08:12:15.146Z",
+  "generatedAt": "2026-11-24T10:26:25.164Z",
   "datum": "2026-11-24",
-  "commitSha": "3bc00a126deb39830fdcb0799efad3eab6b713c8",
+  "commitSha": "4c9bcc4f5779b34057d7329ddb92a74971ebcddb",
   "quellmodus": "spiegel",
   "ssotStand": "2026-11-23",
   "blueprints": 17,
@@ -17,11 +17,11 @@
   "redaction": "gruen",
   "groessenlimitBytes": 184320,
   "seitenGroessen": {
-    "index.html": 26417,
+    "index.html": 27291,
     "stand.json": 617,
     ".nojekyll": 0
   },
   "indexLimitBytes": 179200,
   "verifyLaeufeImIndex": 5,
-  "indexBytes": 26417
+  "indexBytes": 27291
 }

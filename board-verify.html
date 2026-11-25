@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Board-Verify — VoxelCrew Wissen</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    body { margin: 0; color: #17202a; background: #f7f9fb; line-height: 1.55; }
+    header, main, footer { max-width: 980px; margin: 0 auto; padding: 1.25rem 1.5rem; }
+    header { background: #fff; border-bottom: 3px solid #2c7a7b; }
+    h1 { margin: 0 0 .35rem; font-size: 1.7rem; }
+    h2 { font-size: 1.25rem; margin: 1.75rem 0 .6rem; }
+    h3 { font-size: 1.05rem; margin: 1.1rem 0 .4rem; color: #2c7a7b; }
+    p, li { margin: .35rem 0; }
+    section, article { background: #fff; border: 1px solid #e2e8f0; border-radius: .5rem; padding: .75rem 1.1rem; margin: .9rem 0; }
+    pre { margin: 0; overflow-x: auto; white-space: pre-wrap; word-break: break-word; font-size: .78rem; }
+    code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
+    .meta { color: #4a5568; font-size: .85rem; }
+    .tabelle span { display: inline-block; padding: 0 .45rem 0 0; }
+    .hinweis { border-left: 3px solid #2c7a7b; padding-left: .7rem; color: #2d3748; }
+    footer { color: #4a5568; font-size: .8rem; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Board-Verify</h1>
+    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-25 · lokal</p>
+    <p class="meta">Aus geprüften Quellen erzeugt · spiegel · Negativliste: 0 Treffer</p>
+  </header>
+  <main>
+
+  <section id="punkte-block">
+    <h2>Vier Punkte aus dem letzten Testlauf</h2>
+    <article>
+        <h3>1. Blöcke und Bühne — GRÜN</h3>
+        <p><strong>Beweis:</strong> 2566 echte update_block-Pakete · 13 geprüfte Blöcke · 0 Fehler</p>
+        <ul><li>minecraft:quartz_block bei (10, 69, 10)</li><li>minecraft:quartz_block bei (11, 69, 10)</li><li>minecraft:jukebox bei (11, 70, 10)</li><li>minecraft:quartz_block bei (10, 71, 2)</li><li>minecraft:sea_lantern bei (6, 73, 7)</li><li>minecraft:stone_bricks bei (6, 60, 7)</li><li>minecraft:stone_bricks bei (14, 68, 13)</li><li>minecraft:stone_bricks bei (5, 68, 10)</li><li>minecraft:stone_bricks bei (15, 68, 10)</li><li>minecraft:stone_bricks bei (10, 68, 6)</li><li>minecraft:stone_bricks bei (7, 68, 14)</li><li>minecraft:quartz_block bei (7, 71, 22)</li><li>minecraft:sea_lantern bei (7, 73, 16)</li></ul>
+      </article>
+      <article>
+        <h3>2. Gehaltenes Item — GRÜN</h3>
+        <p><strong>Beweis:</strong> mob_equipment-Paket: Crew-1 trägt minecraft:music_disc_cat (mainhand)</p>
+        <ul><li>Crew-1: minecraft:music_disc_cat</li></ul>
+      </article>
+      <article>
+        <h3>3. Sicht und Weg — GRÜN</h3>
+        <p><strong>Beweis:</strong> 4/4 Sichtziele frei gesehen · 4 Zugänge · 0 Fehler · Augenhöhe y+1,62</p>
+        <ul><li>Buehne: 7.46 Blöcke, 4.4° horizontal, 19.04° vertikal, Raycast blockiert=false</li><li>Jukebox: 7.03 Blöcke, 4.4° horizontal, 11.89° vertikal, Raycast blockiert=false</li><li>Kulisse: 14.6 Blöcke, 1.97° horizontal, 3.63° vertikal, Raycast blockiert=false</li><li>Aufgang Nord: 9.87 Blöcke, 3.01° horizontal, 5.4° vertikal, Raycast blockiert=false</li></ul>
+      </article>
+      <article>
+        <h3>4. Richtige Welt — GRÜN</h3>
+        <p><strong>Beweis:</strong> ShowWorld auf Port 19133 · wrong_server=false · 0 OpenRouter-Calls</p>
+        <ul><li>Meilenstein: grosse-crew-bot-tanzshow-19133</li><li>Pakete insgesamt: 10154</li><li>Gesamturteil: GRÜN</li></ul>
+      </article>
+    <h3>Verify-Läufe</h3>
+    <p>Die letzten 5 Läufe direkt aus <code>ops/results/*.verify.json</code>.</p>
+  <table><thead><tr><th>Datei</th><th>Erzeugt</th><th>Grün</th><th>Rot</th><th>Einzeltests</th></tr></thead><tbody data-verlauf><tr><td>T-271.verify.json</td><td>2026-11-25T11:55:15.305Z</td><td>61</td><td>5</td><td>66</td></tr><tr><td>T-272.verify.json</td><td>2026-11-25T12:16:33.198Z</td><td>63</td><td>3</td><td>66</td></tr><tr><td>T-273.verify.json</td><td>2026-11-25T12:24:49.999Z</td><td>62</td><td>5</td><td>67</td></tr><tr><td>T-274.verify.json</td><td>2026-11-25T12:41:42.346Z</td><td>67</td><td>0</td><td>67</td></tr><tr><td>T-275.verify.json</td><td>2026-11-25T13:18:31.553Z</td><td>68</td><td>0</td><td>68</td></tr></tbody></table>
+  </section>
+  <section id="regeln-block">
+    <h2>System-SSOT und Kernregeln (Kurz)</h2>
+    <li><h3>Server und Ports</h3>
+  <p>Alle drei Server fahren <code>transport=nethernet</code>; nur die Live-Welt hat LAN sichtbar und hält UDP 7551.</p>
+  <table><thead><tr><th>Rolle</th><th>Port</th><th>Transport</th><th>LAN</th><th>Tests/Shows</th></tr></thead><tbody><tr><td>Live-Welt</td><td>19132</td><td>nethernet</td><td>ja, nur hier</td><td>strikt tabu</td></tr><tr><td>Showcase-Bühne</td><td>19133</td><td>nethernet</td><td>nein</td><td>—</td></tr><tr><td>E2E-Testserver</td><td>19134</td><td>nethernet</td><td>nein</td><td>—</td></tr></tbody></table>
+  <h3>Akteurs-Isolation</h3><ul></li><li>Live (19132): WaechterBot, BauBot, SWARM_BOT</li></li><li>Showcase (19133) und E2E (19134): SHOW_ACTOR, OBSERVER / SHOW_ACTOR, OBSERVER</li></li><li>Live-Bots (WaechterBot, BauBot, SWARM_BOT) dürfen niemals auf 19133/19134 eingeloggt werden.</li></li>
+    <em>(Ausschnitt: erste vier Regel-Einträge)</em>
+  </section>
+  </main>
+  <footer>Seiten für dein Notizbuch — ohne Anmeldung und ohne JavaScript.</footer>
+</body>
+</html>

@@ -1,10 +1,10 @@
 {
-  "run_id": "RUN-FC-BASELINE-001",
+  "run_id": "RUN-FC-BASELINE-003",
   "project_id": "factory-core",
   "display_name": "Factory Core (Entwicklungssystem)",
-  "package_title": "Stufe 1 Baseline: Architektur, Native n8n-Regeln, Komponenten & 4-Stufen-Fahrplan",
-  "layers_count": 6,
-  "generated_at": "2026-11-26T17:04:58.959-05:00",
+  "package_title": "Stufe 1 Baseline v4: Zwei-Ebenen-Architektur, 6 Schichten, Vertrag v4.3, STEVE & DB-Schema",
+  "layers_count": 11,
+  "generated_at": "2026-11-26T17:21:09.429-05:00",
   "manifest": {
     "pages_repo": "https://github.com/brotfeld/voxelcrew-pages.git",
     "forbidden_strings": [
@@ -23,7 +23,7 @@
     ]
   },
   "payload": {
-    "run_id": "RUN-FC-BASELINE-001",
+    "run_id": "RUN-FC-BASELINE-003",
     "artifacts": [
       {
         "id": "ADR-FC-001",
@@ -40,80 +40,230 @@
         "rationale": "Jeder Workflow beginnt unmittelbar nach dem Trigger mit einer Edit-Fields-Node 'Config' fuer alle Konstanten, referenziert ueber {{ $('Config').first().json.<key> }}. Entscheidungen und Schleifen laufen ausschliesslich ueber native kostenfreie n8n-Nodes (If, Switch, Split Out, Loop Over Items). Alle Nodes tragen verstaendliche Beschreibungen."
       },
       {
+        "id": "ADR-FC-003",
+        "type": "ADR",
+        "title": "Zwei-Ebenen-Architektur & Adapter-Prinzip (Core vs. Projekt-Cartridges)",
+        "status": "ACTIVE",
+        "architecture": {
+          "ebene_a_core": {
+            "id": "factory-core",
+            "responsibility": "100 % domaenenagnostische Software-Fabrik (Orchestrierung, SSOT-Engine, 0-Token-n8n-Pipeline, Telemetrie, Account-Pool, Guardrails, Git/Gitea-Sync, Pages-Generator).",
+            "strict_boundary": "Kennt keinerlei Zielsystem-Domaene im Core-Code."
+          },
+          "ebene_b_cartridges": {
+            "path_pattern": "projects/<project_id>/",
+            "responsibility": "Austauschbare Projekt-Cartridge mit fachlichen Spezifikationen (alle 6 Schichten), Policy-Hooks und projektspezifischen Test-Harnesses.",
+            "strict_boundary": "Darf den Core niemals umschreiben, sondern klinkt sich ausschliesslich ueber deklarierte Policy- und Harness-Adapter ein.",
+            "adapter_manifest": "project.manifest.json (project_id, repo_endpoints, policy_guards, test_harnesses, ui_render_targets)"
+          }
+        }
+      },
+      {
+        "id": "SPEC-FC-6LAYERS",
+        "type": "SPEC",
+        "title": "Verbindliches 6-Schichten-Modell fuer alle Zielsystem-Cartridges",
+        "layers": [
+          {
+            "code": "SYS",
+            "name": "System & Infrastruktur",
+            "path": "specs/system/SYS-*.html",
+            "layer": 1
+          },
+          {
+            "code": "MOD",
+            "name": "Module & Komponenten",
+            "path": "specs/modules/MOD-*.html",
+            "layer": 2
+          },
+          {
+            "code": "API/EVT",
+            "name": "Schnittstellen & Contracts",
+            "path": "specs/contracts/API-*.html, EVT-*.html",
+            "layer": 3
+          },
+          {
+            "code": "BP/UC",
+            "name": "Prozesse & Workflows",
+            "path": "specs/processes/BP-*.html, UC-*.html",
+            "layer": 4
+          },
+          {
+            "code": "UI",
+            "name": "Ziel-UIs (Adapter-faehig)",
+            "path": "specs/ui/UI-*.html",
+            "layer": 5
+          },
+          {
+            "code": "TEST",
+            "name": "Test- & Abnahme-Plaene",
+            "path": "specs/tests/TEST-*.html",
+            "layer": 6
+          }
+        ],
+        "status": "ACTIVE"
+      },
+      {
+        "id": "CONTRACT-COPILOT-V4.3",
+        "type": "CONTRACT",
+        "rules": [
+          "1. Strikte Domaenentrennung: Core-Verbesserungen immer agnostisch in factory-core; fachliche Features gekapselt in der Projekt-Cartridge.",
+          "2. Ganzheitliche 6-Schichten-Pruefung (SYS, MOD, API/EVT, BP/UC, UI, TEST) vor jedem Paket und Lieferung als schluesselfertiges JSON-Uebergabepaket fuer POST /webhook/ssot-intake.",
+          "3. Teilschritt-Ausfuehrung & E2E-Pflicht: Kein Paket ohne zugehoerige TEST-*-Spezifikation; atomare test-gesicherte Teilschritte, Spiegelung nach Gitea und Aktualisierung der No-JS GitHub-Pages-SSOT.",
+          "4. Session-Hygiene & Blackbox-Trennung: Keine Inline-Shell-Einzeiler im Chat, alle n8n-Workflows als importierbare JSON-Dateien, frischer Chat-Thread nach jedem Quellen-Refresh."
+        ],
+        "title": "Co-Pilot-Verfassung v4.3 (Gesamtfassung)",
+        "status": "ACTIVE"
+      },
+      {
+        "id": "INFRA-HOST-STEVE",
+        "host": "STEVE",
+        "type": "INFRA",
+        "title": "Hybrid-Stack auf Host STEVE",
+        "status": "ACTIVE",
+        "services": {
+          "n8n": {
+            "notes": "Read/Write File Node ist auf /home/node/.n8n-files beschraenkt; Datei-Schreibvorgaenge im Repo laufen ueber Execute Command.",
+            "endpoint": "127.0.0.1:5678",
+            "container": "hybrid-n8n"
+          },
+          "gitea": {
+            "port": 3001,
+            "role": "Lokaler Git-Backup-Spiegel"
+          },
+          "postgres": {
+            "port": 5432,
+            "schema": "factory_core",
+            "database": "hybrid",
+            "container": "hybrid-postgres"
+          },
+          "git_credentials": "/home/node/.git-credentials",
+          "ssot_repo_mount": "/home/node/.n8n/factory-ssot/voxelcrew-pages"
+        }
+      },
+      {
+        "id": "SCHEMA-FC-DB",
+        "type": "SCHEMA",
+        "title": "PostgreSQL-Datenbankschema factory_core",
+        "schema": "factory_core",
+        "status": "ACTIVE",
+        "tables": {
+          "projects": {
+            "columns": [
+              {
+                "name": "project_id",
+                "type": "text",
+                "nullable": false
+              },
+              {
+                "name": "display_name",
+                "type": "text",
+                "nullable": false
+              },
+              {
+                "name": "manifest_json",
+                "type": "jsonb",
+                "default": "{}",
+                "nullable": false
+              },
+              {
+                "name": "updated_at",
+                "type": "timestamptz",
+                "default": "now()",
+                "nullable": false
+              }
+            ],
+            "primary_key": "project_id"
+          },
+          "intake_runs": {
+            "columns": [
+              {
+                "name": "run_id",
+                "type": "text",
+                "nullable": false
+              },
+              {
+                "name": "project_id",
+                "type": "text",
+                "nullable": false
+              },
+              {
+                "name": "package_title",
+                "type": "text",
+                "nullable": false
+              },
+              {
+                "name": "status",
+                "type": "text",
+                "default": "RECEIVED",
+                "nullable": false
+              },
+              {
+                "name": "layers_count",
+                "type": "integer",
+                "default": 0,
+                "nullable": false
+              },
+              {
+                "name": "payload_json",
+                "type": "jsonb",
+                "nullable": false
+              },
+              {
+                "name": "validation_errors",
+                "type": "jsonb",
+                "default": "[]",
+                "nullable": false
+              },
+              {
+                "name": "created_at",
+                "type": "timestamptz",
+                "default": "now()",
+                "nullable": false
+              }
+            ],
+            "primary_key": "run_id",
+            "foreign_keys": [
+              "project_id -> factory_core.projects(project_id)"
+            ]
+          }
+        }
+      },
+      {
         "id": "COMP-FC-00c",
         "type": "COMPONENT",
-        "title": "DB-Bootstrap (factory_core Schema)",
-        "status": "VERIFIED",
-        "tables": {
-          "projects": [
-            "project_id",
-            "display_name",
-            "manifest_json",
-            "updated_at"
-          ],
-          "intake_runs": [
-            "run_id",
-            "project_id",
-            "package_title",
-            "status",
-            "layers_count",
-            "payload_json",
-            "validation_errors",
-            "created_at"
-          ]
-        },
-        "workflow": "FC-00c DB-Schema Bootstrap (Nativ)"
+        "title": "FC-00c DB-Schema Bootstrap (Nativ)",
+        "status": "ACTIVE",
+        "trigger": "Manual Trigger",
+        "description": "Idempotenter Aufbau von Schema factory_core, Tabellen projects und intake_runs sowie Basis-Projekt factory-core."
       },
       {
         "id": "COMP-FC-01",
         "type": "COMPONENT",
-        "title": "SSOT-Intake (Ingress & Persistenz)",
-        "inputs": [
-          "project_id",
-          "run_id",
-          "package_title",
-          "artifacts[]"
-        ],
-        "status": "VERIFIED",
-        "outputs": [
-          "HTTP 200 JSON (ok, run_id, project_id)",
-          "HTTP 400 JSON (error)"
-        ],
-        "endpoint": "POST /webhook/ssot-intake",
-        "workflow": "FC-01 SSOT-Intake (Nativ)"
+        "title": "FC-01 SSOT-Intake (Nativ v3)",
+        "status": "ACTIVE",
+        "trigger": "POST /webhook/ssot-intake",
+        "description": "Nimmt SSOT-Pakete entgegen, prueft Pflichtfelder nativ (If) und speichert Projekt sowie Lauf (status=VALIDATED) in Postgres."
       },
       {
         "id": "COMP-FC-02",
         "type": "COMPONENT",
-        "title": "Renderer & Publisher (Nativer GitHub-Pages-Export)",
-        "inputs": [
-          "run_id",
-          "project_id"
-        ],
-        "status": "VERIFIED",
-        "outputs": [
-          "factory/<project_id>/ai-context-bundle.html",
-          "factory/<project_id>/stand.json"
-        ],
-        "endpoint": "POST /webhook/ssot-render",
-        "features": [
-          "Bearbeitbare HTML- und JSON-Templates direkt in der Config-Node",
-          "0 JavaScript-Nodes, rein native File- und Git-Ausfuehrung"
-        ],
-        "workflow": "FC-02 Renderer & Publisher (Nativ)"
+        "title": "FC-02 Renderer & Publisher (Nativ v8)",
+        "status": "ACTIVE",
+        "trigger": "POST /webhook/ssot-render",
+        "description": "Liest Run & Manifest per JOIN, fuellt bearbeitbare HTML/JSON-Templates aus Config, schreibt ai-context-bundle.html & stand.json, committet/pusht auf main und setzt Run auf PUBLISHED."
       },
       {
-        "id": "ROADMAP-FC",
+        "id": "ROADMAP-FC-STAGES",
         "type": "ROADMAP",
         "title": "4-Stufen-Ausbauplan factory-core",
         "stages": [
           {
-            "name": "Eigenes System-SSOT & Native Pipeline (FC-01, FC-02)",
+            "name": "System-SSOT, Schema & Native Pipeline (FC-01/FC-02)",
             "stage": 1,
             "status": "DONE"
           },
           {
-            "name": "Supervisor & Atomares Locking in Postgres (Lease, Heartbeat, Retry/Dead-Letter)",
+            "name": "Supervisor, Atomares Locking (SKIP LOCKED / Lease) & Agnostisches Manifest-Routing",
             "stage": 2,
             "status": "NEXT"
           },
@@ -123,7 +273,7 @@
             "status": "PLANNED"
           },
           {
-            "name": "Multi-Maschinen-Anbindung (Remote-Worker auf weiteren Rechnern)",
+            "name": "Multi-Maschinen-Anbindung (Remote-Worker & Kapazitaets-Routing)",
             "stage": 4,
             "status": "PLANNED"
           }
@@ -132,6 +282,7 @@
       }
     ],
     "project_id": "factory-core",
-    "package_title": "Stufe 1 Baseline: Architektur, Native n8n-Regeln, Komponenten & 4-Stufen-Fahrplan"
+    "display_name": "Factory Core (Entwicklungssystem)",
+    "package_title": "Stufe 1 Baseline v4: Zwei-Ebenen-Architektur, 6 Schichten, Vertrag v4.3, STEVE & DB-Schema"
   }
 }

@@ -26,7 +26,7 @@
 <body>
   <header>
     <h1>Board-Verify</h1>
-    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-26 · df6f8b1332e747958b3b443e20c1c8e8a7e3b210</p>
+    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-26 · 61021a2703ff08de7532045da4673c54e17d280e</p>
     <p class="meta">Aus geprüften Quellen erzeugt · spiegel · Negativliste: 0 Treffer</p>
   </header>
   <main>
@@ -55,13 +55,13 @@
       </article>
     <h3>Verify-Läufe</h3>
     <p>Die letzten 5 Läufe direkt aus <code>ops/results/*.verify.json</code>.</p>
-  <table><thead><tr><th>Datei</th><th>Erzeugt</th><th>Grün</th><th>Rot</th><th>Einzeltests</th></tr></thead><tbody data-verlauf><tr><td>T-294.verify.json</td><td>2026-11-26T01:13:49.745Z</td><td>75</td><td>0</td><td>75</td></tr><tr><td>T-295.verify.json</td><td>2026-11-26T01:18:35.180Z</td><td>75</td><td>0</td><td>75</td></tr><tr><td>T-296.verify.json</td><td>2026-11-26T01:45:54.639Z</td><td>75</td><td>0</td><td>75</td></tr><tr><td>T-297.verify.json</td><td>2026-11-26T02:00:31.974Z</td><td>75</td><td>0</td><td>75</td></tr><tr><td>T-304.verify.json</td><td>2026-11-26T01:27:57.649Z</td><td>75</td><td>0</td><td>75</td></tr></tbody></table>
+  <table><thead><tr><th>Datei</th><th>Erzeugt</th><th>Grün</th><th>Rot</th><th>Einzeltests</th></tr></thead><tbody data-verlauf><tr><td>T-295.verify.json</td><td>2026-11-26T01:18:35.180Z</td><td>75</td><td>0</td><td>75</td></tr><tr><td>T-296.verify.json</td><td>2026-11-26T01:45:54.639Z</td><td>75</td><td>0</td><td>75</td></tr><tr><td>T-297.verify.json</td><td>2026-11-26T02:00:31.974Z</td><td>75</td><td>0</td><td>75</td></tr><tr><td>T-303.verify.json</td><td>2026-11-26T03:04:11.404Z</td><td>75</td><td>0</td><td>75</td></tr><tr><td>T-304.verify.json</td><td>2026-11-26T01:27:57.649Z</td><td>75</td><td>0</td><td>75</td></tr></tbody></table>
   </section>
   <section id="regeln-block">
     <h2>System-SSOT und Kernregeln (Kurz)</h2>
     <li><h3>Server und Ports</h3>
   <p>Alle drei Server fahren <code>transport=nethernet</code>; nur die Live-Welt hat LAN sichtbar und hält UDP 7551.</p>
-  <table><thead><tr><th>Rolle</th><th>Port</th><th>Transport</th><th>LAN</th><th>Tests/Shows</th></tr></thead><tbody><tr><td>Live-Welt</td><td>19132</td><td>nethernet</td><td>ja, nur hier</td><td>strikt tabu</td></tr><tr><td>Showcase-Bühne</td><td>19133</td><td>nethernet</td><td>nein</td><td>—</td></tr><tr><td>E2E-Testserver</td><td>19134</td><td>nethernet</td><td>nein</td><td>—</td></tr></tbody></table>
+  <table><thead><tr><th>Rolle</th><th>Port</th><th>Transport</th><th>LAN</th><th>Tests/Shows</th></tr></thead><tbody><tr><td>VoxelCrew:Oberwelt</td><td>19132</td><td>nethernet</td><td>ja, nur hier</td><td>strikt tabu</td></tr><tr><td>VoxelCrew:Nether</td><td>19133</td><td>nethernet</td><td>nein</td><td>—</td></tr><tr><td>VoxelCrew:Ende</td><td>19134</td><td>nethernet</td><td>nein</td><td>—</td></tr></tbody></table>
   <h3>Akteurs-Isolation</h3><ul></li><li>Live (19132): SWARM_BOT</li></li><li>Showcase (19133) und E2E (19134): SHOW_ACTOR, OBSERVER / SHOW_ACTOR, OBSERVER</li></li><li>Auf 19132 (VoxelCrew:Oberwelt, live) ist ausschließlich SWARM_BOT erlaubt.</li></li>
     <em>(Ausschnitt: erste vier Regel-Einträge)</em>
   </section>

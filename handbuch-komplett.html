@@ -26,7 +26,7 @@
 <body>
   <header>
     <h1>Handbuch Komplett</h1>
-    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-26 · 420f78d036581385ab5cdf2261a39c09ab688295</p>
+    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-26 · 672d16718c32380973b82484ef42b11249604f5d</p>
     <p class="meta">Aus geprüften Quellen erzeugt · spiegel · Negativliste: 0 Treffer</p>
   </header>
   <main>
@@ -44,7 +44,7 @@
     <h3>Server und Ports</h3>
   <p>Alle drei Server fahren <code>transport=nethernet</code>; nur die Live-Welt hat LAN sichtbar und hält UDP 7551.</p>
   <table><thead><tr><th>Rolle</th><th>Port</th><th>Transport</th><th>LAN</th><th>Tests/Shows</th></tr></thead><tbody><tr><td>Live-Welt</td><td>19132</td><td>nethernet</td><td>ja, nur hier</td><td>strikt tabu</td></tr><tr><td>Showcase-Bühne</td><td>19133</td><td>nethernet</td><td>nein</td><td>—</td></tr><tr><td>E2E-Testserver</td><td>19134</td><td>nethernet</td><td>nein</td><td>—</td></tr></tbody></table>
-  <h3>Akteurs-Isolation</h3><ul><li>Live (19132): WaechterBot, BauBot, SWARM_BOT</li><li>Showcase (19133) und E2E (19134): SHOW_ACTOR, OBSERVER / SHOW_ACTOR, OBSERVER</li><li>Live-Bots (WaechterBot, BauBot, SWARM_BOT) dürfen niemals auf 19133/19134 eingeloggt werden.</li><li>Auf 19133/19134 laufen ausschließlich SHOW_ACTOR- und OBSERVER-Profile.</li><li>Umgekehrt dürfen SHOW_ACTOR/OBSERVER niemals auf 19132 eingeloggt werden.</li><li>Die Prüfung erfolgt zentral in ops/lib/actor-profile-guard.cjs vor jedem Verbindungsaufbau.</li></ul>
+  <h3>Akteurs-Isolation</h3><ul><li>Live (19132): SWARM_BOT</li><li>Showcase (19133) und E2E (19134): SHOW_ACTOR, OBSERVER / SHOW_ACTOR, OBSERVER</li><li>Auf 19132 (VoxelCrew:Oberwelt, live) ist ausschließlich SWARM_BOT erlaubt.</li><li>Auf 19133/19134 (VoxelCrew:Nether/VoxelCrew:Ende) laufen ausschließlich SHOW_ACTOR- und OBSERVER-Profile.</li><li>Umgekehrt dürfen SHOW_ACTOR/OBSERVER niemals auf 19132 eingeloggt werden.</li><li>Die Prüfung erfolgt zentral in ops/lib/actor-profile-guard.cjs vor jedem Verbindungsaufbau.</li></ul>
   <h3>Worker kilo1–kilo5</h3>
   <table><thead><tr><th>Name</th><th>Typ</th><th>Modell</th><th>Maschine</th></tr></thead><tbody><tr><td>kilo1</td><td>gateway</td><td>kilo-auto/free</td><td>hauptrechner</td></tr><tr><td>kilo2</td><td>openrouter</td><td>openrouter/free + Fallback-Kette aus T-199</td><td>hauptrechner</td></tr><tr><td>kilo3</td><td>gateway</td><td>kilo-auto/free</td><td>feldbuch</td></tr><tr><td>kilo4</td><td>gateway</td><td>kilo-auto/free</td><td>feldbuch</td></tr><tr><td>kilo5</td><td>gateway</td><td>kilo-auto/free</td><td>hauptrechner</td></tr></tbody></table>
   <h3>Stop-Bedingungen und Chris-Tore</h3><ol><li>Eingriff in den Live-Port 19132 oder Löschen/Überschreiben von Weltdaten</li><li>Kostenpflichtige API-Calls ohne Bestätigung</li><li>Windows-System- oder Firewall-Änderungen</li><li>Finale Einladung zur fertigen Live-Präsentation an Chris — erst bei grünen Gates</li></ol>

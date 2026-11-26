@@ -4,7 +4,7 @@
   "display_name": "Factory Core (Entwicklungssystem)",
   "package_title": "Stufe 1 Baseline: Architektur, Native n8n-Regeln, Komponenten & 4-Stufen-Fahrplan",
   "layers_count": 6,
-  "generated_at": "2026-11-26T17:00:00.010-05:00",
+  "generated_at": "2026-11-26T17:02:57.706-05:00",
   "manifest": {
     "pages_repo": "https://github.com/brotfeld/voxelcrew-pages.git",
     "forbidden_strings": [

@@ -1,0 +1,137 @@
+{
+  "run_id": "RUN-FC-BASELINE-001",
+  "project_id": "factory-core",
+  "display_name": "Factory Core (Entwicklungssystem)",
+  "package_title": "Stufe 1 Baseline: Architektur, Native n8n-Regeln, Komponenten & 4-Stufen-Fahrplan",
+  "layers_count": 6,
+  "generated_at": "2026-11-26T17:00:00.010-05:00",
+  "manifest": {
+    "pages_repo": "https://github.com/brotfeld/voxelcrew-pages.git",
+    "forbidden_strings": [
+      "19132",
+      "7551",
+      "api_key=",
+      "sk-"
+    ],
+    "require_test_for_layers": [
+      "MOD",
+      "API",
+      "EVT",
+      "BP",
+      "UC",
+      "UI"
+    ]
+  },
+  "payload": {
+    "run_id": "RUN-FC-BASELINE-001",
+    "artifacts": [
+      {
+        "id": "ADR-FC-001",
+        "type": "ADR",
+        "title": "Projekt-Isolation und strikter Zustandsautomat (DRAFT -> READY -> LOCKED -> IN_PROGRESS -> TESTING -> DONE / FAILED)",
+        "status": "ACTIVE",
+        "rationale": "Jedes Projekt fuehrt ein eigenes SSOT-Bundle. Arbeitspakete durchlaufen einen erzwungenen Zustandsautomaten mit Test-Gate-Pflicht vor DONE."
+      },
+      {
+        "id": "ADR-FC-002",
+        "type": "ADR",
+        "title": "Nativer n8n-Workflow-Standard (Config-Node, 0 Kontrollstrukturen in JS)",
+        "status": "ACTIVE",
+        "rationale": "Jeder Workflow beginnt unmittelbar nach dem Trigger mit einer Edit-Fields-Node 'Config' fuer alle Konstanten, referenziert ueber {{ $('Config').first().json.<key> }}. Entscheidungen und Schleifen laufen ausschliesslich ueber native kostenfreie n8n-Nodes (If, Switch, Split Out, Loop Over Items). Alle Nodes tragen verstaendliche Beschreibungen."
+      },
+      {
+        "id": "COMP-FC-00c",
+        "type": "COMPONENT",
+        "title": "DB-Bootstrap (factory_core Schema)",
+        "status": "VERIFIED",
+        "tables": {
+          "projects": [
+            "project_id",
+            "display_name",
+            "manifest_json",
+            "updated_at"
+          ],
+          "intake_runs": [
+            "run_id",
+            "project_id",
+            "package_title",
+            "status",
+            "layers_count",
+            "payload_json",
+            "validation_errors",
+            "created_at"
+          ]
+        },
+        "workflow": "FC-00c DB-Schema Bootstrap (Nativ)"
+      },
+      {
+        "id": "COMP-FC-01",
+        "type": "COMPONENT",
+        "title": "SSOT-Intake (Ingress & Persistenz)",
+        "inputs": [
+          "project_id",
+          "run_id",
+          "package_title",
+          "artifacts[]"
+        ],
+        "status": "VERIFIED",
+        "outputs": [
+          "HTTP 200 JSON (ok, run_id, project_id)",
+          "HTTP 400 JSON (error)"
+        ],
+        "endpoint": "POST /webhook/ssot-intake",
+        "workflow": "FC-01 SSOT-Intake (Nativ)"
+      },
+      {
+        "id": "COMP-FC-02",
+        "type": "COMPONENT",
+        "title": "Renderer & Publisher (Nativer GitHub-Pages-Export)",
+        "inputs": [
+          "run_id",
+          "project_id"
+        ],
+        "status": "VERIFIED",
+        "outputs": [
+          "factory/<project_id>/ai-context-bundle.html",
+          "factory/<project_id>/stand.json"
+        ],
+        "endpoint": "POST /webhook/ssot-render",
+        "features": [
+          "Bearbeitbare HTML- und JSON-Templates direkt in der Config-Node",
+          "0 JavaScript-Nodes, rein native File- und Git-Ausfuehrung"
+        ],
+        "workflow": "FC-02 Renderer & Publisher (Nativ)"
+      },
+      {
+        "id": "ROADMAP-FC",
+        "type": "ROADMAP",
+        "title": "4-Stufen-Ausbauplan factory-core",
+        "stages": [
+          {
+            "name": "Eigenes System-SSOT & Native Pipeline (FC-01, FC-02)",
+            "stage": 1,
+            "status": "DONE"
+          },
+          {
+            "name": "Supervisor & Atomares Locking in Postgres (Lease, Heartbeat, Retry/Dead-Letter)",
+            "stage": 2,
+            "status": "NEXT"
+          },
+          {
+            "name": "Lokaler Worker-Loop & Automatische Test-Gate-Ausfuehrung",
+            "stage": 3,
+            "status": "PLANNED"
+          },
+          {
+            "name": "Multi-Maschinen-Anbindung (Remote-Worker auf weiteren Rechnern)",
+            "stage": 4,
+            "status": "PLANNED"
+          }
+        ],
+        "status": "IN_PROGRESS"
+      }
+    ],
+    "project_id": "factory-core",
+    "package_title": "Stufe 1 Baseline: Architektur, Native n8n-Regeln, Komponenten & 4-Stufen-Fahrplan"
+  }
+}

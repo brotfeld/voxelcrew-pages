@@ -26,7 +26,7 @@
 <body>
   <header>
     <h1>Board-Verify</h1>
-    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-26 · fcc716d323d452f50ecee6f8f242379b6fc33f49</p>
+    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-26 · lokal</p>
     <p class="meta">Aus geprüften Quellen erzeugt · [SSOT-FAKTEN] · spiegel · Negativliste: 0 Treffer</p>
   </header>
   <main>
@@ -62,10 +62,15 @@
   <table><thead><tr><th>ID</th><th>Titel</th><th>Branch</th><th>Status</th></tr></thead><tbody><tr><td>T-308</td><td>BP-000-ACCOUNTS-AND-REALTEST (Dekomposition, Capability-Mapping &amp; Board)</td><td>`main` (Kapitän)</td><td>in Arbeit</td></tr></tbody></table>
     <h3>Verify-Gates (echte Belege)</h3>
   <p>Die letzten 5 Verify-Läufe aus <code>ops/results/*.verify.json</code> — grün nur bei 0 Fehlern, sonst <code>handlungsbedarf</code>.</p>
-  <table><thead><tr><th>Datei</th><th>Erzeugt</th><th>Grün/Einzel</th><th>Rot</th><th>Zustand</th></tr></thead><tbody><tr><td>T-318.verify.json</td><td>2026-11-26T11:02:23.315Z</td><td>80/80</td><td>0</td><td>gefüllt</td></tr><tr><td>T-319.verify.json</td><td>2026-11-26T11:13:00.936Z</td><td>80/80</td><td>0</td><td>gefüllt</td></tr><tr><td>T-320.verify.json</td><td>2026-11-26T12:33:12.835Z</td><td>80/80</td><td>0</td><td>gefüllt</td></tr><tr><td>T-321.verify.json</td><td>2026-11-26T13:04:31.914Z</td><td>80/80</td><td>0</td><td>gefüllt</td></tr><tr><td>T-322.verify.json</td><td>2026-11-26T13:16:40.635Z</td><td>80/80</td><td>0</td><td>gefüllt</td></tr></tbody></table>
+  <table><thead><tr><th>Datei</th><th>Erzeugt</th><th>Grün/Einzel</th><th>Rot</th><th>Zustand</th></tr></thead><tbody><tr><td>T-321.verify.json</td><td>2026-11-26T13:04:31.914Z</td><td>80/80</td><td>0</td><td>gefüllt</td></tr><tr><td>T-322.verify.json</td><td>2026-11-26T13:16:40.635Z</td><td>80/80</td><td>0</td><td>gefüllt</td></tr><tr><td>T-323.verify.json</td><td>2026-11-26T14:17:16.984Z</td><td>81/81</td><td>0</td><td>gefüllt</td></tr><tr><td>T-324.verify.json</td><td>2026-11-26T14:11:45.898Z</td><td>80/80</td><td>0</td><td>gefüllt</td></tr><tr><td>T-326.verify.json</td><td>2026-11-26T14:30:41.238Z</td><td>81/81</td><td>0</td><td>gefüllt</td></tr></tbody></table>
+    <div id="hybrid-stack-block"><h3>Hybrid-Stack (SSOT-Fakten)</h3>
+  <p>Quelle <code>ops/SYSTEM_SSOT.json → hybridStack</code> · Stand 2026-11-26 · 3 lokale Container · 1 n8n-Workflows · 1 Credentials (nur Namen und Typen). n8n bleibt Control Plane; es gibt keinen zweiten Node-Daemon.</p>
+  <table><thead><tr><th>Container</th><th>Image</th><th>Bind/Port</th><th>Zustand</th><th>Volume</th></tr></thead><tbody><tr><td>hybrid-postgres</td><td>postgres:15-alpine</td><td>127.0.0.1:5432</td><td>Up (healthy, beobachtet 2026-11-26)</td><td>postgres_data:/var/lib/postgresql/data</td></tr><tr><td>hybrid-n8n</td><td>n8nio/n8n:1.121.0</td><td>127.0.0.1:5678</td><td>Up (beobachtet 2026-11-26)</td><td>n8n_data:/home/node/.n8n</td></tr><tr><td>hybrid-gitea</td><td>gitea/gitea:1.22</td><td>127.0.0.1:3001, 2222</td><td>Up (beobachtet 2026-11-26)</td><td>gitea_data:/data</td></tr></tbody></table>
+  <table><thead><tr><th>Workflow-ID</th><th>Name</th><th>Aktiv</th><th>Trigger</th><th>Nodes</th><th>Webhooks</th><th>Credentials</th></tr></thead><tbody><tr><td>eMl9Munj6ZB26rdh</td><td>VoxelCrew WoL Dispatch Trigger</td><td>aktiv</td><td>2</td><td>9</td><td>POST node-telemetry</td><td>Postgres account (postgres)</td></tr></tbody></table>
+  </div>
     <h3>Verify-Läufe</h3>
     <p>Die letzten 5 Läufe direkt aus <code>ops/results/*.verify.json</code>.</p>
-  <table><thead><tr><th>Datei</th><th>Erzeugt</th><th>Grün</th><th>Rot</th><th>Einzeltests</th></tr></thead><tbody data-verlauf><tr><td>T-318.verify.json</td><td>2026-11-26T11:02:23.315Z</td><td>80</td><td>0</td><td>80</td></tr><tr><td>T-319.verify.json</td><td>2026-11-26T11:13:00.936Z</td><td>80</td><td>0</td><td>80</td></tr><tr><td>T-320.verify.json</td><td>2026-11-26T12:33:12.835Z</td><td>80</td><td>0</td><td>80</td></tr><tr><td>T-321.verify.json</td><td>2026-11-26T13:04:31.914Z</td><td>80</td><td>0</td><td>80</td></tr><tr><td>T-322.verify.json</td><td>2026-11-26T13:16:40.635Z</td><td>80</td><td>0</td><td>80</td></tr></tbody></table>
+  <table><thead><tr><th>Datei</th><th>Erzeugt</th><th>Grün</th><th>Rot</th><th>Einzeltests</th></tr></thead><tbody data-verlauf><tr><td>T-321.verify.json</td><td>2026-11-26T13:04:31.914Z</td><td>80</td><td>0</td><td>80</td></tr><tr><td>T-322.verify.json</td><td>2026-11-26T13:16:40.635Z</td><td>80</td><td>0</td><td>80</td></tr><tr><td>T-323.verify.json</td><td>2026-11-26T14:17:16.984Z</td><td>81</td><td>0</td><td>81</td></tr><tr><td>T-324.verify.json</td><td>2026-11-26T14:11:45.898Z</td><td>80</td><td>0</td><td>80</td></tr><tr><td>T-326.verify.json</td><td>2026-11-26T14:30:41.238Z</td><td>81</td><td>0</td><td>81</td></tr></tbody></table>
   </section>
   </main>
   <footer>Seiten für das Notizbuch — ohne Anmeldung und ohne JavaScript.</footer>

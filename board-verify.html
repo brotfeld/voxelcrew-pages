@@ -26,7 +26,7 @@
 <body>
   <header>
     <h1>Board-Verify</h1>
-    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-26 · 4652df376d8f075a6413f6030cd01bd8c213c61b</p>
+    <p class="meta">VoxelCrew — Wissen auf einen Blick · Stand: 2026-11-26 · e6714f65e66c144381cf4d2774df2a37bb4c724d</p>
     <p class="meta">Aus geprüften Quellen erzeugt · spiegel · Negativliste: 0 Treffer</p>
   </header>
   <main>
@@ -53,17 +53,19 @@
         <p><strong>Beweis:</strong> ShowWorld auf Port 19133 · wrong_server=false · 0 OpenRouter-Calls</p>
         <ul><li>Meilenstein: grosse-crew-bot-tanzshow-19133</li><li>Pakete insgesamt: 10154</li><li>Gesamturteil: GRÜN</li></ul>
       </article>
+  </section>
+  <section id="betrieb-block">
+    <h2>Laufende Tasks und Verify-Gates</h2>
+    <p>Echte Belege aus <code>ops/BOARD.md</code> und <code>ops/results/*.verify.json</code> — ohne Beleg steht <code>handlungsbedarf</code>.</p>
+    <h3>Laufende Tasks (aus ops/BOARD.md)</h3>
+  <p>2 laufende Tasks aus der Bereit-Tabelle — Status direkt aus dem Board, nichts geraten.</p>
+  <table><thead><tr><th>ID</th><th>Titel</th><th>Branch</th><th>Status</th></tr></thead><tbody><tr><td>T-308</td><td>BP-000-ACCOUNTS-AND-REALTEST (Dekomposition, Capability-Mapping &amp; Board)</td><td>`main` (Kapitän)</td><td>in Arbeit</td></tr><tr><td>T-316</td><td>BP-000-ACCOUNTS-AND-REALTEST (Auto-Merge-Gate &amp; Kapitäns-Review)</td><td>`task/T-316` (Kapitän)</td><td>ready</td></tr></tbody></table>
+    <h3>Verify-Gates (echte Belege)</h3>
+  <p>Die letzten 5 Verify-Läufe aus <code>ops/results/*.verify.json</code> — grün nur bei 0 Fehlern, sonst <code>handlungsbedarf</code>.</p>
+  <table><thead><tr><th>Datei</th><th>Erzeugt</th><th>Grün/Einzel</th><th>Rot</th><th>Zustand</th></tr></thead><tbody><tr><td>T-311.verify.json</td><td>2026-11-26T09:14:48.999Z</td><td>79/79</td><td>0</td><td>gefüllt</td></tr><tr><td>T-312.verify.json</td><td>2026-11-26T09:49:31.799Z</td><td>80/80</td><td>0</td><td>gefüllt</td></tr><tr><td>T-313.verify.json</td><td>2026-11-26T09:36:03.610Z</td><td>79/79</td><td>0</td><td>gefüllt</td></tr><tr><td>T-314.verify.json</td><td>2026-11-26T09:59:53.658Z</td><td>80/80</td><td>0</td><td>gefüllt</td></tr><tr><td>T-315.verify.json</td><td>2026-11-26T09:15:33.736Z</td><td>78/78</td><td>0</td><td>gefüllt</td></tr></tbody></table>
     <h3>Verify-Läufe</h3>
     <p>Die letzten 5 Läufe direkt aus <code>ops/results/*.verify.json</code>.</p>
-  <table><thead><tr><th>Datei</th><th>Erzeugt</th><th>Grün</th><th>Rot</th><th>Einzeltests</th></tr></thead><tbody data-verlauf><tr><td>T-309.verify.json</td><td>2026-11-26T08:51:06.987Z</td><td>78</td><td>0</td><td>78</td></tr><tr><td>T-311.verify.json</td><td>2026-11-26T09:14:48.999Z</td><td>79</td><td>0</td><td>79</td></tr><tr><td>T-312.verify.json</td><td>2026-11-26T09:49:31.799Z</td><td>80</td><td>0</td><td>80</td></tr><tr><td>T-313.verify.json</td><td>2026-11-26T09:36:03.610Z</td><td>79</td><td>0</td><td>79</td></tr><tr><td>T-315.verify.json</td><td>2026-11-26T09:15:33.736Z</td><td>78</td><td>0</td><td>78</td></tr></tbody></table>
-  </section>
-  <section id="regeln-block">
-    <h2>System-SSOT und Kernregeln (Kurz)</h2>
-    <li><h3>Server und Ports</h3>
-  <p>Alle drei Server fahren <code>transport=nethernet</code>; nur die Live-Welt hat LAN sichtbar und hält UDP 7551.</p>
-  <table><thead><tr><th>Rolle</th><th>Port</th><th>Transport</th><th>LAN</th><th>Tests/Shows</th></tr></thead><tbody><tr><td>VoxelCrew:Oberwelt</td><td>19132</td><td>nethernet</td><td>ja, nur hier</td><td>strikt tabu</td></tr><tr><td>VoxelCrew:Nether</td><td>19133</td><td>nethernet</td><td>nein</td><td>—</td></tr><tr><td>VoxelCrew:Ende</td><td>19134</td><td>nethernet</td><td>nein</td><td>—</td></tr></tbody></table>
-  <h3>Akteurs-Isolation</h3><ul></li><li>Live (19132): SWARM_BOT</li></li><li>Showcase (19133) und E2E (19134): SHOW_ACTOR, OBSERVER / SHOW_ACTOR, OBSERVER</li></li><li>Auf 19132 (VoxelCrew:Oberwelt, live) ist ausschließlich SWARM_BOT erlaubt.</li></li>
-    <em>(Ausschnitt: erste vier Regel-Einträge)</em>
+  <table><thead><tr><th>Datei</th><th>Erzeugt</th><th>Grün</th><th>Rot</th><th>Einzeltests</th></tr></thead><tbody data-verlauf><tr><td>T-311.verify.json</td><td>2026-11-26T09:14:48.999Z</td><td>79</td><td>0</td><td>79</td></tr><tr><td>T-312.verify.json</td><td>2026-11-26T09:49:31.799Z</td><td>80</td><td>0</td><td>80</td></tr><tr><td>T-313.verify.json</td><td>2026-11-26T09:36:03.610Z</td><td>79</td><td>0</td><td>79</td></tr><tr><td>T-314.verify.json</td><td>2026-11-26T09:59:53.658Z</td><td>80</td><td>0</td><td>80</td></tr><tr><td>T-315.verify.json</td><td>2026-11-26T09:15:33.736Z</td><td>78</td><td>0</td><td>78</td></tr></tbody></table>
   </section>
   </main>
   <footer>Seiten für dein Notizbuch — ohne Anmeldung und ohne JavaScript.</footer>

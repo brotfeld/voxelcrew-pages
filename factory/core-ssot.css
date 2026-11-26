@@ -1,0 +1,5 @@
+:root{--ssot-bg:#0f172a;--ssot-surf:#1e293b;--ssot-brd:#475569;--ssot-txt:#f8fafc;--ssot-acc:#38bdf8}
+body{font-family:system-ui,sans-serif;background:var(--ssot-bg);color:var(--ssot-txt);margin:0;padding:2rem;line-height:1.5}
+.ssot-wrap{max-width:1150px;margin:0 auto}.ssot-surface{background:var(--ssot-surf);border:1px solid var(--ssot-brd);border-radius:8px;padding:1rem;margin-bottom:1rem}
+.ssot-badge{background:var(--ssot-brd);padding:2px 8px;border-radius:4px;font-size:.75rem;font-weight:700}
+pre{background:#020617;padding:1rem;border-radius:6px;overflow-x:auto;font-size:.85rem}

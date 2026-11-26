@@ -1,8 +1,8 @@
 {
   "schema": "voxelcrew-pages-stand.v1",
-  "generatedAt": "2026-11-26T10:06:53.701Z",
+  "generatedAt": "2026-11-26T10:22:12.842Z",
   "datum": "2026-11-26",
-  "commitSha": "e6714f65e66c144381cf4d2774df2a37bb4c724d",
+  "commitSha": "e6402bc600d61d1941bb900026e3f72d23296d11",
   "quellmodus": "spiegel",
   "ssotStand": "2026-11-24",
   "blueprints": 17,
@@ -20,17 +20,17 @@
   "redaction": "gruen",
   "groessenlimitBytes": 179200,
   "seitenGroessen": {
-    "index.html": 37790,
+    "index.html": 38043,
     "live-telemetry.html": 10318,
-    "board-verify.html": 6220,
-    "handbuch-komplett.html": 22019,
+    "board-verify.html": 6073,
+    "handbuch-komplett.html": 22272,
     "stand.json": 883
   },
   "pageBytes": {
-    "index.html": 37790,
+    "index.html": 38043,
     "live-telemetry.html": 10318,
-    "board-verify.html": 6220,
-    "handbuch-komplett.html": 22019
+    "board-verify.html": 6073,
+    "handbuch-komplett.html": 22272
   },
   "indexLimitBytes": 179200,
   "verifyLaeufeImIndex": 5
